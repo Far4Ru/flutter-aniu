@@ -14,8 +14,23 @@ Widget homePage(BuildContext context) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Аниме'),
-            const Text('Сейчас в тренде'),
+            const Text(
+                'Аниме',
+              style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+              )
+            ),
+            const Text('Сейчас в тренде',
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: Color(0xFFABABAB),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                )
+            ),
             Container(
               height: 100,
               width: MediaQuery.of(context).size.width,
