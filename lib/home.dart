@@ -5,7 +5,6 @@ import 'pages/home.dart';
 import 'pages/overview.dart';
 import 'pages/profile.dart';
 import 'api/pages.dart';
-import 'package:http/http.dart' as http;
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -40,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    fetchNew22(http.Client());
+    fetchNew22();
     return Scaffold(
       key: _scaffoldKey,
       drawer: leftPanel(context),
