@@ -1,5 +1,6 @@
 import 'package:aniu/api/pages.dart';
 import 'package:aniu/pages/loading_screen.dart';
+import 'package:aniu/pages/swiper.dart';
 import 'package:flutter/material.dart';
 import '../data/values.dart';
 
@@ -16,32 +17,12 @@ Widget homePage(BuildContext context) {
           children: [
             const Text(
                 'Аниме',
-              style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold
-              )
+              style: h1Style
             ),
             const Text('Сейчас в тренде',
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    color: Color(0xFFABABAB),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
-                )
+                style: h3Style
             ),
-            Container(
-              height: 100,
-              width: MediaQuery.of(context).size.width,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 2,
-                itemBuilder: (BuildContext context, int index) {
-                  return Text('Аниме');
-                }
-              ),
-            )
+            Swiper(context)
           ],
         );
       }
