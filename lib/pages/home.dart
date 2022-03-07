@@ -22,7 +22,7 @@ Widget homePage(BuildContext context) {
             const Text('Сейчас в тренде',
                 style: h3Style
             ),
-            Swiper(context)
+            swiper(context, snap.data)
           ],
         );
       }
