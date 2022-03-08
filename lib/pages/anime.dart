@@ -15,6 +15,9 @@ class AnimePage extends StatefulWidget {
 
 class _AnimePageState extends State<AnimePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  var items = [
+
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +45,8 @@ class _AnimePageState extends State<AnimePage> {
                 return LoadingScreen(context);
               }
               else {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                return ListView(
+                  // shrinkWrap: true,
                   children: [
                     Text(
                         snap.data.titleRu,
@@ -67,7 +70,7 @@ class _AnimePageState extends State<AnimePage> {
   }
 }
 void _toPlayerPage(BuildContext context, String link) async {
-  bool next = await checkURL(link);
+  bool next = true ;// await checkURL(link);
   if(next) {
     await Navigator.push(
         context,
