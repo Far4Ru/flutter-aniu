@@ -2,24 +2,24 @@ import 'package:aniu/data/values.dart';
 import 'package:flutter/material.dart';
 import 'anime.dart';
 
-Widget swiper(BuildContext context, List items) {
+Widget swiper(BuildContext context, List? items) {
   return Container(
     height: 220,
     width: MediaQuery.of(context).size.width,
     child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: items.length,
+        itemCount: (items ?? []).length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: (){
-              _toAnimePage(context, items[index].id);
+              _toAnimePage(context, (items ?? [])[index].id);
             },
             child: Column(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    "https://aniu.ru/posters/"+items[index].poster+".jpg",
+                    "https://aniu.ru/posters/"+(items ?? [])[index].poster+".jpg",
                     fit: BoxFit.cover,
                     height: 180,
                   ),
@@ -28,7 +28,7 @@ Widget swiper(BuildContext context, List items) {
                   width: 150,
                   height: 40,
                   child: Text(
-                      items[index].titleRu,
+                      (items ?? [])[index].titleRu,
                       style: smallStyle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis

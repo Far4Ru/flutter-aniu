@@ -184,3 +184,82 @@ class MaterialData {
       this.directors,
       this.writers);
 }
+class User {
+  final String? avatar; //: "https://lh3.googleusercontent.com/a-/AOh14Gj4tn3HTQRCAu7xSJxJsHp462i21ycTaZEaSf8n_w=s96-c"
+  final String? banReason; //: null
+  final String? gender; //: "0"
+  final String? id; //: "10479"
+  final String? isBanned; //: "0"
+  final String? link; //: null
+  final String? login; //: "GlebWul"
+  final String? status; //: null
+  final bool? team; //: false
+  final String? userGroupId;
+
+  User({
+    this.avatar, this.banReason, this.gender, this.id, this.isBanned,
+    this.link, this.login, this.status, this.team, this.userGroupId
+  }); //: "1"
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+        avatar : json['avatar'] as String?,
+        banReason : json['ban_reason'] as String?,
+        gender : json['gender'] as String?,
+        id : json['id'] as String?,
+        isBanned : json['is_banned'] as String?,
+        link : json['link'] as String?,
+        login : json['login'] as String?,
+        status : json['status'] as String?,
+        team : json['team'] as bool?,
+        userGroupId : json['user_group_id'] as String?
+    );
+  }
+
+}
+
+class Comment {
+  final String? id; //: "1321674"
+  final bool? imVote; //: false
+  final String? isDeleted; //: "0"
+  final String? isEdited; //: "0"
+  final String? isSpoiler; //: "0"
+  final int? likesCount; //: 1
+  final String? message; //: "#ДЕДРЕШАЛА #ДЕДАВГЛАВНЫЕРОЛИ"
+  final String? release; //: "15810"
+  final int? replyCount; //: 0
+  final String? timestamp; //: "15 часов назад"
+  final String? title; //: "Слова пузырятся подобно газировке"
+  final User? user;
+
+  Comment({
+      this.id,
+      this.imVote,
+      this.isDeleted,
+      this.isEdited,
+      this.isSpoiler,
+      this.likesCount,
+      this.message,
+      this.release,
+      this.replyCount,
+      this.timestamp,
+      this.title,
+    this.user
+  });
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+        id : json['id'] as String?,
+        imVote : json['im_vote'] as bool?,
+        isDeleted : json['is_deleted'] as String?,
+        isEdited : json['is_edited'] as String?,
+        isSpoiler : json['is_spoiler'] as String?,
+        likesCount : json['likes_count'] as int?,
+        message : json['message'] as String?,
+        release : json['release'] as String?,
+        replyCount : json['reply_count'] as int?,
+        timestamp : json['timestamp'] as String?,
+        title : json['title'] as String?,
+        user : User.fromJson(json['user']),
+    );
+  }
+}

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../data/values.dart';
 
 Widget homePage(BuildContext context) {
+  Map<String, List> data;
   return FutureBuilder(
     future: fetchHome(),
     builder: (BuildContext context, AsyncSnapshot snap){
@@ -12,6 +13,7 @@ Widget homePage(BuildContext context) {
         return LoadingScreen(context);
       }
       else {
+        data = snap.data;
         return ListView(
           // shrinkWrap: true,
           children: [
@@ -22,27 +24,27 @@ Widget homePage(BuildContext context) {
             const Text('Сейчас в тренде',
                 style: h3Style
             ),
-            swiper(context, snap.data['popular']),
+            swiper(context, data['popular']),
             const Text('Онгоинги',
                 style: h3Style
             ),
-            swiper(context, snap.data['ongoings']),
+            swiper(context, data['ongoings']),
             const Text('Сериалы',
                 style: h3Style
             ),
-            swiper(context, snap.data['released']),
+            swiper(context, data['released']),
             const Text('Фильмы',
                 style: h3Style
             ),
-            swiper(context, snap.data['movies']),
+            swiper(context, data['movies']),
             const Text('Последние обновленные',
                 style: h3Style
             ),
-            swiper(context, snap.data['new']),
+            swiper(context, data['new']),
             const Text('Сейчас смотрят',
                 style: h3Style
             ),
-            swiper(context, snap.data['now']),
+            swiper(context, data['now']),
           ],
         );
       }

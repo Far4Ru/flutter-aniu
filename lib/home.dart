@@ -1,3 +1,4 @@
+import 'package:aniu/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'pages/left_panel.dart';
 import 'pages/notifications.dart';
@@ -18,12 +19,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
   static final List<Widget Function(BuildContext context)> _widgetOptions = [
     homePage,
     overviewPage,
@@ -47,8 +42,11 @@ class _MyHomePageState extends State<MyHomePage> {
           icon: const Icon(Icons.dehaze),
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
-        actions: const [
-          Icon(Icons.search)
+        actions: [
+          IconButton(
+              onPressed: () { _toSearchPage(context); },
+              icon: const Icon(Icons.search)
+          )
         ],
         backgroundColor: const Color(0xff0c101b),
       ),
@@ -96,4 +94,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
     );
   }
+}
+
+void _toSearchPage(BuildContext context) async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const SearchPage()
+    )
+  );
 }
