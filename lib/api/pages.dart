@@ -13,6 +13,16 @@ Future<List> fetchReleaseList(String name) async {
   }
 }
 
+Future<List> fetchReleaseComments() async {
+  final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.comments.last'));
+  // await Future.delayed(const Duration(seconds: 5));
+  if(response.statusCode == 200) {
+    return jsonDecode(response.body).map((jsonItem) => Comment.fromJson(jsonItem)).toList();
+  } else {
+    throw Exception('Не удалось загрузить список комментариев');
+  }
+}
+
 Future<Map<String, List>> fetchHome() async {
   return {
     'new': await fetchReleaseList('new'),
@@ -21,7 +31,6 @@ Future<Map<String, List>> fetchHome() async {
     'now': await fetchReleaseList('now'),
     'released': await fetchReleaseList('released'),
     'movies': await fetchReleaseList('movies'),
-
   };
 }
 Future<Release> fetchRelease(String id) async {
@@ -32,6 +41,13 @@ Future<Release> fetchRelease(String id) async {
   } else {
     throw Exception('Не удалось загрузить список Сейчас в тренде');
   }
+}
+
+Future<Map<String, List>> fetchOverview() async {
+  return {
+    'popular' : await fetchReleaseList('popular'),
+    'comments' : await fetchReleaseComments()
+  };
 }
 
 Future<bool> checkURL(String url) async {
