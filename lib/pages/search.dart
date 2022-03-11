@@ -43,19 +43,19 @@ class _SearchPageState extends State<SearchPage> {
                   child: TextField(
                     controller: _controller,
                     decoration: const InputDecoration(
-                      fillColor: Color(0xff0f1422),
+                      fillColor: Colors.white,
                       hintText: 'Поиск',
                       prefixIcon: Icon(Icons.search),
                     ),
                     onSubmitted: (value) {
                     },
-                    style: const TextStyle(color: Color(0xffffffff)),
+                    style: const TextStyle(color: Colors.black),
                   ),
                   decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(15)
-                    ),
-                    color: Color(0xff0f1422)
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(15)
+                      ),
+                      color: Colors.white
                   ),
                 ),
               ),
