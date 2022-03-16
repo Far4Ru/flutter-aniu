@@ -105,10 +105,18 @@ class _LoginPageState extends State<LoginPage> {
                   // print(consoleMessage);
                 },
                 shouldOverrideUrlLoading:  (controller, navigationAction) async {
-                  var url = navigationAction.request.url;
-                  await controller.stopLoading();
+                  String url = navigationAction.request.url.toString();
+                  print(url);
+                  if (RegExp(r"(\(aniu\.ru\/user\/login)").hasMatch(url) || RegExp(r"(\(https:\/\/www.google.com\/recaptcha))").hasMatch(url)) {
+                    print('allow');
+                    return NavigationActionPolicy.ALLOW;
+                  }
+                  controller.stopLoading();
+                  // return null;
+                  return NavigationActionPolicy.CANCEL;
+                  // controller.stopLoading();
                   // Navigator.pop(context);
-                  print(navigationAction);
+                  // print(navigationAction);
                   // return NavigationActionPolicy.CANCEL;
                   // controller.stopLoading();
                   // await controller.stopLoading();

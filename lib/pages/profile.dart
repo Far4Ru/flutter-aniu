@@ -3,10 +3,12 @@ import '../data/values.dart';
 import 'login.dart';
 
 Widget profilePage(BuildContext context) {
-  _toAnimePage(context);
-  return const Text(
-    'Профиль',
-    style: optionStyle,
+  return TextButton(
+    onPressed: () => _toAnimePage(context),
+    child: const Text(
+      'Профиль',
+      style: optionStyle,
+    ),
   );
 }
 
