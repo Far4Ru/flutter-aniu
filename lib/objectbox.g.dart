@@ -14,6 +14,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'models/cookies.dart';
+import 'models/user.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -42,6 +43,26 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(4, 1335210317759197419),
+      name: 'StoredUser',
+      lastPropertyId: const IdUid(2, 2274297878054377835),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 7454044563788507242),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 2274297878054377835),
+            name: 'url',
+            type: 9,
+            flags: 2080,
+            indexId: const IdUid(2, 6657059812417197676))
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -65,8 +86,8 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(3, 5755319432290721870),
-      lastIndexId: const IdUid(1, 617740671453095576),
+      lastEntityId: const IdUid(4, 1335210317759197419),
+      lastIndexId: const IdUid(2, 6657059812417197676),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [6938807176471661900, 4352264604416744001],
@@ -113,6 +134,33 @@ ModelDefinition getObjectBoxModel() {
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
+        }),
+    StoredUser: EntityDefinition<StoredUser>(
+        model: _entities[1],
+        toOneRelations: (StoredUser object) => [],
+        toManyRelations: (StoredUser object) => {},
+        getId: (StoredUser object) => object.id,
+        setId: (StoredUser object, int id) {
+          object.id = id;
+        },
+        objectToFB: (StoredUser object, fb.Builder fbb) {
+          final urlOffset = fbb.writeString(object.url);
+          fbb.startTable(3);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, urlOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = StoredUser(
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''))
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
         })
   };
 
@@ -132,4 +180,15 @@ class StoredCookie_ {
   /// see [StoredCookie.value]
   static final value =
       QueryStringProperty<StoredCookie>(_entities[0].properties[2]);
+}
+
+/// [StoredUser] entity fields to define ObjectBox queries.
+class StoredUser_ {
+  /// see [StoredUser.id]
+  static final id =
+      QueryIntegerProperty<StoredUser>(_entities[1].properties[0]);
+
+  /// see [StoredUser.url]
+  static final url =
+      QueryStringProperty<StoredUser>(_entities[1].properties[1]);
 }

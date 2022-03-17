@@ -1,4 +1,5 @@
 import 'package:aniu/models/cookies.dart';
+import 'package:aniu/models/user.dart';
 import 'package:flutter/material.dart';
 import '../data/values.dart';
 
@@ -40,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       backgroundColor: MaterialStateProperty.all<Color>(const Color(0xffdc3545)),
                     ),
                     onPressed: () {
-                      StoredCookies().deleteAll();
+                      StoredUser('').logout();
                       Navigator.pop(context, 0);
                     },
                     child: const Text('Выйти', style: titleStyle,),

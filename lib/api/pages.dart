@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:aniu/models/new.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
+import 'package:html/parser.dart';
 
 import '../main.dart';
 import '../models/cookies.dart';
+import '../models/user.dart';
 import '../objectbox.g.dart';
 
 Future<List> fetchReleaseList(String name) async {
@@ -78,6 +81,22 @@ Future<bool> checkUserAccess() async{
   }
 }
 
+Future fetchProfile() async {
+  var box = objectbox.store.box<StoredUser>();
+  var user = box.getAll().first;
+  Map<String, String> headers = {};
+  headers['cookie'] = StoredCookies().toString();
+  print(user.url);
+  final response = await http.get(Uri.parse(user.url), headers: headers);
+  // print(response.body);
+  var document = parse(response.body);
+  String? name = document.body?.getElementsByClassName('user-name').first.children.first.innerHtml.trim();
+  List? list = document.body?.getElementsByClassName('col-3 text-center');
+  Map<String, int> stats = { for (var e in list ?? []) e.getElementsByTagName('small').first.innerHtml : int.parse(e.getElementsByTagName('strong').first.innerHtml) };
+  var userClass = UserClass(name ?? '', stats);
+  return userClass;
+}
+
 void saveCookies(String url) async {
   CookieManager cookieManager = CookieManager.instance();
   List<Cookie> cookies = await cookieManager.getCookies(url: Uri.parse(url));
@@ -95,4 +114,14 @@ void saveCookies(String url) async {
       }
     }
   }
+}
+void saveUser(String url) async {
+
+  var box = objectbox.store.box<StoredUser>();
+  try {
+    box.put(StoredUser(url));
+  } catch (e) {
+    print('Пользователь уже существует');
+  }
+  saveCookies(url);
 }

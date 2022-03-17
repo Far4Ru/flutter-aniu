@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                     if(RegExp(r"https\:\/\/aniu\.ru\/user\/\w*-\d*\/").hasMatch(url)) {
                       // print('save');
-                      saveCookies(url);
+                      saveUser(url);
                       controller.clearCache();
                       var cookieManager = CookieManager();
                       cookieManager.deleteAllCookies();
