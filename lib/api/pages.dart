@@ -1,7 +1,12 @@
 import 'dart:convert';
 
 import 'package:aniu/models/new.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
+
+import '../main.dart';
+import '../models/cookies.dart';
+import '../objectbox.g.dart';
 
 Future<List> fetchReleaseList(String name) async {
   final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.list.'+name));
@@ -57,5 +62,37 @@ Future<bool> checkURL(String url) async {
   }
   else {
     return false;
+  }
+}
+
+Future<bool> checkUserAccess() async{
+  Map<String, String> headers = {};
+  headers['cookie'] = StoredCookies().toString();
+  final response = await http.get(Uri.parse('https://aniu.ru/api/v1/account.notify.count'), headers: headers);
+  if(response.statusCode == 200) {
+    if (jsonDecode(response.body)['error'] == null) return true;
+    return false;
+  }
+  else {
+    return false;
+  }
+}
+
+void saveCookies(String url) async {
+  CookieManager cookieManager = CookieManager.instance();
+  List<Cookie> cookies = await cookieManager.getCookies(url: Uri.parse(url));
+  var box = objectbox.store.box<StoredCookie>();
+  for (var element in cookies) {
+    try {
+      box.put(StoredCookie(element.name,element.value));
+    }
+    catch (e) {
+      var storedCookie = box.query(StoredCookie_.name.equals(element.name)).build().findFirst();
+      if (storedCookie != null) {
+        storedCookie.value = element.value;
+        // print(storedCookie?.id);
+        box.put(storedCookie);
+      }
+    }
   }
 }

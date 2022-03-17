@@ -1,3 +1,4 @@
+import 'package:aniu/api/pages.dart';
 import 'package:aniu/main.dart';
 import 'package:aniu/objectbox.g.dart';
 import 'package:flutter/material.dart';
@@ -36,68 +37,58 @@ class _LoginPageState extends State<LoginPage> {
       home: Scaffold(
           body: Stack(
             children: [
-              InAppWebView(
-                key: _key,
-                initialUrlRequest: URLRequest(url: Uri.parse("https://aniu.ru/user/login")),
-                initialOptions: options,
-                onWebViewCreated: (controller) {
-                  webViewController = controller;
-                },
-                androidOnPermissionRequest: (controller, origin, resources) async {
-                  return PermissionRequestResponse(
-                      resources: resources,
-                      action: PermissionRequestResponseAction.GRANT);
-                },
-                shouldOverrideUrlLoading:  (controller, navigationAction) async {
-                  String url = navigationAction.request.url.toString();
-                  // print(navigationAction);
-                  if (RegExp(r"^https\:\/\/aniu\.ru\/user\/login$").hasMatch(url) || RegExp(r"google\.com\/recaptcha").hasMatch(url)) {
-                    // print('allow');
-                    return NavigationActionPolicy.ALLOW;
-                  }
-                  if(RegExp(r"https\:\/\/aniu\.ru\/user\/\w*-\d*\/").hasMatch(url)) {
-                    // print('save');
-                    CookieManager cookieManager = CookieManager.instance();
-                    List<Cookie> cookies = await cookieManager.getCookies(url: Uri.parse(url));
-                    var box = objectbox.store.box<StoredCookie>();
-                    for (var element in cookies) {
-                      try {
-                        box.put(StoredCookie(element.name,element.value));
-                        }
-                        catch (e) {
-                          var storedCookie = box.query(StoredCookie_.name.equals(element.name)).build().findFirst();
-                          if (storedCookie != null) {
-                            storedCookie.value = element.value;
-                            // print(storedCookie?.id);
-                            box.put(storedCookie);
-                          }
-                        }
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  color: Color(0xff0c101b),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 25),
+                child: InAppWebView(
+                  key: _key,
+                  initialUrlRequest: URLRequest(url: Uri.parse("https://aniu.ru/user/login")),
+                  initialOptions: options,
+                  onWebViewCreated: (controller) {
+                    webViewController = controller;
+                  },
+                  androidOnPermissionRequest: (controller, origin, resources) async {
+                    return PermissionRequestResponse(
+                        resources: resources,
+                        action: PermissionRequestResponseAction.GRANT);
+                  },
+                  shouldOverrideUrlLoading:  (controller, navigationAction) async {
+                    String url = navigationAction.request.url.toString();
+                    // print(navigationAction);
+                    if (RegExp(r"^https\:\/\/aniu\.ru\/user\/login$").hasMatch(url) || RegExp(r"google\.com\/recaptcha").hasMatch(url)) {
+                      // print('allow');
+                      return NavigationActionPolicy.ALLOW;
                     }
-                    //String cookieString = cookies.map((e) => e.name+'='+e.value).toList().join('; ');
-                    Map<String, String> headers = {};
-                    headers['cookie'] = StoredCookies().toString();
-                    final response = await http.get(Uri.parse('https://aniu.ru/api/v1/account.notify.count'), headers: headers);
-                    // await Future.delayed(const Duration(seconds: 5));
-                    if(response.statusCode == 200) {
-                      //print(response.body);
+                    if(RegExp(r"https\:\/\/aniu\.ru\/user\/\w*-\d*\/").hasMatch(url)) {
+                      // print('save');
+                      saveCookies(url);
+                      controller.clearCache();
+                      var cookieManager = CookieManager();
+                      cookieManager.deleteAllCookies();
+                      Navigator.pop(context, 3);
                     }
-                    Navigator.pop(context);
-                  }
-                  if(RegExp(r'^https\:\/\/aniu\.ru\/$').hasMatch(url)){
-                    Navigator.pop(context);
-                  }
-                  controller.stopLoading();
-                  // return null;
-                  return NavigationActionPolicy.CANCEL;
-                  // controller.stopLoading();
-                  // Navigator.pop(context);
-                  // print(navigationAction);
-                  // return NavigationActionPolicy.CANCEL;
-                  // controller.stopLoading();
-                  // await controller.stopLoading();
-                  // controller.goBack();
-                  // return null;
-                },
+                    if(RegExp(r'^https\:\/\/aniu\.ru\/$').hasMatch(url)){
+                      Navigator.pop(context);
+                    }
+                    controller.stopLoading();
+                    // return null;
+                    return NavigationActionPolicy.CANCEL;
+                    // controller.stopLoading();
+                    // Navigator.pop(context);
+                    // print(navigationAction);
+                    // return NavigationActionPolicy.CANCEL;
+                    // controller.stopLoading();
+                    // await controller.stopLoading();
+                    // controller.goBack();
+                    // return null;
+                  },
+                ),
               ),
             ],
           )
