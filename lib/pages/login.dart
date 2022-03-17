@@ -1,7 +1,12 @@
+import 'package:aniu/main.dart';
+import 'package:aniu/objectbox.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:http/http.dart' as http;
+
+import '../models/cookies.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -45,22 +50,36 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 shouldOverrideUrlLoading:  (controller, navigationAction) async {
                   String url = navigationAction.request.url.toString();
-                  print(navigationAction);
+                  // print(navigationAction);
                   if (RegExp(r"^https\:\/\/aniu\.ru\/user\/login$").hasMatch(url) || RegExp(r"google\.com\/recaptcha").hasMatch(url)) {
-                    print('allow');
+                    // print('allow');
                     return NavigationActionPolicy.ALLOW;
                   }
                   if(RegExp(r"https\:\/\/aniu\.ru\/user\/\w*-\d*\/").hasMatch(url)) {
-                    print('save');
+                    // print('save');
                     CookieManager cookieManager = CookieManager.instance();
                     List<Cookie> cookies = await cookieManager.getCookies(url: Uri.parse(url));
-                    String cookieString = cookies.map((e) => e.name+'='+e.value).toList().join('; ');
+                    var box = objectbox.store.box<StoredCookie>();
+                    for (var element in cookies) {
+                      try {
+                        box.put(StoredCookie(element.name,element.value));
+                        }
+                        catch (e) {
+                          var storedCookie = box.query(StoredCookie_.name.equals(element.name)).build().findFirst();
+                          if (storedCookie != null) {
+                            storedCookie.value = element.value;
+                            // print(storedCookie?.id);
+                            box.put(storedCookie);
+                          }
+                        }
+                    }
+                    //String cookieString = cookies.map((e) => e.name+'='+e.value).toList().join('; ');
                     Map<String, String> headers = {};
-                    headers['cookie'] = cookieString;
+                    headers['cookie'] = StoredCookies().toString();
                     final response = await http.get(Uri.parse('https://aniu.ru/api/v1/account.notify.count'), headers: headers);
                     // await Future.delayed(const Duration(seconds: 5));
                     if(response.statusCode == 200) {
-                      print(response.body);
+                      //print(response.body);
                     }
                     Navigator.pop(context);
                   }
