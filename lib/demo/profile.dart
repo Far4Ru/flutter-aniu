@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+import 'player.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -10,17 +12,17 @@ Future main() async {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  runApp(const Player());
+  runApp(const MyApp());
 }
 
-class Player extends StatefulWidget {
-  const Player({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  _PlayerState createState() => _PlayerState();
+  _MyAppState createState() => _MyAppState();
 }
 
-class _PlayerState extends State<Player> {
+class _MyAppState extends State<MyApp> {
 
   final GlobalKey webViewKey = GlobalKey();
 
@@ -29,6 +31,7 @@ class _PlayerState extends State<Player> {
       crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false,
+        useShouldInterceptAjaxRequest: true
       ),
       android: AndroidInAppWebViewOptions(
         useHybridComposition: true,
@@ -78,7 +81,7 @@ class _PlayerState extends State<Player> {
                       InAppWebView(
                         key: webViewKey,
                         initialUrlRequest:
-                        URLRequest(url: Uri.parse("https://aniu.ru/anime/goblin_slayer-2486/player")),
+                        URLRequest(url: Uri.parse("https://aniu.ru/user/login")),
                         initialOptions: options,
                         pullToRefreshController: pullToRefreshController,
                         onWebViewCreated: (controller) {
@@ -122,6 +125,14 @@ class _PlayerState extends State<Player> {
                         },
                         onConsoleMessage: (controller, consoleMessage) {
                           // print(consoleMessage);
+                        },
+                        shouldInterceptAjaxRequest:  (controller, ajaxRequest) async {
+                          // controller.stopLoading();
+                        },
+                        shouldOverrideUrlLoading:  (controller, navigationAction) async {
+                          // controller.stopLoading();
+                          // Navigator.pop(context);
+                          // return null;
                         },
                       ),
                       progress < 1.0

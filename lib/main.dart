@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'helpers/store.dart';
 import 'home.dart';
 
-void main() {
+late ObjectBox objectbox;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  objectbox = await ObjectBox.create();
   runApp(const MyApp());
 }
 
