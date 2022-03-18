@@ -28,3 +28,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+flutter_neumorphic:
+  git:
+    url: https://github.com/tsvillain/Flutter-Neumorphic.git
