@@ -14,7 +14,10 @@ class StoredCookies {
   toString() => cookies.map((e) => e.name+'='+e.value).toList().join('; ');
 
   _create() => cookies = objectbox.store.box<StoredCookie>().getAll();
-
+  deleteAll() {
+    cookies = [];
+    objectbox.store.box<StoredCookie>().removeAll();
+  }
 }
 
 @Entity()

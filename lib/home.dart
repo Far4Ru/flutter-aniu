@@ -1,5 +1,9 @@
+import 'package:aniu/objectbox.g.dart';
+import 'package:aniu/pages/login.dart';
 import 'package:aniu/pages/search.dart';
+import 'package:aniu/pages/settings.dart';
 import 'package:flutter/material.dart';
+import 'models/cookies.dart';
 import 'pages/left_panel.dart';
 import 'pages/notifications.dart';
 import 'pages/home.dart';
@@ -26,7 +30,14 @@ class _MyHomePageState extends State<MyHomePage> {
     profilePage,
   ];
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index) async {
+    bool userAccessFlag = !await checkUserAccess();
+    // print(StoredCookies().toString());
+    // print(userAccessFlag); // true - нет доступа, false - есть
+    if (index == 3 && userAccessFlag) {
+      _toLoginPage(context);
+      if (userAccessFlag) return;
+    }
     setState(() {
       _selectedIndex = index;
     });
@@ -43,10 +54,16 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         actions: [
-          IconButton(
+          if (_selectedIndex != 3)
+            IconButton(
               onPressed: () { _toSearchPage(context); },
               icon: const Icon(Icons.search)
-          )
+            )
+          else
+            IconButton(
+              onPressed: () { _toSettingsPage(context); },
+              icon: const Icon(Icons.filter_vintage)
+            )
         ],
         backgroundColor: const Color(0xff0c101b),
       ),
@@ -94,6 +111,37 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
     );
   }
+
+  void _toSettingsPage(BuildContext context) async {
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const SettingsPage()
+        )
+    );
+    setState(
+      () {
+        // print(result);
+        if(result != null) _selectedIndex = result;
+      }
+    );
+  }
+
+  void _toLoginPage(BuildContext context) async {
+
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const LoginPage()
+        )
+    );
+    setState(
+        () {
+          // print(result);
+          if(result != null) _selectedIndex = result;
+        }
+    );
+  }
 }
 
 void _toSearchPage(BuildContext context) async {
@@ -104,3 +152,4 @@ void _toSearchPage(BuildContext context) async {
     )
   );
 }
+
