@@ -5,20 +5,150 @@ Widget leftPanel(BuildContext context) {
     child: Container(
       color: const Color(0xff0f1422),
       child: ListView(
-        padding: EdgeInsets.zero,
-        children: const <Widget>[
-          Padding(padding: EdgeInsets.only(top: 30, left: 20, bottom: 20),
-            child: Text(
-              'ПРОФИЛЬ',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.normal,
-                fontSize: 14,
-              ),
+      padding: EdgeInsets.zero,
+      children: [
+
+      const SizedBox(
+        height: 50,
+      ),
+
+      const Text(
+            "Профиль",
+            style: TextStyle(
+              fontSize: 20,
+              color: Color.fromRGBO(110, 117, 125, 100),
+              fontWeight: FontWeight.bold,
             ),
           ),
+          const SizedBox(
+            height: 70,
+          ),
+          Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/anime');
+                },
+                child: Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(left: 43.0),
+                      child: Text(
+                        "Аниме",
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/dorams');
+                },
+                child: Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(left: 43.0),
+                      child: Text(
+                        "Дорамы",
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/collections');
+                },
+                child: Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(left: 43.0),
+                      child: Text(
+                        "Коллекции",
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/home');
+                },
+                child: Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(left: 43.0),
+                      child: Text(
+                        "Рандом",
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/donat');
+                },
+                child: Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(left: 43.0),
+                      child: Text(
+                        "Донат",
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+            ],
+          )
         ],
       ),
     ),
   );
 }
+
+
+
+
+
+
+

@@ -1,3 +1,4 @@
+import 'package:aniu/pages/notifications.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 
@@ -17,6 +18,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        '/anime': (context) => const MyHomePage(title: ''),
+        '/dorams': (context) => const MyHomePage(title: ''),
+        '/collections': (context) => const MyHomePage(title: ''),
+        '/random': (context) => const MyHomePage(title: ''),
+        '/donat': (context) => const MyHomePage(title: '')
+      },
     );
   }
 }
+
