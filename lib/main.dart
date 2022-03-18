@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'helpers/store.dart';
 import 'home.dart';
+import 'pages/anime.dart';
 
 late ObjectBox objectbox;
 
@@ -22,11 +23,11 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: {
-        '/anime': (context) => const MyHomePage(title: ''),
-        '/dorams': (context) => const MyHomePage(title: ''),
-        '/collections': (context) => const MyHomePage(title: ''),
-        '/random': (context) => const MyHomePage(title: ''),
-        '/donat': (context) => const MyHomePage(title: '')
+        '/anime': (context) => const AnimePage(id: "1"),
+        '/dorams': (context) => const AnimePage(id: "1"),
+        '/collections': (context) => const AnimePage(id: "1"),
+        '/random': (context) => const AnimePage(id: "1"),
+        '/donat': (context) => const AnimePage(id: "1"),
       },
     );
   }
