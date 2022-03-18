@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:aniu/models/new.dart';
 import 'anime.dart';
+import 'package:html/parser.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -18,6 +19,8 @@ class _SearchPageState extends State<SearchPage> {
   final _controller = TextEditingController();
   List animeList = [];
 
+
+
   void fetchSearch(String input) async {
     if (input.isEmpty) {
       setState(() {
@@ -25,7 +28,19 @@ class _SearchPageState extends State<SearchPage> {
       });
       return;
     }
-    var searchResult = await http.get(Uri.parse("https://aniu.ru/api/v1/release.list.popular"));
+    /**
+     * TODO: - поисковой запрос
+     * по хрефу вытаскивать через регулярное вырожение вытаскивать id и в начале было аниме
+     * убрать дубликаты, получаем список id, создать список релизов( перебрать по списку id пока for не закончим
+     * запросы (http) в цикле чтобы перебрать)
+     */
+    var searchResult = await http.get(Uri.parse("https://aniu.ru/search/"+ input));
+    print(searchResult.body);
+    var doc = parse(searchResult.body);
+    doc.getElementsByTagName('a').map((e) => e.attributes.forEach((key, value) {print(key);}));
+    //var idpis = doc.getElementsByClassName("poster").map((e) => e.parent!.innerHtml);// .attributes["data-release"]);
+    //idpis.forEach((element) {print(element);});
+    return;
     var result = jsonDecode(searchResult.body).map((jsonItem) => Release.fromJson(jsonItem)).toList();
     setState(() {
       animeList = result;
