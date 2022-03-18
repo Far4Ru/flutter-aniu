@@ -97,7 +97,7 @@ Future fetchProfile() async {
   return userClass;
 }
 
-void saveCookies(String url) async {
+Future<void> saveCookies(String url) async {
   CookieManager cookieManager = CookieManager.instance();
   List<Cookie> cookies = await cookieManager.getCookies(url: Uri.parse(url));
   var box = objectbox.store.box<StoredCookie>();
@@ -109,13 +109,13 @@ void saveCookies(String url) async {
       var storedCookie = box.query(StoredCookie_.name.equals(element.name)).build().findFirst();
       if (storedCookie != null) {
         storedCookie.value = element.value;
-        // print(storedCookie?.id);
+        // print(storedCookie.id);
         box.put(storedCookie);
       }
     }
   }
 }
-void saveUser(String url) async {
+Future<void> saveUser(String url) async {
 
   var box = objectbox.store.box<StoredUser>();
   try {
@@ -123,5 +123,5 @@ void saveUser(String url) async {
   } catch (e) {
     print('Пользователь уже существует');
   }
-  saveCookies(url);
+  await saveCookies(url);
 }

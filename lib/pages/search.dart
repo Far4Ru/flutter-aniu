@@ -34,13 +34,14 @@ class _SearchPageState extends State<SearchPage> {
      * убрать дубликаты, получаем список id, создать список релизов( перебрать по списку id пока for не закончим
      * запросы (http) в цикле чтобы перебрать)
      */
-    var searchResult = await http.get(Uri.parse("https://aniu.ru/search/"+ input));
-    print(searchResult.body);
-    var doc = parse(searchResult.body);
-    doc.getElementsByTagName('a').map((e) => e.attributes.forEach((key, value) {print(key);}));
+    // var searchResult = await http.get(Uri.parse("https://aniu.ru/search/"+ input));
+    // print(searchResult.body);
+    // var doc = parse(searchResult.body);
+    // doc.getElementsByTagName('a').map((e) => e.attributes.forEach((key, value) {print(key);}));
     //var idpis = doc.getElementsByClassName("poster").map((e) => e.parent!.innerHtml);// .attributes["data-release"]);
     //idpis.forEach((element) {print(element);});
-    return;
+    // return;
+    final searchResult = await http.get(Uri.parse('https://aniu.ru/api/v1/release.list.popular'));
     var result = jsonDecode(searchResult.body).map((jsonItem) => Release.fromJson(jsonItem)).toList();
     setState(() {
       animeList = result;

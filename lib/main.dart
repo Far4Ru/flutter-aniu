@@ -1,4 +1,3 @@
-import 'package:aniu/pages/notifications.dart';
 import 'package:flutter/material.dart';
 import 'helpers/store.dart';
 import 'home.dart';
