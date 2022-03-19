@@ -7,6 +7,11 @@
 
 </details>
 
+## Средства разработки
+
+- Flutter
+- Android Studio / Android API 30 (Android 11.0) / iOS 12.3
+
 ## Библиотеки
 
 - inappwebview
