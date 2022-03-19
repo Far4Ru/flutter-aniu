@@ -17,6 +17,7 @@ dependencies:
   flutter_inappwebview: ^5.3.2
   objectbox: ^1.4.1
   objectbox_flutter_libs: any
+  expandable_text: 2.2.0
 
 dev_dependencies:
   flutter_test:
