@@ -31,13 +31,6 @@
 </details>
 
 <details>
-<summary>Переключение на ветку</summary>
-
-    git checkout -b имя_ветки
-
-</details>
-
-<details>
 <summary>Добавление изменений</summary>
 
     git add .
