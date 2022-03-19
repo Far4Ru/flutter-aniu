@@ -1,8 +1,8 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/pages/player.dart';
+import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
-import '../widgets/loading_screen.dart';
 
 class AnimePage extends StatefulWidget {
   const AnimePage({Key? key, required this.id}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:aniu/data/text_styles.dart';
+import 'package:aniu/pages/subpages/anime.dart';
 import 'package:flutter/material.dart';
-import '../subpages/anime.dart';
 
 Widget swiper(BuildContext context, List? items) {
   return Container(

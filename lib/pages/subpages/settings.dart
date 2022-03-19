@@ -1,5 +1,4 @@
 import 'package:aniu/data/text_styles.dart';
-import 'package:aniu/models/objectbox/cookies.dart';
 import 'package:aniu/models/objectbox/user.dart';
 import 'package:flutter/material.dart';
 

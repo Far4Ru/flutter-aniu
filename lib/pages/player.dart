@@ -1,17 +1,6 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-
-// Future main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//
-//   if (Platform.isAndroid) {
-//     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
-//   }
-//
-//   runApp(const MyApp());
-// }
 
 class PlayerPage extends StatefulWidget {
   const PlayerPage({Key? key, required this.link}) : super(key: key);
@@ -60,11 +49,6 @@ class _PlayerPageState extends State<PlayerPage> {
         }
       },
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override

@@ -1,13 +1,13 @@
 import 'package:aniu/api/check.dart';
 import 'package:aniu/pages/home/main.dart';
+import 'package:aniu/pages/home/notifications.dart';
+import 'package:aniu/pages/home/overview.dart';
+import 'package:aniu/pages/home/profile.dart';
 import 'package:aniu/pages/webview/login.dart';
 import 'package:aniu/pages/subpages/search.dart';
 import 'package:aniu/pages/subpages/settings.dart';
+import 'package:aniu/pages/widgets/left_panel.dart';
 import 'package:flutter/material.dart';
-import 'pages/widgets/left_panel.dart';
-import 'pages/home/notifications.dart';
-import 'pages/home/overview.dart';
-import 'pages/home/profile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
