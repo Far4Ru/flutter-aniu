@@ -14,10 +14,11 @@
 
 ## Библиотеки
 
+- http
+- html
 - inappwebview
 - objectbox
-- html
-- http
+- expandable_text
 
 ## Git
 
