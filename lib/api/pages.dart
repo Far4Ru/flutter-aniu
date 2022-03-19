@@ -33,6 +33,7 @@ Future<Map<String, List>> fetchHome() async {
     'movies': await fetchReleaseList('movies'),
   };
 }
+
 Future<Release> fetchRelease(String id) async {
   final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.get?id=' + id));
   // await Future.delayed(const Duration(seconds: 5));
@@ -40,6 +41,16 @@ Future<Release> fetchRelease(String id) async {
     return Release.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Не удалось загрузить список Сейчас в тренде');
+  }
+}
+
+Future<List<Role>> fetchReleaseRoles(String id) async {
+  final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.characters.get?id=' + id));
+  // await Future.delayed(const Duration(seconds: 5));
+  if(response.statusCode == 200) {
+    return jsonDecode(response.body).map((jsonItem) => Role.fromJson(jsonItem)).cast<Role>().toList();
+  } else {
+    throw Exception('Не удалось загрузить список персонажей');
   }
 }
 
