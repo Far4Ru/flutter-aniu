@@ -27,6 +27,42 @@ const TextStyle titleStyle = TextStyle(
     fontWeight: FontWeight.normal,
     color: Color(0xffffffff)
 );
+const TextStyle cardTitleStyle = TextStyle(
+    fontFamily: 'Montserrat',
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    color: Color(0xffffffff)
+);
+const TextStyle cardSubTitleStyle = TextStyle(
+    fontFamily: 'Montserrat',
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Color(0xff6c757d)
+);
+const TextStyle cardButtonStyle = TextStyle(
+    fontFamily: 'Montserrat',
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: Color(0xffffffff)
+);
+const TextStyle cardButtonBlackStyle = TextStyle(
+    fontFamily: 'Montserrat',
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: Colors.black54
+);
+const TextStyle cardTextTitleStyle = TextStyle(
+    fontFamily: 'Source Sans Pro',
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Color(0xff6c757d)
+);
+const TextStyle cardTextStyle = TextStyle(
+    fontFamily: 'Source Sans Pro',
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: Color(0xff6c757d)
+);
 
 
 const Map<String, Color> colorsLight = {

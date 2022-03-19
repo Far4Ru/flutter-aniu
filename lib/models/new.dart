@@ -106,7 +106,6 @@ class Release {
 }
 
 class MaterialData {
-
   final String? title; //"Сасаки и Мияно",
   final String? animeTitle; //"Сасаки и Мияно",
   final String? titleEn; //"Sasaki to Miyano",
@@ -184,6 +183,7 @@ class MaterialData {
       this.directors,
       this.writers);
 }
+
 class User {
   final String? avatar; //: "https://lh3.googleusercontent.com/a-/AOh14Gj4tn3HTQRCAu7xSJxJsHp462i21ycTaZEaSf8n_w=s96-c"
   final String? banReason; //: null
@@ -233,17 +233,17 @@ class Comment {
   final User? user;
 
   Comment({
-      this.id,
-      this.imVote,
-      this.isDeleted,
-      this.isEdited,
-      this.isSpoiler,
-      this.likesCount,
-      this.message,
-      this.release,
-      this.replyCount,
-      this.timestamp,
-      this.title,
+    this.id,
+    this.imVote,
+    this.isDeleted,
+    this.isEdited,
+    this.isSpoiler,
+    this.likesCount,
+    this.message,
+    this.release,
+    this.replyCount,
+    this.timestamp,
+    this.title,
     this.user
   });
   factory Comment.fromJson(Map<String, dynamic> json) {
@@ -260,6 +260,76 @@ class Comment {
         timestamp : json['timestamp'] as String?,
         title : json['title'] as String?,
         user : User.fromJson(json['user']),
+    );
+  }
+}
+
+class Role {
+  // final String? role; //: "Main"
+  // final String? roleRu; //: "Main"
+  final int? releaseId; //: 1067
+  final Character? character;
+
+  Role( {
+    // this.role,
+    // this.roleRu,
+    this.releaseId,
+    this.character
+  });
+
+  factory Role.fromJson(Map<String, dynamic> json) {
+    return Role(
+      // role: json['roles'] as String?,
+      // roleRu: json['roles_russian'] as String?,
+      releaseId: json['_release'] as int?,
+      character: Character.fromJson(json['character']),
+    );
+  }
+}
+
+
+class Character {
+  final int? id; //: 36828
+  final String? name; //: "Asuna Yuuki"
+  final String? nameRu; //: "Асуна Юки"
+  final String? shikimoriUrl; //: "/characters/36828-asuna-yuuki"
+  final CharacterImages? images;
+
+  Character({
+    this.id,
+    this.name,
+    this.nameRu,
+    this.shikimoriUrl,
+    this.images,
+  });
+
+  factory Character.fromJson(Map<String, dynamic> json) {
+    return Character(
+      id : json['id'] as int?,
+      name: json['name'] as String?,
+      nameRu: json['russian'] as String?,
+      shikimoriUrl: json['url'] as String?,
+      images : CharacterImages.fromJson(json['image']),
+    );
+  }
+}
+
+class CharacterImages{
+  final String? original; //: "https://aniu.ru//characters//36828.jpg"
+  final String? shikimori; //: "https://shikimori.one//system//characters//original//36828.jpg?1644275296"
+  final String? shikimoriAlt; //: "https://shikimori.org//system//characters//original//36828.jpg?1644275296" [broken link?]
+
+  CharacterImages({
+    this.original,
+    this.shikimori,
+    this.shikimoriAlt,
+  });
+
+  factory CharacterImages.fromJson(Map<String, dynamic> json) {
+    return CharacterImages(
+      original: json['original'] as String?,
+      shikimori: json['shikimori'] as String?,
+      shikimoriAlt: json['shikimori_alt'] as String?,
     );
   }
 }
