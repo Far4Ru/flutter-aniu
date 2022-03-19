@@ -1,8 +1,8 @@
 import 'package:aniu/api/pages.dart';
-import 'package:aniu/pages/loading_screen.dart';
-import 'package:aniu/pages/swiper.dart';
+import 'package:aniu/pages/widgets/loading_screen.dart';
+import 'package:aniu/pages/widgets/swiper.dart';
 import 'package:flutter/material.dart';
-import '../data/values.dart';
+import '../../data/values.dart';
 
 Widget homePage(BuildContext context) {
   Map<String, List> data;

@@ -1,8 +1,8 @@
+import 'package:aniu/data/text_styles.dart';
+import 'package:aniu/models/requests/release.dart';
 import 'package:flutter/material.dart';
-import '../data/values.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:aniu/models/new.dart';
 import 'anime.dart';
 import 'package:html/parser.dart';
 
@@ -74,7 +74,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 25),
+                margin: const EdgeInsets.only(top: 25),
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
                 height: 35.0,

@@ -1,26 +1,22 @@
-import 'package:aniu/objectbox.g.dart';
-import 'package:aniu/pages/login.dart';
-import 'package:aniu/pages/search.dart';
-import 'package:aniu/pages/settings.dart';
+import 'package:aniu/api/check.dart';
+import 'package:aniu/pages/home/main.dart';
+import 'package:aniu/pages/webview/login.dart';
+import 'package:aniu/pages/subpages/search.dart';
+import 'package:aniu/pages/subpages/settings.dart';
 import 'package:flutter/material.dart';
-import 'models/cookies.dart';
-import 'pages/left_panel.dart';
-import 'pages/notifications.dart';
-import 'pages/home.dart';
-import 'pages/overview.dart';
-import 'pages/profile.dart';
-import 'api/pages.dart';
+import 'pages/widgets/left_panel.dart';
+import 'pages/home/notifications.dart';
+import 'pages/home/overview.dart';
+import 'pages/home/profile.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
   static final List<Widget Function(BuildContext context)> _widgetOptions = [

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../api/pages.dart';
-import '../data/values.dart';
-import '../models/user.dart';
-import 'loading_screen.dart';
-import 'login.dart';
+import '../../api/pages.dart';
+import '../../data/values.dart';
+import '../../models/objectbox/user.dart';
+import '../widgets/loading_screen.dart';
+import '../webview/login.dart';
 
 Widget profilePage(BuildContext context) {
   return FutureBuilder(

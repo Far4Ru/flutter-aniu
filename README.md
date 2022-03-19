@@ -1,10 +1,14 @@
-# aniu
+# Aniu App
 
 Разрешение для тестирования
 
     390x844
 
-Git
+# Git
+
+<details>
+<summary></summary>
+</details>
 
     git checkout -b имя_ветки
 
