@@ -10,17 +10,17 @@ Future main() async {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  runApp(const MyApp());
+  runApp(const Player());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Player extends StatefulWidget {
+  const Player({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _PlayerState createState() => _PlayerState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _PlayerState extends State<Player> {
 
   final GlobalKey webViewKey = GlobalKey();
 

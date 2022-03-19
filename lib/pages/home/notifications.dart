@@ -1,5 +1,7 @@
+import 'package:aniu/data/text_styles.dart';
 import 'package:flutter/material.dart';
-import '../data/values.dart';
+
+
 
 Widget notificationsPage(BuildContext context) {
   return Container(

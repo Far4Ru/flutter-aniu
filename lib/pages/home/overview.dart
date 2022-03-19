@@ -1,11 +1,11 @@
-import 'package:aniu/api/pages.dart';
-import 'package:aniu/pages/loading_screen.dart';
-import 'package:aniu/pages/swiper.dart';
+import 'package:aniu/api/fetch.dart';
+import 'package:aniu/data/text_styles.dart';
+import 'package:aniu/pages/widgets/loading_screen.dart';
+import 'package:aniu/pages/widgets/swiper.dart';
 import 'package:flutter/material.dart';
-import '../data/values.dart';
-import 'actions_swiper.dart';
-import 'anime.dart';
-import 'column_builder.dart';
+import '../widgets/actions_swiper.dart';
+import '../subpages/anime.dart';
+import '../../helpers/column_builder.dart';
 
 Widget overviewPage(BuildContext context) {
   Map<String, List> data;

@@ -1,4 +1,4 @@
-import 'package:aniu/data/values.dart';
+import 'package:aniu/data/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class QuickActions{
@@ -79,3 +79,4 @@ toDonatePage(){
 toTopUsersPage(){
   // TODO: - top_users.dart
 }
+// TODO: - user_lists.dart

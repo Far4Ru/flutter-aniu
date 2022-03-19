@@ -1,24 +1,35 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class PlayerPage extends StatefulWidget {
-  const PlayerPage({Key? key, required this.link}) : super(key: key);
-  final String link;
-  @override
-  _PlayerPageState createState() => _PlayerPageState();
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isAndroid) {
+    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+  }
+
+  runApp(const MyApp());
 }
 
-class _PlayerPageState extends State<PlayerPage> {
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
 
   final GlobalKey webViewKey = GlobalKey();
-  final GlobalKey _key = GlobalKey();
 
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
         useShouldOverrideUrlLoading: true,
         mediaPlaybackRequiresUserGesture: false,
+        useShouldInterceptAjaxRequest: true
       ),
       android: AndroidInAppWebViewOptions(
         useHybridComposition: true,
@@ -52,17 +63,14 @@ class _PlayerPageState extends State<PlayerPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          key: _key,
-          appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () => Navigator.pop(context),
-            ),
-            backgroundColor: const Color(0xff0c101b),
-          ),
           body: SafeArea(
               child: Column(children: <Widget>[
                 Expanded(
@@ -71,7 +79,7 @@ class _PlayerPageState extends State<PlayerPage> {
                       InAppWebView(
                         key: webViewKey,
                         initialUrlRequest:
-                        URLRequest(url: Uri.parse(widget.link)),
+                        URLRequest(url: Uri.parse("https://aniu.ru/user/login")),
                         initialOptions: options,
                         pullToRefreshController: pullToRefreshController,
                         onWebViewCreated: (controller) {
@@ -115,6 +123,14 @@ class _PlayerPageState extends State<PlayerPage> {
                         },
                         onConsoleMessage: (controller, consoleMessage) {
                           // print(consoleMessage);
+                        },
+                        shouldInterceptAjaxRequest:  (controller, ajaxRequest) async {
+                          // controller.stopLoading();
+                        },
+                        shouldOverrideUrlLoading:  (controller, navigationAction) async {
+                          // controller.stopLoading();
+                          // Navigator.pop(context);
+                          // return null;
                         },
                       ),
                       progress < 1.0

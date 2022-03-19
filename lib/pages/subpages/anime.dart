@@ -1,13 +1,11 @@
-import 'package:aniu/models/new.dart';
+import 'package:aniu/api/fetch.dart';
+import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/pages/player.dart';
-import 'package:aniu/pages/swiper.dart';
+import 'package:aniu/pages/widgets/loading_screen.dart';
+import 'package:aniu/pages/widgets/swiper.dart';
+import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-import '../api/pages.dart';
-import '../data/values.dart';
-import 'loading_screen.dart';
 
 class AnimePage extends StatefulWidget {
   const AnimePage({Key? key, required this.id}) : super(key: key);
@@ -315,7 +313,7 @@ class _AnimePageState extends State<AnimePage> {
                     ),
                     FutureBuilder(
                         future: fetchReleaseRoles(widget.id),
-                        builder: (BuildContext context, AsyncSnapshot<List<Role>> snap) {
+                        builder: (BuildContext context, AsyncSnapshot snap) {
                           // if (snap.data == null) {
                           //   TODO?: Empty characters cards loading
                           // } else {
@@ -324,8 +322,8 @@ class _AnimePageState extends State<AnimePage> {
                                   left: 28.0, top: 15.0, bottom: 20.0),
                               child: characterSwiper(context, snap.data),
                             );
-                          }
-                        // },
+                          //}
+                        },
                       ),
                   ],
                 );

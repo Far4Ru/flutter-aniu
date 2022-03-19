@@ -11,15 +11,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  html: ^0.15.0
   cupertino_icons: ^1.0.2
   http: ^0.13.4
   flutter_inappwebview: ^5.3.2
+  objectbox: ^1.4.1
+  objectbox_flutter_libs: any
   expandable_text: 2.2.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.0
+  build_runner: ^2.0.0
+  objectbox_generator: any
+
 
 flutter:
   uses-material-design: true
+
+flutter_neumorphic:
+  git:
+    url: https://github.com/tsvillain/Flutter-Neumorphic.git
