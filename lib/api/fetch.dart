@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aniu/api/check.dart';
 import 'package:aniu/api/parse.dart';
 import 'package:aniu/main.dart';
 import 'package:aniu/models/objectbox/cookies.dart';
@@ -64,7 +65,8 @@ Future<List<Role>> fetchReleaseRoles(String id) async {
 Future<Map<String, List>> fetchOverview() async {
   return {
     'popular' : await fetchReleaseList('popular'),
-    'comments' : await fetchReleaseComments()
+    'comments' : await fetchReleaseComments(),
+    'userAccess' : [await checkUserAccess()]
   };
 }
 
@@ -73,6 +75,7 @@ Future fetchProfile() async {
   var user = box.getAll().first;
   Map<String, String> headers = {};
   headers['cookie'] = StoredCookies().toString();
+  headers['User-Agent'] = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Mobile Safari/537.36';
   // print(user.url);
   final response = await http.get(Uri.parse(user.url), headers: headers);
   // print(response.body);

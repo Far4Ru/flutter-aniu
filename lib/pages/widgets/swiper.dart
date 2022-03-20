@@ -16,7 +16,7 @@ Widget swiper(BuildContext context, List items) {
             toAnimePage(context, items[index].id);
           },
           child: Padding(
-            padding: const EdgeInsets.only(top: 5.0),
+            padding: index == 0 ? const EdgeInsets.only(top: 10.0) : const EdgeInsets.only(top: 10.0, left: 20),
             child: Column(
               children: [
                 ClipRRect(
@@ -24,13 +24,14 @@ Widget swiper(BuildContext context, List items) {
                   child: Image.network(
                     "https://aniu.ru/posters/"+items[index].poster+".jpg",
                     fit: BoxFit.cover,
-                    height: 170,
+                    width: 110,
+                    height: 110 * 1.456,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 5.0, left: 10.0),
+                  padding: const EdgeInsets.only(top: 8.0),
                   child: Container(
-                    width: 120,
+                    width: 110,
                     height: 40,
                     child: Text(
                       items[index].titleRu,
@@ -62,31 +63,35 @@ Widget characterSwiper(BuildContext context, List<Role> roles) {
           onTap: (){
             // TODO?: _toCharacterPage(context, (items ?? [])[index].character.url);
           },
-          child: Column(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  roles[index].character!.images!.original!,
-                  fit: BoxFit.cover,
-                  height: 180,
+          child: Padding(
+            padding: index == 0 ? const EdgeInsets.only() : const EdgeInsets.only(left: 20),
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    roles[index].character!.images!.original!,
+                    fit: BoxFit.cover,
+                    width: 110,
+                    height: 110 * 1.456,
+                  ),
                 ),
-              ),
-              Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: SizedBox(
-                width: 150,
-                height: 40,
-                child: Text(
-                  roles[index].character!.nameRu!,
-                  textAlign: TextAlign.center,
-                  style: cardTextStyle,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis
+                Padding(
+                padding: const EdgeInsets.only(top: 5.0),
+                child: SizedBox(
+                  width: 110,
+                  height: 40,
+                  child: Text(
+                    roles[index].character!.nameRu!,
+                    textAlign: TextAlign.start,
+                    style: cardTextStyle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis
+                  ),
                 ),
-              ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         );
       }

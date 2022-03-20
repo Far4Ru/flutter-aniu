@@ -240,14 +240,14 @@ class _AnimePageState extends State<AnimePage> {
                                 padding: EdgeInsets.only(bottom: 5.0),
                                 child: Text("АВТОР", style: cardTextTitleStyle),
                               ),
-                              Text(data.author, style: cardTextStyle),
+                              Text(data.author ?? '', style: cardTextStyle),
                               const Padding(
                                 padding:
                                     EdgeInsets.only(top: 15.0, bottom: 5.0),
                                 child:
                                     Text("СТУДИЯ", style: cardTextTitleStyle),
                               ),
-                              Text(data.studio, style: cardTextStyle)
+                              Text(data.studio ?? '', style: cardTextStyle)
                             ],
                           ),
                           Flexible(
@@ -266,7 +266,7 @@ class _AnimePageState extends State<AnimePage> {
                                         child: Text("РЕЖИССЁР",
                                             style: cardTextTitleStyle),
                                       ),
-                                      Text(data.director,
+                                      Text(data.director ?? '',
                                           style: cardTextStyle)
                                     ],
                                   ),
@@ -316,15 +316,12 @@ class _AnimePageState extends State<AnimePage> {
                         future: fetchReleaseRoles(widget.id),
                         builder: (BuildContext context, AsyncSnapshot snap) {
                           var data = snap.data;
-                          // if (data == null) {
-                            // TODO: Empty characters cards loading
-                          // } else {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 28.0, top: 15.0, bottom: 20.0),
-                              child: characterSwiper(context, data),
-                            );
-                          //}
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: 28.0, top: 15.0, bottom: 20.0),
+                            child: characterSwiper(context, data ?? []),
+                          );
+
                         },
                       ),
                   ],

@@ -1,5 +1,6 @@
 import 'package:aniu/pages/player.dart';
 import 'package:aniu/pages/subpages/anime.dart';
+import 'package:aniu/pages/subpages/settings.dart';
 import 'package:aniu/pages/webview/login.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -52,4 +53,13 @@ void toPlayerPage(BuildContext context, String link) async {
     await Navigator.push(context,
         MaterialPageRoute(builder: (context) => PlayerPage(link: link)));
   }
+}
+
+toSettingsPage(context) async {
+  return await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const SettingsPage()
+      )
+  );
 }

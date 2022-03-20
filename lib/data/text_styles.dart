@@ -23,7 +23,7 @@ const TextStyle h3Style = TextStyle(
 
 const TextStyle smallStyle = TextStyle(
     fontFamily: 'Source Sans Pro',
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: FontWeight.normal,
     color: Color(0xff6c757d)
 );
@@ -75,4 +75,11 @@ const TextStyle cardTextStyle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.normal,
     color: Color(0xff6c757d)
+);
+
+const TextStyle backgroundCardStyle = TextStyle(
+    fontFamily: 'Source Sans Pro',
+    fontSize: 60,
+    fontWeight: FontWeight.normal,
+    color: Color(0x446c757d)
 );

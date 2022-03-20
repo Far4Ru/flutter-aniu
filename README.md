@@ -24,6 +24,7 @@
 - objectbox
 - expandable_text
 - url_launcher
+- flutter_svg
 
 ## Git
 

@@ -18,10 +18,3 @@ class StoredUser {
     StoredCookies().deleteAll();
   }
 }
-
-class UserClass {
-  String name;
-  Map<String, int> stats;
-
-  UserClass(this.name, this.stats);
-}
