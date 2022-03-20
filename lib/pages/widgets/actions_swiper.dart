@@ -1,4 +1,5 @@
 import 'package:aniu/data/text_styles.dart';
+import 'package:aniu/pages/router.dart';
 import 'package:flutter/material.dart';
 
 class QuickActions{
@@ -60,23 +61,3 @@ Widget _quickActionCard(BuildContext context, QuickActions quickActionsItem) {
     ),
   );
 }
-
-toRandomPage() {
-  // TODO: - https://aniu.ru/anime/random
-}
-toCollectionsPage(){
-  // TODO: - collections.dart
-}
-toFavouritesPage(){
-  // TODO: - favourites.dart
-}
-toRulesPage(){
-  // TODO: - rules.dart
-}
-toDonatePage(){
-  // TODO: - https://my.qiwi.com/Aleksei-AIGtMGn6g6?noCache=true
-}
-toTopUsersPage(){
-  // TODO: - top_users.dart
-}
-// TODO: - user_lists.dart

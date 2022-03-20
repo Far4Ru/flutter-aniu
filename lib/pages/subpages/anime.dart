@@ -1,6 +1,6 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
-import 'package:aniu/pages/player.dart';
+import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/swiper.dart';
 import 'package:flutter/material.dart';
@@ -162,7 +162,7 @@ class _AnimePageState extends State<AnimePage> {
                             ),
                           ),
                           onPressed: () =>
-                              _toPlayerPage(context, snap.data.getVideoLink()),
+                              toPlayerPage(context, snap.data.getVideoLink()),
                           child: const Text(
                             'Смотреть онлайн',
                             style: cardButtonStyle,
@@ -333,14 +333,6 @@ class _AnimePageState extends State<AnimePage> {
         ],
       ),
     );
-  }
-}
-
-void _toPlayerPage(BuildContext context, String link) async {
-  bool next = true; // await checkURL(link);
-  if (next) {
-    await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => PlayerPage(link: link)));
   }
 }
 

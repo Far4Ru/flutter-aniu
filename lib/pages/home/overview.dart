@@ -1,7 +1,7 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/helpers/column_builder.dart';
-import 'package:aniu/pages/subpages/anime.dart';
+import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/actions_swiper.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/swiper.dart';
@@ -52,7 +52,7 @@ Widget overviewPage(BuildContext context) {
                         itemBuilder: (BuildContext context, int index){
                           return GestureDetector(
                             onTap: (){
-                              _toAnimePage(context, comments[index].release);
+                              toAnimePage(context, comments[index].release);
                             },
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,14 +90,5 @@ Widget overviewPage(BuildContext context) {
           );
         }
       }
-  );
-}
-
-void _toAnimePage(BuildContext context, String id) async {
-  await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AnimePage(id: id)
-      )
   );
 }

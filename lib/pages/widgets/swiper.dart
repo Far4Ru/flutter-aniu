@@ -1,6 +1,6 @@
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/models/requests/role.dart';
-import 'package:aniu/pages/subpages/anime.dart';
+import 'package:aniu/pages/router.dart';
 import 'package:flutter/material.dart';
 
 Widget swiper(BuildContext context, List? items) {
@@ -13,7 +13,7 @@ Widget swiper(BuildContext context, List? items) {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: (){
-              _toAnimePage(context, (items ?? [])[index].id);
+              toAnimePage(context, (items ?? [])[index].id);
             },
             child: Padding(
               padding: const EdgeInsets.only(top: 5.0),
@@ -88,14 +88,5 @@ Widget characterSwiper(BuildContext context, List<Role>? roles) {
           );
         }
     ),
-  );
-}
-
-void _toAnimePage(BuildContext context, String id) async {
-  await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AnimePage(id: id)
-      )
   );
 }

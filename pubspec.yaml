@@ -18,6 +18,7 @@ dependencies:
   objectbox: ^1.4.1
   objectbox_flutter_libs: any
   expandable_text: 2.2.0
+  url_launcher: ^6.0.20
 
 dev_dependencies:
   flutter_test:
