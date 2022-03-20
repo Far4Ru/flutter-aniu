@@ -1,9 +1,8 @@
+import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/models/requests/release.dart';
 import 'package:aniu/pages/router.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -18,35 +17,21 @@ class _SearchPageState extends State<SearchPage> {
   final _controller = TextEditingController();
   List animeList = [];
 
-  void fetchSearch(String input) async {
+  void getSearchResults(String input) async {
     if (input.isEmpty) {
       setState(() {
         animeList = [];
       });
       return;
     }
-    /**
-     * TODO: - поисковой запрос
-     * по хрефу вытаскивать через регулярное вырожение вытаскивать id и в начале было аниме
-     * убрать дубликаты, получаем список id, создать список релизов( перебрать по списку id пока for не закончим
-     * запросы (http) в цикле чтобы перебрать)
-     */
-    // var searchResult = await http.get(Uri.parse("https://aniu.ru/search/"+ input));
-    // print(searchResult.body);
-    // var doc = parse(searchResult.body);
-    // doc.getElementsByTagName('a').map((e) => e.attributes.forEach((key, value) {print(key);}));
-    //var idpis = doc.getElementsByClassName("poster").map((e) => e.parent!.innerHtml);// .attributes["data-release"]);
-    //idpis.forEach((element) {print(element);});
-    // return;
-    final searchResult = await http.get(Uri.parse('https://aniu.ru/api/v1/release.list.popular'));
-    var result = jsonDecode(searchResult.body).map((jsonItem) => Release.fromJson(jsonItem)).toList();
+    var result = await fetchSearch(input);
     setState(() {
       animeList = result;
     });
   }
 
   void onTextFieldSubmitted(String input) {
-    fetchSearch(input);
+    getSearchResults(input);
   }
 
   @override
@@ -130,9 +115,9 @@ class _SearchPageState extends State<SearchPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return Row(
                         children: [
-                          if (3 * index < animeList.length) searchCard(context, animeList, 3 * index),
-                          if (3 * index + 1 < animeList.length) searchCard(context, animeList, 3 * index + 1),
-                          if (3 * index + 2 < animeList.length) searchCard(context, animeList, 3 * index + 2),
+                          if (3 * index < animeList.length) searchCard(context, animeList[3 * index]),
+                          if (3 * index + 1 < animeList.length) searchCard(context, animeList[3 * index + 1]),
+                          if (3 * index + 2 < animeList.length) searchCard(context, animeList[3 * index + 2]),
                         ]
                       );
                     }
@@ -147,19 +132,19 @@ class _SearchPageState extends State<SearchPage> {
   }
 }
 
-Widget searchCard(BuildContext context, animeList, index) {
+Widget searchCard(BuildContext context, Release release) {
   return Padding(
     padding: const EdgeInsets.only(left: 13.0, top: 8.0),
     child: GestureDetector(
       onTap: (){
-        toAnimePage(context, animeList[index].id);
+        toAnimePage(context, release.id ?? '');
       },
       child: Column(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.network(
-              "https://aniu.ru/posters/"+animeList[index].poster+".jpg",
+              "https://aniu.ru/posters/"+(release.poster ?? '') +".jpg",
               fit: BoxFit.cover,
               width: 120,
               height: 120 * 1.456,
@@ -169,7 +154,7 @@ Widget searchCard(BuildContext context, animeList, index) {
             width: 120,
             height: 40,
             child: Text(
-                animeList[index].titleRu,
+                release.titleRu ?? '',
                 style: smallStyle,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis
