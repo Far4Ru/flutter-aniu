@@ -1,3 +1,4 @@
+import 'package:aniu/data/text_styles.dart';
 import 'package:flutter/material.dart';
 
 Widget leftPanel(BuildContext context) {
@@ -20,7 +21,17 @@ Widget leftPanel(BuildContext context) {
               fontWeight: FontWeight.bold,
             ),
           ),
-          // TODO: - Картинка профиля и никнейм (Гость)
+          Row(
+            children: const [
+              CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://aniu.ru/avatars/xno_avatar.png.pagespeed.ic.c6U61IAjHI.webp'
+                ),
+                radius: 20,
+              ),
+              Text('Гость', style: titleStyle),
+            ],
+          ),
           const SizedBox(
             height: 70,
           ),
