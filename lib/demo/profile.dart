@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 Future main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isAndroid) {
@@ -14,6 +15,7 @@ Future main() async {
 }
 
 class MyApp extends StatefulWidget {
+
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -26,17 +28,18 @@ class _MyAppState extends State<MyApp> {
 
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
-      crossPlatform: InAppWebViewOptions(
-        useShouldOverrideUrlLoading: true,
-        mediaPlaybackRequiresUserGesture: false,
-        useShouldInterceptAjaxRequest: true
-      ),
-      android: AndroidInAppWebViewOptions(
-        useHybridComposition: true,
-      ),
-      ios: IOSInAppWebViewOptions(
-        allowsInlineMediaPlayback: true,
-      ));
+    crossPlatform: InAppWebViewOptions(
+      useShouldOverrideUrlLoading: true,
+      mediaPlaybackRequiresUserGesture: false,
+      useShouldInterceptAjaxRequest: true
+    ),
+    android: AndroidInAppWebViewOptions(
+      useHybridComposition: true,
+    ),
+    ios: IOSInAppWebViewOptions(
+      allowsInlineMediaPlayback: true,
+    )
+  );
 
   late PullToRefreshController pullToRefreshController;
   String url = "";
@@ -45,6 +48,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+
     super.initState();
 
     pullToRefreshController = PullToRefreshController(
@@ -60,11 +64,6 @@ class _MyAppState extends State<MyApp> {
         }
       },
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -140,7 +139,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
               ]
-              )
+            )
           )
       ),
     );

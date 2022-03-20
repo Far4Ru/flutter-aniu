@@ -28,6 +28,7 @@ class Comment {
     this.title,
     this.user
   });
+
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
       id : json['id'] as String?,

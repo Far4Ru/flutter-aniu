@@ -1,7 +1,7 @@
+import 'package:aniu/main.dart';
 import 'package:aniu/models/objectbox/cookies.dart';
 import 'package:objectbox/objectbox.dart';
 
-import '../../main.dart';
 
 @Entity()
 class StoredUser {

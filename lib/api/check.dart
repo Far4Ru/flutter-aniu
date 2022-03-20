@@ -15,6 +15,7 @@ Future<bool> checkUserAccess() async{
     return false;
   }
 }
+
 Future<bool> checkURL(String url) async {
   final response = await http.get(Uri.parse(url));
   if(response.statusCode == 200) {

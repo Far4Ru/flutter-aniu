@@ -1,16 +1,17 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
+import 'package:aniu/helpers/column_builder.dart';
+import 'package:aniu/pages/subpages/anime.dart';
+import 'package:aniu/pages/widgets/actions_swiper.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/swiper.dart';
 import 'package:flutter/material.dart';
-import '../widgets/actions_swiper.dart';
-import '../subpages/anime.dart';
-import '../../helpers/column_builder.dart';
 
 Widget overviewPage(BuildContext context) {
   Map<String, List> data;
   List comments;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   return FutureBuilder(
       future: fetchOverview(),
       builder: (BuildContext context, AsyncSnapshot snap){

@@ -1,4 +1,5 @@
 import 'package:aniu/models/requests/character.dart';
+
 class Role {
   // final String? role; //: "Main"
   // final String? roleRu; //: "Main"

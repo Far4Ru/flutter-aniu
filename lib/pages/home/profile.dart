@@ -1,8 +1,8 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
+import 'package:aniu/models/objectbox/user.dart';
+import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
-import '../../models/objectbox/user.dart';
-import '../widgets/loading_screen.dart';
 
 Widget profilePage(BuildContext context) {
   return FutureBuilder(

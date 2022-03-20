@@ -1,8 +1,6 @@
 import 'package:aniu/data/text_styles.dart';
 import 'package:flutter/material.dart';
 
-
-
 Widget notificationsPage(BuildContext context) {
   return Container(
     margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),

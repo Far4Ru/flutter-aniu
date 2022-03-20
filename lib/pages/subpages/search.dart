@@ -19,8 +19,6 @@ class _SearchPageState extends State<SearchPage> {
   final _controller = TextEditingController();
   List animeList = [];
 
-
-
   void fetchSearch(String input) async {
     if (input.isEmpty) {
       setState(() {
@@ -51,7 +49,6 @@ class _SearchPageState extends State<SearchPage> {
   void onTextFieldSubmitted(String input) {
     fetchSearch(input);
   }
-
 
   @override
   Widget build(BuildContext context) {

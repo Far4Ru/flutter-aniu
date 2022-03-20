@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 Widget homePage(BuildContext context) {
   Map<String, List> data;
+
   return FutureBuilder(
     future: fetchHome(),
     builder: (BuildContext context, AsyncSnapshot snap){
