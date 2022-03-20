@@ -1,9 +1,9 @@
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/models/requests/release.dart';
+import 'package:aniu/pages/router.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'anime.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -138,7 +138,7 @@ class _SearchPageState extends State<SearchPage> {
                                 return Row(
                                   children: [if(3*index<animeList.length) GestureDetector(
                                     onTap: (){
-                                      _toAnimePage(context, animeList[3*index].id);
+                                      toAnimePage(context, animeList[3*index].id);
                                     },
                                     child: Column(
                                       children: [
@@ -164,7 +164,7 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                   ),if(3*index+1<animeList.length) GestureDetector(
                                     onTap: (){
-                                      _toAnimePage(context, animeList[3*index+1].id);
+                                      toAnimePage(context, animeList[3*index+1].id);
                                     },
                                     child: Column(
                                       children: [
@@ -190,7 +190,7 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                   ),if(3*index+2<animeList.length) GestureDetector(
                                     onTap: (){
-                                      _toAnimePage(context, animeList[3*index+2].id);
+                                      toAnimePage(context, animeList[3*index+2].id);
                                     },
                                     child: Column(
                                       children: [
@@ -243,14 +243,5 @@ Widget searchPage(BuildContext context) {
         ),
       ],
     ),
-  );
-}
-
-void _toAnimePage(BuildContext context, String id) async {
-  await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AnimePage(id: id)
-      )
   );
 }
