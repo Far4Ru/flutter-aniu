@@ -17,7 +17,7 @@ const TextStyle h1Style = TextStyle(
 const TextStyle h3Style = TextStyle(
     fontFamily: 'Source Sans Pro',
     fontSize: 23,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.bold,
     color: Color(0xff6c757d)
 );
 

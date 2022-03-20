@@ -3,90 +3,93 @@ import 'package:aniu/models/requests/role.dart';
 import 'package:aniu/pages/router.dart';
 import 'package:flutter/material.dart';
 
-Widget swiper(BuildContext context, List? items) {
+Widget swiper(BuildContext context, List items) {
   return Container(
     height: 230,
     width: MediaQuery.of(context).size.width,
     child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: (items ?? []).length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: (){
-              toAnimePage(context, (items ?? [])[index].id);
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(top: 5.0),
-              child: Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    "https://aniu.ru/posters/"+(items ?? [])[index].poster+".jpg",
-                    fit: BoxFit.cover,
-                    height: 180,
-                  ),
-                ),
-                Padding(
-                padding: const EdgeInsets.only(top: 5.0),
-                child: Container(
-                  width: 150,
-                  height: 40,
-                  child: Text(
-                      (items ?? [])[index].titleRu,
-                      textAlign: TextAlign.center,
-                      style: smallStyle,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis
-                  ),
-                ),)
-              ],
-            ),),
-          );
-        }
-    ),
-  );
-}
-
-Widget characterSwiper(BuildContext context, List<Role>? roles) {
-  return SizedBox(
-    height: 225,
-    width: MediaQuery.of(context).size.width,
-    child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: (roles ?? []).length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: (){
-              // TODO?: _toCharacterPage(context, (items ?? [])[index].character.url);
-            },
+      scrollDirection: Axis.horizontal,
+      itemCount: items.length,
+      itemBuilder: (  BuildContext context, int index) {
+        return GestureDetector(
+          onTap: (){
+            toAnimePage(context, items[index].id);
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(top: 5.0),
             child: Column(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    (roles ?? [])[index].character!.images!.original!,
+                    "https://aniu.ru/posters/"+items[index].poster+".jpg",
                     fit: BoxFit.cover,
-                    height: 180,
+                    height: 170,
                   ),
                 ),
-          Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: SizedBox(
-                  width: 150,
-                  height: 40,
-                  child: Text(
-                      (roles ?? [])[index].character!.nameRu!,
-                      textAlign: TextAlign.center,
-                      style: cardTextStyle,
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0, left: 10.0),
+                  child: Container(
+                    width: 120,
+                    height: 40,
+                    child: Text(
+                      items[index].titleRu,
+                      textAlign: TextAlign.start,
+                      style: smallStyle,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis
+                    ),
                   ),
-                ),)
+                )
               ],
             ),
-          );
-        }
+          ),
+        );
+      }
+    ),
+  );
+}
+
+Widget characterSwiper(BuildContext context, List<Role> roles) {
+  return SizedBox(
+    height: 225,
+    width: MediaQuery.of(context).size.width,
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: roles.length,
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          onTap: (){
+            // TODO?: _toCharacterPage(context, (items ?? [])[index].character.url);
+          },
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  roles[index].character!.images!.original!,
+                  fit: BoxFit.cover,
+                  height: 180,
+                ),
+              ),
+              Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: SizedBox(
+                width: 150,
+                height: 40,
+                child: Text(
+                  roles[index].character!.nameRu!,
+                  textAlign: TextAlign.center,
+                  style: cardTextStyle,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis
+                ),
+              ),
+              )
+            ],
+          ),
+        );
+      }
     ),
   );
 }
