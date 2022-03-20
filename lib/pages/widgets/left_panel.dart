@@ -20,9 +20,11 @@ Widget leftPanel(BuildContext context) {
               fontWeight: FontWeight.bold,
             ),
           ),
+          // TODO: - Картинка профиля и никнейм (Гость)
           const SizedBox(
             height: 70,
           ),
+          // TODO: - Переходы на страницы
           Column(
             children: [
               GestureDetector(

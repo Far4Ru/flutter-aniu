@@ -19,6 +19,7 @@ Widget overviewPage(BuildContext context) {
           return LoadingScreen(context);
         }
         else {
+          // TODO: - Добавить отступы между элемнтами
           data = snap.data;
           comments = data['comments'] ?? [];
           return ListView(
@@ -31,6 +32,7 @@ Widget overviewPage(BuildContext context) {
               const Text('Быстрые действия',
                   style: h3Style
               ),
+              // TODO: - Мои списки
               actionsSwiper(context),
               const Text('Сейчас в тренде',
                   style: h3Style

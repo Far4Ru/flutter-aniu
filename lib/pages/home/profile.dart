@@ -12,6 +12,7 @@ Widget profilePage(BuildContext context) {
         return LoadingScreen(context);
       }
       else {
+        // TODO: - Добавить отступы между элемнтами
         UserClass user = snap.data;
         return Column(
           children: [

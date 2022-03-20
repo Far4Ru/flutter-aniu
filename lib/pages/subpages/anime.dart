@@ -178,7 +178,7 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: ExpandableText(
-                        //TODO: Решить, что делать с ссылками типа [character=XXXXX]Character[/character], появляются в некоторых текстах
+                        // TODO: Решить, что делать с ссылками типа [character=XXXXX]Character[/character], появляются в некоторых текстах
                         snap.data.description,
                         expandText: 'читать полностью',
                         collapseText: '',
@@ -315,7 +315,7 @@ class _AnimePageState extends State<AnimePage> {
                         future: fetchReleaseRoles(widget.id),
                         builder: (BuildContext context, AsyncSnapshot snap) {
                           // if (snap.data == null) {
-                          //   TODO?: Empty characters cards loading
+                            // TODO: Empty characters cards loading
                           // } else {
                             return Padding(
                               padding: const EdgeInsets.only(

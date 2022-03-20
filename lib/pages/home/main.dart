@@ -14,6 +14,7 @@ Widget homePage(BuildContext context) {
         return LoadingScreen(context);
       }
       else {
+        // TODO: - Добавить отступы между элемнтами
         data = snap.data;
         return ListView(
           // shrinkWrap: true,
