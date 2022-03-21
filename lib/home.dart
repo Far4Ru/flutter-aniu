@@ -8,6 +8,7 @@ import 'package:aniu/pages/subpages/search.dart';
 import 'package:aniu/pages/subpages/settings.dart';
 import 'package:aniu/pages/widgets/left_panel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -46,19 +47,28 @@ class _HomePageState extends State<HomePage> {
       drawer: leftPanel(context),
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.dehaze),
+          icon: SvgPicture.asset(
+            'assets/icons/menu.svg' ,
+            color: const Color(0xff6c757d),
+          ),
           onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         actions: [
           if (_selectedIndex != 3)
             IconButton(
               onPressed: () { _toSearchPage(context); },
-              icon: const Icon(Icons.search)
+              icon: SvgPicture.asset(
+                'assets/icons/search.svg' ,
+                color: const Color(0xff6c757d),
+              ),
             )
           else
             IconButton(
               onPressed: () { _toSettingsPage(context); },
-              icon: const Icon(Icons.filter_vintage)
+              icon: SvgPicture.asset(
+                'assets/icons/settings.svg' ,
+                color: const Color(0xff6c757d),
+              ),
             )
         ],
         backgroundColor: const Color(0xff0c101b),
@@ -78,26 +88,38 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
+          items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.movie_outlined),
+              icon: SvgPicture.asset(
+                'assets/icons/movie.svg' ,
+                color: const Color(0xff6c757d),
+              ),
               label: 'Главная',
-              backgroundColor: Color(0xff0c101b),
+              backgroundColor: const Color(0xff0c101b),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.compass_calibration),
+              icon: SvgPicture.asset(
+                'assets/icons/overview.svg' ,
+                color: const Color(0xff6c757d),
+              ),
               label: 'Обзор',
-              backgroundColor: Color(0xff0c101b),
+              backgroundColor: const Color(0xff0c101b),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
+              icon: SvgPicture.asset(
+                'assets/icons/notice.svg' ,
+                color: const Color(0xff6c757d),
+              ),
               label: 'Нотисы',
-              backgroundColor: Color(0xff0c101b),
+              backgroundColor: const Color(0xff0c101b),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
+              icon: SvgPicture.asset(
+                'assets/icons/profile.svg' ,
+                color: const Color(0xff6c757d),
+              ),
               label: 'Профиль',
-              backgroundColor: Color(0xff0c101b),
+              backgroundColor: const Color(0xff0c101b),
             ),
           ],
           currentIndex: _selectedIndex,

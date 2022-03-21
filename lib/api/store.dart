@@ -5,7 +5,6 @@ import 'package:aniu/objectbox.g.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 Future<void> saveUser(String url) async {
-
   var box = objectbox.store.box<StoredUser>();
   try {
     box.put(StoredUser(url));
@@ -14,8 +13,6 @@ Future<void> saveUser(String url) async {
   }
   await saveCookies(url);
 }
-
-
 
 Future<void> saveCookies(String url) async {
   CookieManager cookieManager = CookieManager.instance();

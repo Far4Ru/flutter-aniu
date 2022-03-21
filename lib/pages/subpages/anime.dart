@@ -1,6 +1,7 @@
 import 'package:aniu/api/fetch.dart';
+import 'package:aniu/api/save.dart';
 import 'package:aniu/data/text_styles.dart';
-import 'package:aniu/pages/player.dart';
+import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/swiper.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _AnimePageState extends State<AnimePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String? _selectedAction;
   final List<String> _actions = [
+    "Добавить в список",
     "Смотрю",
     "Запланировал",
     "Просмотрено",
@@ -54,6 +56,7 @@ class _AnimePageState extends State<AnimePage> {
               if (snap.data == null) {
                 return LoadingScreen(context);
               } else {
+                var data = snap.data;
                 return ListView(
                   // shrinkWrap: true,
                   children: [
@@ -65,7 +68,7 @@ class _AnimePageState extends State<AnimePage> {
                           size: const Size(9, 300),
                           child: Image.network(
                               "https://aniu.ru/posters/" +
-                                  snap.data.poster +
+                                  data.poster +
                                   ".jpg",
                               fit: BoxFit.fitHeight),
                         ),
@@ -74,17 +77,17 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 28.0, top: 15.0, bottom: 5.0),
-                      child: Text(snap.data.titleRu, style: cardTitleStyle),
+                      child: Text(data.titleRu, style: cardTitleStyle),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 28.0),
                       child: Text(
-                          snap.data.status.toUpperCase() +
+                          data.status.toUpperCase() +
                               " • " +
-                              (snap.data.releaseDate ??
-                                  snap.data.airedDate.substring(0, 4)) +
+                              (data.releaseDate ??
+                                  data.airedDate.substring(0, 4)) +
                               " • " +
-                              snap.data.rating.toUpperCase(),
+                              data.rating.toUpperCase(),
                           style: cardSubTitleStyle),
                     ),
                     Padding(
@@ -96,11 +99,11 @@ class _AnimePageState extends State<AnimePage> {
                             color: const Color(0xff66ccff),
                             borderRadius: BorderRadius.circular(10)),
                         child: DropdownButton<String>(
-                          onChanged: (value) {
-                            _updateLists(value!);
+                          onChanged: (value) async {
+                            int index = await _updateLists(data.id, _actions.indexWhere((element) => element == value));
                             setState(
                               () {
-                                _selectedAction = value;
+                                _selectedAction = _actions[index];
                               },
                             );
                           },
@@ -162,7 +165,7 @@ class _AnimePageState extends State<AnimePage> {
                             ),
                           ),
                           onPressed: () =>
-                              _toPlayerPage(context, snap.data.getVideoLink()),
+                              toPlayerPage(context, data.getVideoLink()),
                           child: const Text(
                             'Смотреть онлайн',
                             style: cardButtonStyle,
@@ -178,8 +181,8 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: ExpandableText(
-                        //TODO: Решить, что делать с ссылками типа [character=XXXXX]Character[/character], появляются в некоторых текстах
-                        snap.data.description,
+                        // TODO: Решить, что делать с ссылками типа [character=XXXXX]Character[/character], появляются в некоторых текстах
+                        data.description,
                         expandText: 'читать полностью',
                         collapseText: '',
                         maxLines: 6,
@@ -198,12 +201,12 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 28.0),
                         child: Text(
-                            snap.data.episodesTotal +
+                            data.episodesTotal +
                                 " сер. по " +
-                                snap.data.duration +
+                                data.duration +
                                 " мин.\n" +
-                                (int.parse(snap.data.episodesTotal) *
-                                        int.parse(snap.data.duration))
+                                (int.parse(data.episodesTotal) *
+                                        int.parse(data.duration))
                                     .toString() +
                                 " мин. всего",
                             style: cardTextStyle)),
@@ -216,14 +219,14 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: Text(
-                          snap.data.titleOriginal +
-                              (snap.data.titleJap
+                          data.titleOriginal +
+                              (data.titleJap
                                           .toLowerCase()
                                           .replaceAll(' ', '') !=
-                                      snap.data.titleOriginal
+                                      data.titleOriginal
                                           .toLowerCase()
                                           .replaceAll(' ', '')
-                                  ? "\n" + snap.data.titleJap
+                                  ? "\n" + data.titleJap
                                   : ""),
                           style: cardTextStyle),
                     ),
@@ -239,14 +242,14 @@ class _AnimePageState extends State<AnimePage> {
                                 padding: EdgeInsets.only(bottom: 5.0),
                                 child: Text("АВТОР", style: cardTextTitleStyle),
                               ),
-                              Text(snap.data.author, style: cardTextStyle),
+                              Text(data.author ?? '', style: cardTextStyle),
                               const Padding(
                                 padding:
                                     EdgeInsets.only(top: 15.0, bottom: 5.0),
                                 child:
                                     Text("СТУДИЯ", style: cardTextTitleStyle),
                               ),
-                              Text(snap.data.studio, style: cardTextStyle)
+                              Text(data.studio ?? '', style: cardTextStyle)
                             ],
                           ),
                           Flexible(
@@ -265,7 +268,7 @@ class _AnimePageState extends State<AnimePage> {
                                         child: Text("РЕЖИССЁР",
                                             style: cardTextTitleStyle),
                                       ),
-                                      Text(snap.data.director,
+                                      Text(data.director ?? '',
                                           style: cardTextStyle)
                                     ],
                                   ),
@@ -283,7 +286,7 @@ class _AnimePageState extends State<AnimePage> {
                                         child: Text("СТРАНА",
                                             style: cardTextTitleStyle),
                                       ),
-                                      Text(snap.data.country,
+                                      Text(data.country,
                                           style: cardTextStyle),
                                     ],
                                   ),
@@ -301,8 +304,8 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: Text(
-                          snap.data.genres[0].toUpperCase() +
-                              snap.data.genres.substring(1).toLowerCase(),
+                          data.genres[0].toUpperCase() +
+                              data.genres.substring(1).toLowerCase(),
                           style: cardTextStyle),
                     ),
                     const Padding(
@@ -312,19 +315,16 @@ class _AnimePageState extends State<AnimePage> {
                           Text("ОСНОВНЫЕ ПЕРСОНАЖИ", style: cardTextTitleStyle),
                     ),
                     FutureBuilder(
-                        future: fetchReleaseRoles(widget.id),
-                        builder: (BuildContext context, AsyncSnapshot snap) {
-                          // if (snap.data == null) {
-                          //   TODO?: Empty characters cards loading
-                          // } else {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 28.0, top: 15.0, bottom: 20.0),
-                              child: characterSwiper(context, snap.data),
-                            );
-                          //}
-                        },
-                      ),
+                      future: fetchReleaseRoles(widget.id),
+                      builder: (BuildContext context, AsyncSnapshot snap) {
+                        var data = snap.data;
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              left: 28.0, top: 15.0, bottom: 20.0),
+                          child: characterSwiper(context, data ?? []),
+                        );
+                      },
+                    ),
                   ],
                 );
               }
@@ -336,12 +336,8 @@ class _AnimePageState extends State<AnimePage> {
   }
 }
 
-void _toPlayerPage(BuildContext context, String link) async {
-  bool next = true; // await checkURL(link);
-  if (next) {
-    await Navigator.push(context,
-        MaterialPageRoute(builder: (context) => PlayerPage(link: link)));
-  }
+Future<int> _updateLists(id, int type) async {
+  if(type > 4) type = 0;
+  await changeStatus(id, type);
+  return type;
 }
-
-void _updateLists(String list) async {}

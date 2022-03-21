@@ -1,7 +1,7 @@
+import 'package:aniu/main.dart';
 import 'package:aniu/models/objectbox/cookies.dart';
 import 'package:objectbox/objectbox.dart';
 
-import '../../main.dart';
 
 @Entity()
 class StoredUser {
@@ -17,11 +17,4 @@ class StoredUser {
     objectbox.store.box<StoredUser>().removeAll();
     StoredCookies().deleteAll();
   }
-}
-
-class UserClass {
-  String name;
-  Map<String, int> stats;
-
-  UserClass(this.name, this.stats);
 }

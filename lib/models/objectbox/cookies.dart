@@ -2,7 +2,6 @@ import 'package:aniu/main.dart';
 import 'package:objectbox/objectbox.dart';
 
 class StoredCookies {
-
   late List<StoredCookie> cookies;
 
   StoredCookies() {
@@ -14,6 +13,7 @@ class StoredCookies {
   toString() => cookies.map((e) => e.name+'='+e.value).toList().join('; ');
 
   _create() => cookies = objectbox.store.box<StoredCookie>().getAll();
+
   deleteAll() {
     cookies = [];
     objectbox.store.box<StoredCookie>().removeAll();

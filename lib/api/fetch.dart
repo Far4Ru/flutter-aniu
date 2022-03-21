@@ -1,18 +1,18 @@
 import 'dart:convert';
 
+import 'package:aniu/api/check.dart';
+import 'package:aniu/api/parse.dart';
+import 'package:aniu/main.dart';
+import 'package:aniu/models/objectbox/cookies.dart';
+import 'package:aniu/models/objectbox/user.dart';
 import 'package:aniu/models/requests/comment.dart';
 import 'package:aniu/models/requests/release.dart';
 import 'package:aniu/models/requests/role.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart';
 
-import '../main.dart';
-import '../models/objectbox/cookies.dart';
-import '../models/objectbox/user.dart';
 
 Future<List> fetchReleaseList(String name) async {
   final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.list.'+name));
-  // await Future.delayed(const Duration(seconds: 5));
   if(response.statusCode == 200) {
     return jsonDecode(response.body).map((jsonItem) => Release.fromJson(jsonItem)).toList();
   } else {
@@ -22,7 +22,6 @@ Future<List> fetchReleaseList(String name) async {
 
 Future<List> fetchReleaseComments() async {
   final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.comments.last'));
-  // await Future.delayed(const Duration(seconds: 5));
   if(response.statusCode == 200) {
     return jsonDecode(response.body).map((jsonItem) => Comment.fromJson(jsonItem)).toList();
   } else {
@@ -43,7 +42,6 @@ Future<Map<String, List>> fetchHome() async {
 
 Future<Release> fetchRelease(String id) async {
   final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.get?id=' + id));
-  // await Future.delayed(const Duration(seconds: 5));
   if(response.statusCode == 200) {
     return Release.fromJson(jsonDecode(response.body));
   } else {
@@ -53,7 +51,6 @@ Future<Release> fetchRelease(String id) async {
 
 Future<List<Role>> fetchReleaseRoles(String id) async {
   final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.characters.get?id=' + id));
-  // await Future.delayed(const Duration(seconds: 5));
   if(response.statusCode == 200) {
     return jsonDecode(response.body).map((jsonItem) => Role.fromJson(jsonItem)).cast<Role>().toList();
   } else {
@@ -64,7 +61,8 @@ Future<List<Role>> fetchReleaseRoles(String id) async {
 Future<Map<String, List>> fetchOverview() async {
   return {
     'popular' : await fetchReleaseList('popular'),
-    'comments' : await fetchReleaseComments()
+    'comments' : await fetchReleaseComments(),
+    'userAccess' : [await checkUserAccess()]
   };
 }
 
@@ -73,13 +71,22 @@ Future fetchProfile() async {
   var user = box.getAll().first;
   Map<String, String> headers = {};
   headers['cookie'] = StoredCookies().toString();
-  // print(user.url);
+  headers['User-Agent'] = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Mobile Safari/537.36';
   final response = await http.get(Uri.parse(user.url), headers: headers);
-  // print(response.body);
-  var document = parse(response.body);
-  String? name = document.body?.getElementsByClassName('user-name').first.children.first.innerHtml.trim();
-  List? list = document.body?.getElementsByClassName('col-3 text-center');
-  Map<String, int> stats = { for (var e in list ?? []) e.getElementsByTagName('small').first.innerHtml : int.parse(e.getElementsByTagName('strong').first.innerHtml) };
-  var userClass = UserClass(name ?? '', stats);
-  return userClass;
+  if(response.statusCode == 200) {
+    return parseProfile(response.body);
+  } else {
+    throw Exception('Не удалось загрузить данные профиля');
+  }
+}
+
+Future fetchSearch(String searchQuery) async {
+  Map<String, String> headers = {};
+  headers['User-Agent'] = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Mobile Safari/537.36';
+  final response = await http.get(Uri.parse("https://aniu.ru/search/"+ searchQuery), headers: headers);
+  if(response.statusCode == 200) {
+    return parseSearch(response.body);
+  } else {
+    throw Exception('Не удалось загрузить данные профиля');
+  }
 }

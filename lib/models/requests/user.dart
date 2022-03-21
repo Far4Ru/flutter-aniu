@@ -11,23 +11,30 @@ class User {
   final String? userGroupId;
 
   User({
-    this.avatar, this.banReason, this.gender, this.id, this.isBanned,
-    this.link, this.login, this.status, this.team, this.userGroupId
+    this.avatar,
+    this.banReason,
+    this.gender,
+    this.id,
+    this.isBanned,
+    this.link,
+    this.login,
+    this.status,
+    this.team,
+    this.userGroupId
   }); //: "1"
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        avatar : json['avatar'] as String?,
-        banReason : json['ban_reason'] as String?,
-        gender : json['gender'] as String?,
-        id : json['id'] as String?,
-        isBanned : json['is_banned'] as String?,
-        link : json['link'] as String?,
-        login : json['login'] as String?,
-        status : json['status'] as String?,
-        team : json['team'] as bool?,
-        userGroupId : json['user_group_id'] as String?
+      avatar : json['avatar'] as String?,
+      banReason : json['ban_reason'] as String?,
+      gender : json['gender'] as String?,
+      id : json['id'] as String?,
+      isBanned : json['is_banned'] as String?,
+      link : json['link'] as String?,
+      login : json['login'] as String?,
+      status : json['status'] as String?,
+      team : json['team'] as bool?,
+      userGroupId : json['user_group_id'] as String?
     );
   }
-
 }
