@@ -1,4 +1,5 @@
 import 'package:aniu/api/fetch.dart';
+import 'package:aniu/api/save.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
@@ -98,7 +99,7 @@ class _AnimePageState extends State<AnimePage> {
                             borderRadius: BorderRadius.circular(10)),
                         child: DropdownButton<String>(
                           onChanged: (value) {
-                            _updateLists(value!);
+                            _updateLists(data.id, _actions.indexWhere((element) => element == value));
                             setState(
                               () {
                                 _selectedAction = value;
@@ -313,17 +314,16 @@ class _AnimePageState extends State<AnimePage> {
                           Text("ОСНОВНЫЕ ПЕРСОНАЖИ", style: cardTextTitleStyle),
                     ),
                     FutureBuilder(
-                        future: fetchReleaseRoles(widget.id),
-                        builder: (BuildContext context, AsyncSnapshot snap) {
-                          var data = snap.data;
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                left: 28.0, top: 15.0, bottom: 20.0),
-                            child: characterSwiper(context, data ?? []),
-                          );
-
-                        },
-                      ),
+                      future: fetchReleaseRoles(widget.id),
+                      builder: (BuildContext context, AsyncSnapshot snap) {
+                        var data = snap.data;
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              left: 28.0, top: 15.0, bottom: 20.0),
+                          child: characterSwiper(context, data ?? []),
+                        );
+                      },
+                    ),
                   ],
                 );
               }
@@ -335,4 +335,9 @@ class _AnimePageState extends State<AnimePage> {
   }
 }
 
-void _updateLists(String list) async {}
+void _updateLists(id, type) async {
+  print(id);
+  print(type);
+  if(type > 4) type = 0;
+  await changeStatus(id, type);
+}
