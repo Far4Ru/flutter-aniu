@@ -1,10 +1,8 @@
+import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/models/requests/release.dart';
+import 'package:aniu/pages/router.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'anime.dart';
-import 'package:html/parser.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -19,59 +17,46 @@ class _SearchPageState extends State<SearchPage> {
   final _controller = TextEditingController();
   List animeList = [];
 
-  void fetchSearch(String input) async {
+  void getSearchResults(String input) async {
     if (input.isEmpty) {
       setState(() {
         animeList = [];
       });
       return;
     }
-    /**
-     * TODO: - поисковой запрос
-     * по хрефу вытаскивать через регулярное вырожение вытаскивать id и в начале было аниме
-     * убрать дубликаты, получаем список id, создать список релизов( перебрать по списку id пока for не закончим
-     * запросы (http) в цикле чтобы перебрать)
-     */
-    // var searchResult = await http.get(Uri.parse("https://aniu.ru/search/"+ input));
-    // print(searchResult.body);
-    // var doc = parse(searchResult.body);
-    // doc.getElementsByTagName('a').map((e) => e.attributes.forEach((key, value) {print(key);}));
-    //var idpis = doc.getElementsByClassName("poster").map((e) => e.parent!.innerHtml);// .attributes["data-release"]);
-    //idpis.forEach((element) {print(element);});
-    // return;
-    final searchResult = await http.get(Uri.parse('https://aniu.ru/api/v1/release.list.popular'));
-    var result = jsonDecode(searchResult.body).map((jsonItem) => Release.fromJson(jsonItem)).toList();
+    var result = await fetchSearch(input);
     setState(() {
       animeList = result;
     });
   }
 
   void onTextFieldSubmitted(String input) {
-    fetchSearch(input);
+    getSearchResults(input);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () => Navigator.pop(context),
-          ),
-          backgroundColor: const Color(0xff0c101b),
+      key: _scaffoldKey,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.pop(context),
         ),
-        body: Stack(
+        backgroundColor: const Color(0xff0c101b),
+      ),
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              color: Color(0xff0c101b),
+            ),
+          ),
+          Column(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                  color: Color(0xff0c101b),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 25),
                 width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
                 height: 35.0,
@@ -98,8 +83,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
               ),
-              if (animeList.isEmpty)
-              Container(
+              if (animeList.isEmpty) Container(
                 margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
                 child: Center(
                   child: Column(
@@ -119,117 +103,69 @@ class _SearchPageState extends State<SearchPage> {
                     ],
                   ),
                 ),
-              ) else
-                Container(
-                  margin: const EdgeInsets.only(top: 80),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Результат',
-                          style: h1Style,
-                        ),
-                        Container(
-                          height: 500,
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: animeList.length ~/3,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Row(
-                                  children: [if(3*index<animeList.length) GestureDetector(
-                                    onTap: (){
-                                      _toAnimePage(context, animeList[3*index].id);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(10),
-                                          child: Image.network(
-                                            "https://aniu.ru/posters/"+animeList[3*index].poster+".jpg",
-                                            fit: BoxFit.cover,
-                                            height: 110,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 100,
-                                          height: 40,
-                                          child: Text(
-                                              animeList[3*index].titleRu,
-                                              style: smallStyle,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),if(3*index+1<animeList.length) GestureDetector(
-                                    onTap: (){
-                                      _toAnimePage(context, animeList[3*index+1].id);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(10),
-                                          child: Image.network(
-                                            "https://aniu.ru/posters/"+animeList[3*index+1].poster+".jpg",
-                                            fit: BoxFit.cover,
-                                            height: 110,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 100,
-                                          height: 40,
-                                          child: Text(
-                                              animeList[3*index+1].titleRu,
-                                              style: smallStyle,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),if(3*index+2<animeList.length) GestureDetector(
-                                    onTap: (){
-                                      _toAnimePage(context, animeList[3*index+2].id);
-                                    },
-                                    child: Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(10),
-                                          child: Image.network(
-                                            "https://aniu.ru/posters/"+animeList[3*index+2].poster+".jpg",
-                                            fit: BoxFit.cover,
-                                            height: 110,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: 100,
-                                          height: 40,
-                                          child: Text(
-                                              animeList[3*index+2].titleRu,
-                                              style: smallStyle,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),]
-                                );
-                              }
-                          ),
-                        ),
-                      ],
-                    ),
+              )
+              else Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Container(
+                  height: 558,
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: animeList.length ~/3,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Row(
+                        children: [
+                          if (3 * index < animeList.length) searchCard(context, animeList[3 * index]),
+                          if (3 * index + 1 < animeList.length) searchCard(context, animeList[3 * index + 1]),
+                          if (3 * index + 2 < animeList.length) searchCard(context, animeList[3 * index + 2]),
+                        ]
+                      );
+                    }
                   ),
-                )
-
-            ]
-        )
+                ),
+              )
+            ],
+          ),
+        ]
+      )
     );
   }
 }
+
+Widget searchCard(BuildContext context, Release release) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 13.0, top: 8.0),
+    child: GestureDetector(
+      onTap: (){
+        toAnimePage(context, release.id ?? '');
+      },
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              "https://aniu.ru/posters/"+(release.poster ?? '') +".jpg",
+              fit: BoxFit.cover,
+              width: 120,
+              height: 120 * 1.456,
+            ),
+          ),
+          Container(
+            width: 120,
+            height: 40,
+            child: Text(
+                release.titleRu ?? '',
+                style: smallStyle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
+
 Widget searchPage(BuildContext context) {
   return Center(
     child: Column(
@@ -244,14 +180,5 @@ Widget searchPage(BuildContext context) {
         ),
       ],
     ),
-  );
-}
-
-void _toAnimePage(BuildContext context, String id) async {
-  await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AnimePage(id: id)
-      )
   );
 }

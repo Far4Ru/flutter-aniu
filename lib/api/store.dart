@@ -14,8 +14,6 @@ Future<void> saveUser(String url) async {
   await saveCookies(url);
 }
 
-
-
 Future<void> saveCookies(String url) async {
   CookieManager cookieManager = CookieManager.instance();
   List<Cookie> cookies = await cookieManager.getCookies(url: Uri.parse(url));

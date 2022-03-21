@@ -1,11 +1,15 @@
 # Aniu App
 
-<details>
-<summary>Разрешение для тестирования</summary>
+## Текущая ветка разработки
 
-    390x844
+    dev_v1
 
-</details>
+## Внесение изменений
+
+1. Создать новую ветку.
+2. Сделать коммит.
+3. Отправить запрос на слияние.
+
 
 ## Средства разработки
 
@@ -19,6 +23,8 @@
 - inappwebview
 - objectbox
 - expandable_text
+- url_launcher
+- flutter_svg
 
 ## Git
 
@@ -47,11 +53,26 @@
 
 </details>
 
-## Статьи
+## Другое
+
+<details>
+<summary>Статьи</summary>
 
 - https://habr.com/ru/company/surfstudio/blog/520506/
 - https://habr.com/ru/post/243091/
 
-## ObjectBox
+</details>
+
+<details>
+<summary>Обновление классов ObjectBox</summary>
 
     flutter pub run build_runner build
+
+</details>
+
+<details>
+<summary>Разрешение для тестирования</summary>
+
+    390x844
+
+</details>
