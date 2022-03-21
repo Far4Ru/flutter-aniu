@@ -29,7 +29,9 @@ Widget actionsSwiper(BuildContext context, List<QuickActionsDisplayData> items) 
 Widget _quickActionCard(BuildContext context, QuickActionsDisplayData quickActionsItem) {
   return GestureDetector(
     onTap: (){
-      quickActionsItem.toPage();
+      quickActionsItem.type != null
+          ? quickActionsItem.toPage(context, quickActionsItem.type)
+          : quickActionsItem.toPage(context);
     },
     child: Padding(
       padding: const EdgeInsets.only(top: 10.0),

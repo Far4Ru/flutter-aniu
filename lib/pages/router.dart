@@ -1,6 +1,10 @@
 import 'package:aniu/pages/player.dart';
 import 'package:aniu/pages/subpages/anime.dart';
+import 'package:aniu/pages/subpages/collections.dart';
+import 'package:aniu/pages/subpages/rules.dart';
 import 'package:aniu/pages/subpages/settings.dart';
+import 'package:aniu/pages/subpages/top_users.dart';
+import 'package:aniu/pages/subpages/user_lists.dart';
 import 'package:aniu/pages/webview/login.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,28 +18,55 @@ toLoginPage(context) async {
   );
 }
 
-toRandomPage() {
-  // TODO: - https://aniu.ru/anime/random
+toRandomPage(context)  async{
+  /// TODO: - Рандомное аниме
+  /// https://aniu.ru/anime/random
+  /// 1. Сделать запрос в ~/api/fetch.dart - Future fetchAnimeRandom()
+  /// 2. Отпарсить в ~/api/parse.dart - String parseAnimeRandom(body)
+  /// 3. Записать в id идентификатор аниме
+
+  String id = '11';
+  toAnimePage(context, id);
 }
 
-toCollectionsPage(){
-  // TODO: - collections.dart
+toCollectionsPage(context) async{
+  await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const CollectionsPage()
+      )
+  );
 }
 
-toFavouritesPage(){
-  // TODO: - user_lists.dart
+toFavouritesPage(context, String type) async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+        builder: (context) => UserListsPage(id: type)
+    )
+  );
 }
 
-toRulesPage(){
-  // TODO: - rules.dart
+toRulesPage(context) async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+        builder: (context) => const RulesPage()
+    )
+  );
 }
 
-toDonatePage() async {
+toDonatePage(context) async {
   if (!await launch('https://my.qiwi.com/Aleksei-AIGtMGn6g6?noCache=true')) throw 'Не удается запустить страницу с пожертвованием';
 }
 
-toTopUsersPage(){
-  // TODO: - top_users.dart
+toTopUsersPage(context) async {
+  await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const TopUsersPage()
+      )
+  );
 }
 
 void toAnimePage(BuildContext context, String id) async {
