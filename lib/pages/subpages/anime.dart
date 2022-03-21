@@ -21,6 +21,7 @@ class _AnimePageState extends State<AnimePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String? _selectedAction;
   final List<String> _actions = [
+    "Добавить в список",
     "Смотрю",
     "Запланировал",
     "Просмотрено",
@@ -98,11 +99,11 @@ class _AnimePageState extends State<AnimePage> {
                             color: const Color(0xff66ccff),
                             borderRadius: BorderRadius.circular(10)),
                         child: DropdownButton<String>(
-                          onChanged: (value) {
-                            _updateLists(data.id, _actions.indexWhere((element) => element == value));
+                          onChanged: (value) async {
+                            int index = await _updateLists(data.id, _actions.indexWhere((element) => element == value));
                             setState(
                               () {
-                                _selectedAction = value;
+                                _selectedAction = _actions[index];
                               },
                             );
                           },
@@ -335,9 +336,8 @@ class _AnimePageState extends State<AnimePage> {
   }
 }
 
-void _updateLists(id, type) async {
-  print(id);
-  print(type);
+Future<int> _updateLists(id, int type) async {
   if(type > 4) type = 0;
   await changeStatus(id, type);
+  return type;
 }
