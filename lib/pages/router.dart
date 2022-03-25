@@ -1,3 +1,4 @@
+import 'package:aniu/api/fetch.dart';
 import 'package:aniu/pages/player.dart';
 import 'package:aniu/pages/subpages/anime.dart';
 import 'package:aniu/pages/subpages/character.dart';
@@ -21,14 +22,8 @@ toLoginPage(context) async {
 }
 
 toRandomPage(context)  async{
-  /// TODO: - Рандомное аниме
-  /// https://aniu.ru/anime/random
-  /// 1. Сделать запрос в ~/api/fetch.dart - Future fetchAnimeRandom()
-  /// 2. Отпарсить в ~/api/parse.dart - String parseAnimeRandom(body)
-  /// 3. Записать в id идентификатор аниме
-
-  String id = '11';
-  toAnimePage(context, id);
+  String? id = await fetchRandomRelease();
+  toAnimePage(context, id.toString());
 }
 
 toCollectionsPage(context) async{

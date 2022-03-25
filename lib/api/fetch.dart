@@ -52,6 +52,15 @@ Future<Release> fetchRelease(String id) async {
   }
 }
 
+Future<String?> fetchRandomRelease() async {
+  final response = await http.get(Uri.parse('https://anixart.ru/anime/random'));
+  if(response.statusCode == 200) {
+    return parseRelease(response.body);
+  } else {
+    throw Exception('Не удалось загрузить cлучайное аниме');
+  }
+}
+
 Future<List<Role>> fetchReleaseRoles(String id) async {
   final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.characters.get?id=' + id));
   if(response.statusCode == 200) {
