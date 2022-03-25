@@ -4,9 +4,9 @@ import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/swiper.dart';
-import 'package:flutter/material.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AnimePage extends StatefulWidget {
   const AnimePage({Key? key, required this.id}) : super(key: key);
@@ -67,9 +67,7 @@ class _AnimePageState extends State<AnimePage> {
                         child: SizedBox.fromSize(
                           size: const Size(9, 300),
                           child: Image.network(
-                              "https://aniu.ru/posters/" +
-                                  data.poster +
-                                  ".jpg",
+                              "https://aniu.ru/posters/" + data.poster + ".jpg",
                               fit: BoxFit.fitHeight),
                         ),
                       ),
@@ -81,14 +79,34 @@ class _AnimePageState extends State<AnimePage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 28.0),
-                      child: Text(
-                          data.status.toUpperCase() +
-                              " • " +
-                              (data.releaseDate ??
-                                  data.airedDate.substring(0, 4)) +
-                              " • " +
-                              data.rating.toUpperCase(),
-                          style: cardSubTitleStyle),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              data.status.toUpperCase() +
+                                  " • " +
+                                  (data.releaseDate ??
+                                      data.airedDate.substring(0, 4)) +
+                                  " • " +
+                                  data.rating.toUpperCase(),
+                              style: cardSubTitleStyle),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 28.0),
+                            child: Row(children: [
+                              Text("⭐ "+
+                                  (double.parse(data.kinopoiskRating ??
+                                    data.imdbRating ??
+                                    data.shikimoriRating ?? "11")
+                                    <= 10
+                                    ? (data.kinopoiskRating ??
+                                      data.imdbRating ??
+                                      data.shikimoriRating)
+                                    : "-"),
+                                  style: cardSubTitleStyle),
+                            ]),
+                          )
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(28.0, 14.0, 28.0, 0),
@@ -100,7 +118,10 @@ class _AnimePageState extends State<AnimePage> {
                             borderRadius: BorderRadius.circular(10)),
                         child: DropdownButton<String>(
                           onChanged: (value) async {
-                            int index = await _updateLists(data.id, _actions.indexWhere((element) => element == value));
+                            int index = await _updateLists(
+                                data.id,
+                                _actions
+                                    .indexWhere((element) => element == value));
                             setState(
                               () {
                                 _selectedAction = _actions[index];
@@ -182,7 +203,7 @@ class _AnimePageState extends State<AnimePage> {
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: ExpandableText(
                         // TODO: Решить, что делать с ссылками типа [character=XXXXX]Character[/character], появляются в некоторых текстах
-                        data.description,
+                        data.description.replaceAll(RegExp(r'(\[\w+=\d+\]|\[\/\w+\])'), ""),
                         expandText: 'читать полностью',
                         collapseText: '',
                         maxLines: 6,
@@ -257,8 +278,8 @@ class _AnimePageState extends State<AnimePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 50.0, right: 28.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 50.0, right: 28.0),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -274,8 +295,8 @@ class _AnimePageState extends State<AnimePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 50.0, right: 28.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 50.0, right: 28.0),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -286,8 +307,7 @@ class _AnimePageState extends State<AnimePage> {
                                         child: Text("СТРАНА",
                                             style: cardTextTitleStyle),
                                       ),
-                                      Text(data.country,
-                                          style: cardTextStyle),
+                                      Text(data.country, style: cardTextStyle),
                                     ],
                                   ),
                                 )
@@ -337,7 +357,7 @@ class _AnimePageState extends State<AnimePage> {
 }
 
 Future<int> _updateLists(id, int type) async {
-  if(type > 4) type = 0;
+  if (type > 4) type = 0;
   await changeStatus(id, type);
   return type;
 }

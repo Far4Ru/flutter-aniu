@@ -75,7 +75,7 @@ class _CharacterPageState extends State<CharacterPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: ExpandableText(
-                        data.description,
+                        data.description.replaceAll(RegExp(r'\<[\x00-\x7F]+\>'), ""),
                         expandText: 'читать полностью',
                         collapseText: '',
                         maxLines: 6,
