@@ -1,4 +1,9 @@
+import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
+import 'package:aniu/helpers/column_builder.dart';
+import 'package:aniu/models/display_data/top_users.dart';
+import 'package:aniu/pages/router.dart';
+import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class TopUsersPage extends StatefulWidget {
@@ -11,6 +16,7 @@ class TopUsersPage extends StatefulWidget {
 
 class _TopUsersPageState extends State<TopUsersPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,20 +38,49 @@ class _TopUsersPageState extends State<TopUsersPage> {
                   color: Color(0xff0c101b),
                 ),
               ),
-              /// TODO: - Страница топа пользователей
-              /// https://aniu.ru/user
-              /// 1. Заголовок Топ 100
-              /// 2. ListView: аватар, имя, рейтинг, комментариев, иконка стрелки вправо
-              /// 3. Запрос в ~/api/fetch.dart - Future fetchTopUsers()
-              /// 4. Создать класс в ~/models/display_data/top_users.dart - TopUsersDisplayData
-              ///  - String avatar
-              ///  - String name
-              ///  - String id
-              ///  - String rating
-              ///  - String comments
-              /// 5. Отпарсить в ~/api/parse.dart - TopUsersDisplayData parseTopUsers(body)
-              /// 6. Вывести в ListView
-              const Text('Топ пользователей', style: h1Style)
+              FutureBuilder(
+                future: fetchTopUsers(),
+                builder: (BuildContext context, AsyncSnapshot snap) {
+                  if (snap.data == null) {
+                    return LoadingScreen(context);
+                  } else {
+                    List<TopUsersDisplayData> data = snap.data;
+                    return ListView(
+                      children: [
+                        Text('Топ 100', style: h1Style),
+                        ColumnBuilder(
+                            key: _key,
+                            itemCount: data.length,
+                            itemBuilder: (BuildContext context, int index){
+                              return GestureDetector(
+                                onTap: (){
+                                  toUserPage(context, data[index].id);
+                                },
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          data[index].avatar
+                                      ),
+                                      radius: 20,
+                                    ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(data[index].name, style: titleStyle,),
+                                        Text(data[index].description, style: smallStyle,)
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+                        )
+                      ],
+                    );
+                  }
+                }
+              )
             ]
         )
     );
