@@ -61,7 +61,7 @@ Widget characterSwiper(BuildContext context, List<Role> roles) {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: (){
-            // TODO?: _toCharacterPage(context, (items ?? [])[index].character.url);
+            toCharacterPage(context, roles[index].character?.id.toString() ?? '');
           },
           child: Padding(
             padding: index == 0 ? const EdgeInsets.only() : const EdgeInsets.only(left: 20),

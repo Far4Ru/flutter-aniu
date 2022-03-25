@@ -1,5 +1,6 @@
 import 'package:aniu/pages/player.dart';
 import 'package:aniu/pages/subpages/anime.dart';
+import 'package:aniu/pages/subpages/character.dart';
 import 'package:aniu/pages/subpages/collections.dart';
 import 'package:aniu/pages/subpages/rules.dart';
 import 'package:aniu/pages/subpages/settings.dart';
@@ -91,6 +92,15 @@ toSettingsPage(context) async {
       context,
       MaterialPageRoute(
           builder: (context) => const SettingsPage()
+      )
+  );
+}
+
+toCharacterPage(context, String id) async {
+  return await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => CharacterPage(id: id)
       )
   );
 }

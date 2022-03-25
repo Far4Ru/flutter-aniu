@@ -1,4 +1,5 @@
 import 'package:aniu/api/fetch.dart';
+import 'package:aniu/models/display_data/character.dart';
 import 'package:aniu/models/display_data/user.dart';
 import 'package:aniu/models/requests/release.dart';
 import 'package:html/parser.dart';
@@ -31,4 +32,26 @@ parseSearch(body) async {
     if (anime.id != null) animeList.add(anime);
   }
   return animeList;
+}
+
+CharacterDisplayData parseCharacter(body) {
+  var document = parse(body);
+  var root = document.getElementById('root');
+  var row = root?.getElementsByClassName('row').first;
+  var divs = row?.children;
+  var imageDiv = divs?.first;
+  var titleDiv = divs?.last;
+  var image = imageDiv?.getElementsByTagName('img').first.attributes['src'];
+  var title = titleDiv?.getElementsByTagName('h1').first.innerHtml;
+  var alternativeTitle = titleDiv?.getElementsByTagName('small').first.innerHtml;
+  String? description = '';
+  try {
+    description = titleDiv
+        ?.getElementsByTagName('span')
+        .first
+        .innerHtml;
+  } catch (e) {
+    // Нет описания
+  }
+  return CharacterDisplayData(image??'',title??'',alternativeTitle??'',description??'');
 }

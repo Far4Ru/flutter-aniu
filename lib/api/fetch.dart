@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:aniu/api/check.dart';
 import 'package:aniu/api/parse.dart';
 import 'package:aniu/main.dart';
+import 'package:aniu/models/display_data/character.dart';
 import 'package:aniu/models/objectbox/cookies.dart';
 import 'package:aniu/models/objectbox/user.dart';
+import 'package:aniu/models/requests/character.dart';
 import 'package:aniu/models/requests/comment.dart';
 import 'package:aniu/models/requests/release.dart';
 import 'package:aniu/models/requests/role.dart';
@@ -87,6 +89,15 @@ Future fetchSearch(String searchQuery) async {
   if(response.statusCode == 200) {
     return parseSearch(response.body);
   } else {
-    throw Exception('Не удалось загрузить данные профиля');
+    throw Exception('Не удалось загрузить данные поиска');
+  }
+}
+
+Future<CharacterDisplayData> fetchCharacter(String id) async {
+  final response = await http.get(Uri.parse("https://aniu.ru/character/"+ id));
+  if(response.statusCode == 200) {
+    return parseCharacter(response.body);
+  } else {
+    throw Exception('Не удалось загрузить данные персонажа');
   }
 }
