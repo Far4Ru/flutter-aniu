@@ -4,6 +4,7 @@ import 'package:aniu/api/check.dart';
 import 'package:aniu/api/parse.dart';
 import 'package:aniu/main.dart';
 import 'package:aniu/models/display_data/character.dart';
+import 'package:aniu/models/display_data/top_users.dart';
 import 'package:aniu/models/objectbox/cookies.dart';
 import 'package:aniu/models/objectbox/user.dart';
 import 'package:aniu/models/requests/character.dart';
@@ -100,4 +101,19 @@ Future<CharacterDisplayData> fetchCharacter(String id) async {
   } else {
     throw Exception('Не удалось загрузить данные персонажа');
   }
+}
+
+Future<List<TopUsersDisplayData>> fetchTopUsers() async {
+  Map<String, String> headers = {};
+  headers['User-Agent'] = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Mobile Safari/537.36';
+  final response = await http.get(Uri.parse("https://aniu.ru/user/"), headers: headers);
+  if(response.statusCode == 200) {
+    return parseTopUsers(response.body);
+  } else {
+    throw Exception('Не удалось загрузить данные персонажа');
+  }
+}
+
+Future fetchUser(id) async {
+  return 0;
 }

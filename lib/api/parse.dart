@@ -1,5 +1,6 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/models/display_data/character.dart';
+import 'package:aniu/models/display_data/top_users.dart';
 import 'package:aniu/models/display_data/user.dart';
 import 'package:aniu/models/requests/release.dart';
 import 'package:html/parser.dart';
@@ -53,5 +54,20 @@ CharacterDisplayData parseCharacter(body) {
   } catch (e) {
     // Нет описания
   }
-  return CharacterDisplayData(image??'',title??'',alternativeTitle??'',description??'');
+  return CharacterDisplayData(image??'',title??'',description??'', alternativeTitle??'');
+}
+
+List<TopUsersDisplayData> parseTopUsers(body) {
+  var document = parse(body);
+  var root = document.getElementById('userTop');
+  var li = document.getElementsByTagName('li');
+  List<TopUsersDisplayData> topUsersList = [];
+  for(var element in li) {
+    var id = element.getElementsByTagName('a').first.attributes['href']?.split('/').last ?? '';
+    var avatar = element.getElementsByTagName('img').first.attributes['src'] ?? '';
+    var name = element.getElementsByTagName('strong').first.innerHtml;
+    var description = element.getElementsByTagName('small').first.innerHtml;
+    topUsersList.add(TopUsersDisplayData(id, avatar, name, description));
+  }
+  return topUsersList;
 }
