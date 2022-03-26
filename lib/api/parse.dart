@@ -19,11 +19,13 @@ parseProfile(body) {
   String? id = arrayTagId?.last;
   var row = profileContent?.getElementsByClassName('row').first;
   List? list = row?.getElementsByClassName('col-3');
-  Map<String, int> stats = {
+  print(list);
+  Map<String, String> stats = {
     for (var e in list ?? [])
       e.getElementsByTagName('small').first.innerHtml:
-          int.parse(e.getElementsByTagName('div').first.innerHtml)
+      e.getElementsByTagName('div').first.innerHtml
   };
+  print(stats);
   var data = UserDisplayData(
       name ?? '', stats, poster ?? '', avatar ?? '', tag ?? '', id ?? '');
   data.translateStats();

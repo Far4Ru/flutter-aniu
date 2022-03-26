@@ -124,5 +124,12 @@ Future<List<TopUsersDisplayData>> fetchTopUsers() async {
 }
 
 Future fetchUser(id) async {
-  return 0;
+  Map<String, String> headers = {};
+  headers['User-Agent'] = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Mobile Safari/537.36';
+  final response = await http.get(Uri.parse("https://aniu.ru/user/" + id), headers: headers);
+  if(response.statusCode == 200) {
+    return parseProfile(response.body);
+  } else {
+    throw Exception('Не удалось загрузить данные пользователя');
+  }
 }
