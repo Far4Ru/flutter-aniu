@@ -1,28 +1,27 @@
 import 'package:aniu/api/store.dart';
-import 'package:aniu/pages/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({Key? key}) : super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegistrationPageState createState() => _RegistrationPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
 
   final GlobalKey _key = GlobalKey();
 
   InAppWebViewController? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
-      crossPlatform: InAppWebViewOptions(
-          useShouldOverrideUrlLoading: true,
-      ),
-      android: AndroidInAppWebViewOptions(
-        useHybridComposition: true,
-      ),
+    crossPlatform: InAppWebViewOptions(
+      useShouldOverrideUrlLoading: true,
+    ),
+    android: AndroidInAppWebViewOptions(
+      useHybridComposition: true,
+    ),
   );
 
 
@@ -43,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                 margin: const EdgeInsets.only(top: 25),
                 child: InAppWebView(
                   key: _key,
-                  initialUrlRequest: URLRequest(url: Uri.parse("https://aniu.ru/user/login")),
+                  initialUrlRequest: URLRequest(url: Uri.parse("https://aniu.ru/user/registration")),
                   initialOptions: options,
                   onWebViewCreated: (controller) {
                     webViewController = controller;
@@ -73,11 +72,9 @@ class _LoginPageState extends State<LoginPage> {
                     }
                     if(RegExp(r'^https\:\/\/aniu\.ru\/user\/registration$').hasMatch(url)) {
                       Navigator.pop(context);
-                      toRegistrationPage(context);
                     }
                     if(RegExp(r'^https\:\/\/aniu\.ru\/user\/reset$').hasMatch(url)) {
                       Navigator.pop(context);
-                      toResetPage(context);
                     }
                     controller.stopLoading();
                     // return null;

@@ -9,6 +9,8 @@ import 'package:aniu/pages/subpages/top_users.dart';
 import 'package:aniu/pages/subpages/user_lists.dart';
 import 'package:aniu/pages/subpages/user_page.dart';
 import 'package:aniu/pages/webview/login.dart';
+import 'package:aniu/pages/webview/registration.dart';
+import 'package:aniu/pages/webview/reset.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -107,5 +109,23 @@ toUserPage(context, String id) async {
     MaterialPageRoute(
       builder: (context) => UserPage(id: id)
     )
+  );
+}
+
+toRegistrationPage(context) async {
+  return await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const RegistrationPage()
+      )
+  );
+}
+
+toResetPage(context) async {
+  return await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const ResetPage()
+      )
   );
 }
