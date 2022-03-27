@@ -23,7 +23,7 @@ class AniuApp extends StatelessWidget {
       ),
       home: const HomePage(),
       routes: {
-        '/anime': (context) => const AnimePage(id: "1"),
+        '/anime': (context) => const HomePage(),
         '/dorams': (context) => const AnimePage(id: "1"),
         '/collections': (context) => const AnimePage(id: "1"),
         '/random': (context) => const AnimePage(id: "1"),
