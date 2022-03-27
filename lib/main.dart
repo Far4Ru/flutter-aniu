@@ -22,14 +22,6 @@ class AniuApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),
-      routes: {
-        '/anime': (context) => const AnimePage(id: "1"),
-        '/dorams': (context) => const AnimePage(id: "1"),
-        '/collections': (context) => const AnimePage(id: "1"),
-        '/random': (context) => const AnimePage(id: "1"),
-        '/donat': (context) => const AnimePage(id: "1"),
-      },
     );
   }
 }
-

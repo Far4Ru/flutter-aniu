@@ -1,12 +1,17 @@
 import 'package:aniu/api/check.dart';
+import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/pages/home/main.dart';
 import 'package:aniu/pages/home/notifications.dart';
 import 'package:aniu/pages/home/overview.dart';
 import 'package:aniu/pages/home/profile.dart';
+import 'package:aniu/pages/lists/anime.dart';
+import 'package:aniu/pages/lists/collections.dart';
+import 'package:aniu/pages/lists/dramas.dart';
+import 'package:aniu/pages/router.dart';
+import 'package:aniu/pages/subpages/rules.dart';
 import 'package:aniu/pages/webview/login.dart';
 import 'package:aniu/pages/subpages/search.dart';
 import 'package:aniu/pages/subpages/settings.dart';
-import 'package:aniu/pages/widgets/left_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -20,14 +25,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
-  static final List<Widget Function(BuildContext context)> _widgetOptions = [
+  final List<Widget Function(BuildContext context)> _widgetOptions = [
     homePage,
     overviewPage,
     notificationsPage,
     profilePage,
   ];
+  int indexTest = 1;
 
   void _onItemTapped(int index) async {
+    if(_selectedIndex == 0) _widgetOptions.first = homePage;
     bool userAccessFlag = !await checkUserAccess();
     // print(StoredCookies().toString());
     // print(userAccessFlag); // true - нет доступа, false - есть
@@ -44,7 +51,138 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: leftPanel(context),
+      drawer: Drawer(
+        child: Container(
+          color: const Color(0xff0f1422),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              DrawerHeader(
+                padding: const EdgeInsets.only(top: 50.0, left: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Профиль",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Color.fromRGBO(110, 117, 125, 100),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: GestureDetector(
+                        onTap: () => setState(() {
+                          Navigator.pop(context);
+                          _onItemTapped(3);
+                        }),
+                        child: Row(
+                          children: const [
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  'https://aniu.ru/avatars/xno_avatar.png.pagespeed.ic.c6U61IAjHI.webp'
+                              ),
+                              radius: 18,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15.0),
+                              child: Text('Гость', style: titleStyle),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                children: [
+                  ListTile(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                        _widgetOptions.first = animeListPage;
+                      });
+                      Navigator.pop(context);
+                    },
+                    title: const Text(
+                      "Аниме",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                        _widgetOptions.first = dramaListPage;
+                      });
+                      Navigator.pop(context);
+                    },
+                    title: const Text(
+                      "Дорамы",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                        _widgetOptions.first = collectionListPage;
+                      });
+                      Navigator.pop(context);
+                    },
+                    title: const Text(
+                      "Коллекции",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      // Navigator.pop(context);
+                      toRandomPage(context);
+                    },
+                    title: const Text(
+                      "Рандом",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      toDonatePage(context);
+                    },
+                    title: const Text(
+                      "Донат",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         leading: IconButton(
           icon: SvgPicture.asset(

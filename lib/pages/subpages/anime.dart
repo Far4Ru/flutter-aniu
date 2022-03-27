@@ -56,7 +56,11 @@ class _AnimePageState extends State<AnimePage> {
               if (snap.data == null) {
                 return LoadingScreen(context);
               } else {
-                var data = snap.data;
+                var list = snap.data['list'];
+                if (list.toString() != 'false') {
+                  if(_actions[int.parse(list['id'])] == list['name']) _selectedAction = _actions[int.parse(list['id'])];
+                }
+                var data = snap.data['release'];
                 return ListView(
                   // shrinkWrap: true,
                   children: [
@@ -91,7 +95,7 @@ class _AnimePageState extends State<AnimePage> {
                                   data.rating.toUpperCase(),
                               style: cardSubTitleStyle),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 28.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 28.0),
                             child: Row(children: [
                               Text("⭐ "+
                                   (double.parse(data.kinopoiskRating ??
@@ -119,9 +123,9 @@ class _AnimePageState extends State<AnimePage> {
                         child: DropdownButton<String>(
                           onChanged: (value) async {
                             int index = await _updateLists(
-                                data.id,
-                                _actions
-                                    .indexWhere((element) => element == value));
+                              data.id,
+                              _actions.indexWhere((element) => element == value)
+                            );
                             setState(
                               () {
                                 _selectedAction = _actions[index];
@@ -202,7 +206,6 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: ExpandableText(
-                        // TODO: Решить, что делать с ссылками типа [character=XXXXX]Character[/character], появляются в некоторых текстах
                         data.description.replaceAll(RegExp(r'(\[\w+=\d+\]|\[\/\w+\])'), ""),
                         expandText: 'читать полностью',
                         collapseText: '',

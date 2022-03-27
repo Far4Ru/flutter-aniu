@@ -19,10 +19,10 @@ parseProfile(body) {
   String? id = arrayTagId?.last;
   var row = profileContent?.getElementsByClassName('row').first;
   List? list = row?.getElementsByClassName('col-3');
-  Map<String, int> stats = {
+  Map<String, String> stats = {
     for (var e in list ?? [])
       e.getElementsByTagName('small').first.innerHtml:
-          int.parse(e.getElementsByTagName('div').first.innerHtml)
+      e.getElementsByTagName('div').first.innerHtml
   };
   var data = UserDisplayData(
       name ?? '', stats, poster ?? '', avatar ?? '', tag ?? '', id ?? '');
@@ -39,7 +39,7 @@ parseSearch(body) async {
       .toList();
   List<Release> animeList = [];
   for (var link in links ?? []) {
-    Release anime = await fetchRelease(link);
+    Release anime = (await fetchRelease(link))['release'];
     if (anime.id != null) animeList.add(anime);
   }
   return animeList;

@@ -1,6 +1,6 @@
 class UserDisplayData {
   String name;
-  Map<String, int> stats;
+  Map<String, String> stats;
   String poster;
   String avatar;
   String tag;
@@ -22,11 +22,11 @@ class UserDisplayData {
       'Comments' : 'Комментариев',
       'Anime' : 'Аниме'
     };
-    Map<String, int> newStats = {};
+    Map<String, String> newStats = {};
     for (var k in stats.keys) {
       String? translatedKey = translateValues[k];
       if(translatedKey != null) {
-        newStats[translatedKey] = stats[k] ?? 0;
+        newStats[translatedKey] = stats[k] ?? '';
       }
     }
     stats = newStats;
