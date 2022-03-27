@@ -43,10 +43,14 @@ Future<Map<String, List>> fetchHome() async {
   };
 }
 
-Future<Release> fetchRelease(String id) async {
+Future<Map<String, dynamic>> fetchRelease(String id) async {
   final response = await http.get(Uri.parse('https://aniu.ru/api/v1/release.get?id=' + id));
   if(response.statusCode == 200) {
-    return Release.fromJson(jsonDecode(response.body));
+    // return Release.fromJson(jsonDecode(response.body));
+    return {
+      'list': await fetchReleaseUserList(id),
+      'release': Release.fromJson(jsonDecode(response.body))
+    };
   } else {
     throw Exception('Не удалось загрузить список Сейчас в тренде');
   }
@@ -131,5 +135,17 @@ Future fetchUser(id) async {
     return parseProfile(response.body);
   } else {
     throw Exception('Не удалось загрузить данные пользователя');
+  }
+}
+
+Future fetchReleaseUserList(id) async {
+  Map<String, String> headers = {};
+  headers['cookie'] = StoredCookies().toString();
+  final response = await http.post(Uri.parse('https://aniu.ru/app/release?list='+id), headers: headers);
+  if (response.statusCode == 200) {
+    // update == 'success'
+    return jsonDecode(response.body)['list'];
+  } else {
+    throw Exception('Не удалось загрузить список пользователя для релиза');
   }
 }
