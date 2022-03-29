@@ -125,7 +125,7 @@ Widget overviewPage(BuildContext context) {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 15.0),
-                                    child: Text(comments[index].title, style: titleStyle,),
+                                    child: Text(comments[index].title ?? '', style: titleStyle,),
                                   )
                                 ]
                               ),

@@ -102,6 +102,23 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       setState(() {
                         _selectedIndex = 0;
+                        _widgetOptions.first = homePage;
+                      });
+                      Navigator.pop(context);
+                    },
+                    title: const Text(
+                      "Главная",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 0;
                         _widgetOptions.first = animeListPage;
                       });
                       Navigator.pop(context);
