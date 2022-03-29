@@ -154,13 +154,25 @@ class _HomePageState extends State<HomePage> {
                       // Navigator.pop(context);
                       toRandomPage(context);
                     },
-                    title: const Text(
-                      "Рандом",
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      ),
+                    title: Row(
+                      children: [
+                        Container(
+                          height: 20,
+                          width: 20,
+                          child: SvgPicture.asset(
+                            'assets/icons/random.svg',
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Text(
+                          " Рандом",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   ListTile(
@@ -168,13 +180,25 @@ class _HomePageState extends State<HomePage> {
                       Navigator.pop(context);
                       toDonatePage(context);
                     },
-                    title: const Text(
-                      "Донат",
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      ),
+                    title: Row(
+                      children: [
+                        Container(
+                          height: 20,
+                          width: 20,
+                          child: SvgPicture.asset(
+                            'assets/icons/heart.svg',
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Text(
+                          " Кинь донатик",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

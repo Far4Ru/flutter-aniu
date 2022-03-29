@@ -49,7 +49,8 @@ Future<Map<String, dynamic>> fetchRelease(String id) async {
     // return Release.fromJson(jsonDecode(response.body));
     return {
       'list': await fetchReleaseUserList(id),
-      'release': Release.fromJson(jsonDecode(response.body))
+      'release': Release.fromJson(jsonDecode(response.body)),
+      'links': await fetchLinks(id)
     };
   } else {
     throw Exception('Не удалось загрузить список Сейчас в тренде');
@@ -144,7 +145,35 @@ Future fetchReleaseUserList(id) async {
   final response = await http.post(Uri.parse('https://aniu.ru/app/release?list='+id), headers: headers);
   if (response.statusCode == 200) {
     // update == 'success'
+    if(response.body == '') return 'false';
     return jsonDecode(response.body)['list'];
+  } else {
+    throw Exception('Не удалось загрузить список пользователя для релиза');
+  }
+}
+
+Future fetchLinks(id) async {
+  final response = await http.post(Uri.parse('https://aniu.ru/api/v1/release.links?id='+id));
+  Map links = {};
+  if (response.statusCode == 200) {
+    // update == 'success'
+    var linkList = [];
+    if(jsonDecode(response.body)['links'] != null) {
+      links['links'] = jsonDecode(response.body)['links'];
+      for (var link in links['links']) {
+        linkList.add(Release.fromJson(link));
+      }
+    }
+    links['links'] = linkList;
+    var relatedList = [];
+    if(jsonDecode(response.body)['related'] != null) {
+      links['related'] = jsonDecode(response.body)['related'];
+      for (var related in links['related']) {
+        relatedList.add(Release.fromJson(related));
+      }
+    }
+    links['related'] = relatedList;
+    return links;
   } else {
     throw Exception('Не удалось загрузить список пользователя для релиза');
   }

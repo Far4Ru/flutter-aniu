@@ -7,6 +7,7 @@ import 'package:aniu/pages/widgets/swiper.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 class AnimePage extends StatefulWidget {
   const AnimePage({Key? key, required this.id}) : super(key: key);
@@ -29,6 +30,7 @@ class _AnimePageState extends State<AnimePage> {
     "Бросил",
     "Убрать из списка"
   ];
+  final _swiperController = SwiperController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +62,15 @@ class _AnimePageState extends State<AnimePage> {
                 if (list.toString() != 'false') {
                   if(_actions[int.parse(list['id'])] == list['name']) _selectedAction = _actions[int.parse(list['id'])];
                 }
+                var links = snap.data['links'];
+                var swipeList = [];
                 var data = snap.data['release'];
+                swipeList.add(data);
+                swipeList.addAll(links['related']);
                 return ListView(
                   // shrinkWrap: true,
                   children: [
-                    Padding(
+                    if (swipeList.length <= 1) Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 110.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
@@ -73,6 +79,33 @@ class _AnimePageState extends State<AnimePage> {
                           child: Image.network(
                               "https://aniu.ru/posters/" + data.poster + ".jpg",
                               fit: BoxFit.fitHeight),
+                        ),
+                      ),
+                    ),
+                    if (swipeList.length > 1) SizedBox(
+                      height: 400,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(30.0),
+                              child: Image.network(
+                                "https://aniu.ru/posters/" + swipeList[index].poster + ".jpg",
+                                fit: BoxFit.fitHeight,
+                              ),
+                            );
+                          },
+                          itemHeight: 300,
+                          loop: false,
+                          onIndexChanged: (int index) => print(index),
+                          itemCount: swipeList.length,
+                          itemWidth: 200,
+                          layout: SwiperLayout.STACK,
+                          pagination: const SwiperPagination(
+                            margin: EdgeInsets.only(top: 30)
+                          ),
+                          controller: _swiperController,
                         ),
                       ),
                     ),

@@ -44,6 +44,16 @@ class Release {
   final String? chibi;//0
   final String? isBan;//0
   final String? list;//null
+  final String? aniuRaiting;
+  final String? aniuRaitingCount;
+  final String? operator;
+  final String? composer;
+  final String? painter;
+  final String? mounting;
+  final String? scenario;
+  final String? release;
+  final String? position;
+  final String? text;
 
   const Release({
     this.id,
@@ -90,7 +100,17 @@ class Release {
     this.duration,
     this.chibi,
     this.isBan,
-    this.list
+    this.list,
+    this.aniuRaiting,
+    this.aniuRaitingCount,
+    this.operator,
+    this.composer,
+    this.painter,
+    this.mounting,
+    this.scenario,
+    this.release,
+    this.position,
+    this.text
   });
 
   factory Release.fromJson(Map<String, dynamic> json) {
@@ -105,7 +125,7 @@ class Release {
       imdb: json['imdb'] as String?,
       imdbRating: json['imdb_rating'] as String?,
       myAnimeList: json['myanimelist'] as String?,
-      myDoramaLint: json['myDoramaLint'] as String?,
+      myDoramaLint: json['mydoramalint'] as String?,
       poster: json['poster'] as String?,
       year: json['year'] as String?,
       genres: json['genres'] as String?,
@@ -139,7 +159,17 @@ class Release {
       duration: json['duration'] as String?,
       chibi: json['chibi'] as String?,
       isBan: json['is_ban'] as String?,
-      list: json['list'] as String?
+      list: json['list'] as String?,
+      aniuRaiting: json['aniu_raiting'] as String?,
+      aniuRaitingCount: json['aniu_raiting_count'] as String?,
+      operator: json['operator'] as String?,
+      composer: json['composer'] as String?,
+      painter: json['painter'] as String?,
+      mounting: json['mounting'] as String?,
+      scenario: json['scenario'] as String?,
+      release: json['release'] as String?,
+      position: json['position'].toString(),
+      text: json['text'] as String?,
     );
   }
 
