@@ -13,6 +13,7 @@ Widget profilePage(BuildContext context) {
         return LoadingScreen(context);
       }
       else {
+        if(snap.data is! UserDisplayData) return LoadingScreen(context);
         UserDisplayData user = snap.data;
         return Column(
           children: [

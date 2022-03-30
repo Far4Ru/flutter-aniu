@@ -2,6 +2,7 @@ import 'package:aniu/api/fetch.dart';
 import 'package:aniu/pages/player.dart';
 import 'package:aniu/pages/subpages/anime.dart';
 import 'package:aniu/pages/subpages/character.dart';
+import 'package:aniu/pages/subpages/collection.dart';
 import 'package:aniu/pages/subpages/collections.dart';
 import 'package:aniu/pages/subpages/rules.dart';
 import 'package:aniu/pages/subpages/settings.dart';
@@ -72,7 +73,25 @@ void toAnimePage(BuildContext context, String id) async {
   await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AnimePage(id: id)
+          builder: (context) => ReleasePage(id: id)
+      )
+  );
+}
+
+void toDoramaPage(BuildContext context, String id) async {
+  await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ReleasePage(id: id)
+      )
+  );
+}
+
+void toCollectionPage(BuildContext context, String href) async {
+  await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => CollectionPage(href: href)
       )
   );
 }

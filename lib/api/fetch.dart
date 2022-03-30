@@ -178,3 +178,40 @@ Future fetchLinks(id) async {
     throw Exception('Не удалось загрузить список пользователя для релиза');
   }
 }
+
+Future fetchAnimePage(int pageNumber) async {
+  final response = await http.get(Uri.parse("https://aniu.ru/anime?page=" + pageNumber.toString() + "&"));
+  if(response.statusCode == 200) {
+    return parseAnimePage(response.body);
+  } else {
+    throw Exception('Не удалось загрузить страницу аниме');
+  }
+}
+
+Future fetchDoramaPage(int pageNumber) async {
+  final response = await http.get(Uri.parse("https://aniu.ru/anime/dorama?page=" + pageNumber.toString() + "&"));
+  if(response.statusCode == 200) {
+    return parseDoramaPage(response.body);
+  } else {
+    throw Exception('Не удалось загрузить страницу дорам');
+  }
+}
+
+Future fetchCollectionPage(int pageNumber) async {
+  final response = await http.get(Uri.parse("https://aniu.ru/collection?page=" + pageNumber.toString()));
+  if(response.statusCode == 200) {
+    return parseCollectionPage(response.body);
+  } else {
+    throw Exception('Не удалось загрузить страницу коллекций');
+  }
+}
+
+Future fetchCollection(String href) async {
+
+  final response = await http.get(Uri.parse("https://aniu.ru/" + href));
+  if(response.statusCode == 200) {
+    return parseCollection(response.body);
+  } else {
+    throw Exception('Не удалось загрузить страницу коллекций');
+  }
+}

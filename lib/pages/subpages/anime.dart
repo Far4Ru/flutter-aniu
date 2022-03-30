@@ -11,16 +11,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
-class AnimePage extends StatefulWidget {
-  const AnimePage({Key? key, required this.id}) : super(key: key);
+class ReleasePage extends StatefulWidget {
+  const ReleasePage({Key? key, required this.id}) : super(key: key);
 
   final String id;
 
   @override
-  State<AnimePage> createState() => _AnimePageState();
+  State<ReleasePage> createState() => _ReleasePageState();
 }
 
-class _AnimePageState extends State<AnimePage> {
+class _ReleasePageState extends State<ReleasePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String? _selectedAction;
   final List<String> _actions = [
@@ -51,7 +51,7 @@ class _AnimePageState extends State<AnimePage> {
   }
 
   @override
-  void didUpdateWidget(AnimePage oldWidget) {
+  void didUpdateWidget(ReleasePage oldWidget) {
     if (releaseId != newReleaseId) {
       load();
     }
@@ -66,7 +66,6 @@ class _AnimePageState extends State<AnimePage> {
   }
   
   _changeRelease(id) {
-    print(id);
     setState(() {
       newReleaseId = id;
     });
@@ -305,8 +304,8 @@ class _AnimePageState extends State<AnimePage> {
                                 " сер. по " +
                                 (data.duration ?? '') +
                                 " мин.\n" +
-                                (int.parse(data.episodesTotal ?? '') *
-                                        int.parse((data.duration ?? '')))
+                                (int.parse(data.episodesTotal ?? '0') *
+                                        int.parse((data.duration ?? '0')))
                                     .toString() +
                                 " мин. всего",
                             style: cardTextStyle)),
