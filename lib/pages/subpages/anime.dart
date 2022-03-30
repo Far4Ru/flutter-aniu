@@ -1,6 +1,7 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/api/save.dart';
 import 'package:aniu/data/text_styles.dart';
+import 'package:aniu/models/requests/release.dart';
 import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/swiper.dart';
@@ -70,14 +71,14 @@ class _AnimePageState extends State<AnimePage> {
                 return ListView(
                   // shrinkWrap: true,
                   children: [
-                    if (swipeList.length <= 1) Padding(
+                    if (data.poster != null) if (swipeList.length <= 1) Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 110.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
                         child: SizedBox.fromSize(
                           size: const Size(9, 300),
                           child: Image.network(
-                              "https://aniu.ru/posters/" + data.poster + ".jpg",
+                              "https://aniu.ru/posters/" + (data.poster ?? '') + ".jpg",
                               fit: BoxFit.fitHeight),
                         ),
                       ),
@@ -112,7 +113,7 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 28.0, top: 15.0, bottom: 5.0),
-                      child: Text(data.titleRu, style: cardTitleStyle),
+                      child: Text(data.titleRu ?? '', style: cardTitleStyle),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 28.0),
@@ -120,24 +121,26 @@ class _AnimePageState extends State<AnimePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                              data.status.toUpperCase() +
+                              (data.status ?? '').toUpperCase() +
                                   " • " +
-                                  (data.releaseDate ??
-                                      data.airedDate.substring(0, 4)) +
+                                  (data.releaseDate
+                                      ?? (data.airedDate ?? '    ').substring(0, 4)) +
                                   " • " +
-                                  data.rating.toUpperCase(),
+                                  (data.rating ?? '').toUpperCase(),
                               style: cardSubTitleStyle),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 28.0),
                             child: Row(children: [
                               Text("⭐ "+
-                                  (double.parse(data.kinopoiskRating ??
-                                    data.imdbRating ??
-                                    data.shikimoriRating ?? "11")
+                                  (double.parse(
+                                      data.kinopoiskRating
+                                      ?? data.imdbRating
+                                      ?? data.shikimoriRating
+                                      ?? "11")
                                     <= 10
-                                    ? (data.kinopoiskRating ??
-                                      data.imdbRating ??
-                                      data.shikimoriRating)
+                                    ? (data.kinopoiskRating
+                                      ?? data.imdbRating
+                                      ?? data.shikimoriRating ?? '')
                                     : "-"),
                                   style: cardSubTitleStyle),
                             ]),
@@ -239,7 +242,7 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: ExpandableText(
-                        data.description.replaceAll(RegExp(r'(\[\w+=\d+\]|\[\/\w+\])'), ""),
+                        (data.description ?? '').replaceAll(RegExp(r'(\[\w+=\d+\]|\[\/\w+\])'), ""),
                         expandText: 'читать полностью',
                         collapseText: '',
                         maxLines: 6,
@@ -258,12 +261,12 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 28.0),
                         child: Text(
-                            data.episodesTotal +
+                            (data.episodesTotal ?? '') +
                                 " сер. по " +
-                                data.duration +
+                                (data.duration ?? '') +
                                 " мин.\n" +
-                                (int.parse(data.episodesTotal) *
-                                        int.parse(data.duration))
+                                (int.parse(data.episodesTotal ?? '') *
+                                        int.parse((data.duration ?? '')))
                                     .toString() +
                                 " мин. всего",
                             style: cardTextStyle)),
@@ -276,16 +279,18 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: Text(
-                          data.titleOriginal +
-                              (data.titleJap
-                                          .toLowerCase()
-                                          .replaceAll(' ', '') !=
-                                      data.titleOriginal
-                                          .toLowerCase()
-                                          .replaceAll(' ', '')
-                                  ? "\n" + data.titleJap
-                                  : ""),
-                          style: cardTextStyle),
+                        (data.titleOriginal ?? '')
+                        + (
+                          (data.titleJap ?? '')
+                            .toLowerCase()
+                            .replaceAll(' ', '')
+                              != (data.titleOriginal ?? '')
+                                .toLowerCase()
+                                .replaceAll(' ', '')
+                              ? "\n" + (data.titleJap ?? '')
+                              : ""
+                        ),
+                        style: cardTextStyle),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 28.0, top: 15.0),
@@ -343,7 +348,7 @@ class _AnimePageState extends State<AnimePage> {
                                         child: Text("СТРАНА",
                                             style: cardTextTitleStyle),
                                       ),
-                                      Text(data.country, style: cardTextStyle),
+                                      Text((data.country ?? ''), style: cardTextStyle),
                                     ],
                                   ),
                                 )
@@ -360,8 +365,8 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: Text(
-                          data.genres[0].toUpperCase() +
-                              data.genres.substring(1).toLowerCase(),
+                          (data.genres ?? '')[0].toUpperCase() +
+                              (data.genres ?? '').substring(1).toLowerCase(),
                           style: cardTextStyle),
                     ),
                     const Padding(
