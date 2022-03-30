@@ -488,17 +488,20 @@ class _SettingsPageState extends State<SettingsPage> {
                           child: Text('Приступая к использованию Aniu, вы соглашаетесь с нашей Политикой конфиденциальности и Условиями обслуживания,'
                               ' а также принимаете тот факт, что автор сайта не несёт ответственности за его содержимое.', style: smallStyle,),
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: TextButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(const Color(0xffdc3545)),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: TextButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(const Color(0xffdc3545)),
+                              ),
+                              onPressed: () {
+                                StoredUser('').logout();
+                                Navigator.pop(context, 0);
+                              },
+                              child: const Text('Выйти', style: titleStyle,),
                             ),
-                            onPressed: () {
-                              StoredUser('').logout();
-                              Navigator.pop(context, 0);
-                            },
-                            child: const Text('Выйти', style: titleStyle,),
                           ),
                         )
                       ]
