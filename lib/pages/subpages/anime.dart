@@ -37,6 +37,7 @@ class _AnimePageState extends State<AnimePage> {
   StreamController streamController = StreamController();
   String releaseId = '0';
   String newReleaseId = '0';
+  int swiperIndex = 0;
 
   @override
   void initState() {
@@ -55,6 +56,7 @@ class _AnimePageState extends State<AnimePage> {
     if (releaseId != newReleaseId) {
       load();
     }
+    releaseId = newReleaseId;
     super.didUpdateWidget(oldWidget);
   }
 
@@ -65,6 +67,7 @@ class _AnimePageState extends State<AnimePage> {
   }
   
   _changeRelease(id) {
+    print(id);
     setState(() {
       newReleaseId = id;
     });
@@ -102,13 +105,13 @@ class _AnimePageState extends State<AnimePage> {
                 var links = snap.data['links'];
                 var swipeList = [];
                 var data = snap.data['release'];
-                swipeList.add(data);
-                swipeList.addAll(links['related']);
+                swipeList.addAll(links['links']);
+                swiperIndex = swipeList.indexWhere((element) => element.id == data.id);
                 return ListView(
                   // shrinkWrap: true,
                   children: [
                     if (data.poster != null) if (swipeList.length <= 1) Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 110.0),
+                      padding: const EdgeInsets.only(left: 110.0, right:  110, top: 40, bottom:40),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
                         child: SizedBox.fromSize(
@@ -134,10 +137,12 @@ class _AnimePageState extends State<AnimePage> {
                             );
                           },
                           itemHeight: 300,
-                          loop: false,
+                          loop: true,
                           onIndexChanged: (int index) => _changeRelease(swipeList[index].id),
                           itemCount: swipeList.length,
                           itemWidth: 200,
+                          autoplay: false,
+                          index: swiperIndex,
                           layout: SwiperLayout.STACK,
                           pagination: const SwiperPagination(
                             margin: EdgeInsets.only(top: 30)
