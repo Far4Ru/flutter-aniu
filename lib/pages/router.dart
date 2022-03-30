@@ -129,3 +129,19 @@ toResetPage(context) async {
       )
   );
 }
+
+toTelegramPage(context) async {
+  if (!await launch('https://t.me/aniuru')) throw 'Не удается запустить страницу с телеграмом';
+}
+
+toVkPage(context) async {
+  if (!await launch('https://vk.com/anixartru')) throw 'Не удается запустить страницу с вконтакте';
+}
+
+toTiktokPage(context) async {
+  if (!await launch('https://www.tiktok.com/@aniu.ru?is_copy_url=1&is_from_webapp=v1&lang=ru-RU')) throw 'Не удается запустить страницу с тик током';
+}
+
+toDiscordPage(context) async {
+  if (!await launch('https://discord.gg/pa3XvuFHMZ')) throw 'Не удается запустить страницу с дискордом';
+}

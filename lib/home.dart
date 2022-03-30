@@ -13,6 +13,7 @@ import 'package:aniu/pages/webview/login.dart';
 import 'package:aniu/pages/subpages/search.dart';
 import 'package:aniu/pages/subpages/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
@@ -219,6 +220,43 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, top: 40),
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () => toTelegramPage(context),
+                      icon: Image.asset('assets/logo/telegram.png'),
+                      iconSize: 45,
+                    ),
+                    IconButton(
+                      onPressed: () => toVkPage(context),
+                      icon: Image.asset('assets/logo/vk.webp'),
+                      iconSize: 45,
+                    ),
+                    IconButton(
+                      onPressed: () => toTiktokPage(context),
+                      icon: Image.asset('assets/logo/tiktok.png'),
+                      iconSize: 45,
+                    ),
+                    IconButton(
+                      onPressed: () => toDiscordPage(context),
+                      icon: Image.asset('assets/logo/discord.png'),
+                      iconSize: 45,
+                    ),
+                  ],
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 15, top: 15),
+                child: Text("Авторы приложения не несут ответственности за его содержимое. © «Анию», 2022", style: TextStyle(
+                    fontFamily: 'Source Sans Pro',
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0x446c757d)
+                ),),
               )
             ],
           ),
