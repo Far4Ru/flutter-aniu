@@ -166,7 +166,7 @@ Future fetchLinks(id) async {
     }
     links['links'] = linkList;
     var relatedList = [];
-    if(jsonDecode(response.body)['related'] != null) {
+    if(jsonDecode(response.body)['related'] != null && jsonDecode(response.body)['related'] != false) {
       links['related'] = jsonDecode(response.body)['related'];
       for (var related in links['related']) {
         relatedList.add(Release.fromJson(related));

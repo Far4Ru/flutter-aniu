@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/api/save.dart';
 import 'package:aniu/data/text_styles.dart';
@@ -32,6 +34,42 @@ class _AnimePageState extends State<AnimePage> {
     "Убрать из списка"
   ];
   final _swiperController = SwiperController();
+  StreamController streamController = StreamController();
+  String releaseId = '0';
+  String newReleaseId = '0';
+
+  @override
+  void initState() {
+    releaseId = widget.id;
+    newReleaseId = releaseId;
+    load();
+    super.initState();
+  }
+
+  load() async {
+    streamController.add(await fetchRelease(newReleaseId));
+  }
+
+  @override
+  void didUpdateWidget(AnimePage oldWidget) {
+    if (releaseId != newReleaseId) {
+      load();
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    streamController.close();
+    super.dispose();
+  }
+  
+  _changeRelease(id) {
+    setState(() {
+      newReleaseId = id;
+    });
+    didUpdateWidget(widget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +91,10 @@ class _AnimePageState extends State<AnimePage> {
               color: Color(0xff0c101b),
             ),
           ),
-          FutureBuilder(
-            future: fetchRelease(widget.id),
+          StreamBuilder(
+            stream: streamController.stream,
             builder: (BuildContext context, AsyncSnapshot snap) {
-              if (snap.data == null) {
-                return LoadingScreen(context);
-              } else {
+              if(snap.hasData) {
                 var list = snap.data['list'];
                 if (list.toString() != 'false') {
                   if(_actions[int.parse(list['id'])] == list['name']) _selectedAction = _actions[int.parse(list['id'])];
@@ -99,7 +135,7 @@ class _AnimePageState extends State<AnimePage> {
                           },
                           itemHeight: 300,
                           loop: false,
-                          onIndexChanged: (int index) => print(index),
+                          onIndexChanged: (int index) => _changeRelease(swipeList[index].id),
                           itemCount: swipeList.length,
                           itemWidth: 200,
                           layout: SwiperLayout.STACK,
@@ -388,6 +424,9 @@ class _AnimePageState extends State<AnimePage> {
                     ),
                   ],
                 );
+              }
+              else {
+                return LoadingScreen(context);
               }
             },
           ),
