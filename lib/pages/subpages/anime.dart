@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/api/save.dart';
 import 'package:aniu/data/text_styles.dart';
-import 'package:aniu/models/requests/release.dart';
 import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/swiper.dart';
@@ -406,8 +405,8 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: Text(
-                          (data.genres ?? '')[0].toUpperCase() +
-                              (data.genres ?? '').substring(1).toLowerCase(),
+                          (data.genres ?? ' ')[0].toUpperCase() +
+                              (data.genres ?? ' ').substring(1).toLowerCase(),
                           style: cardTextStyle),
                     ),
                     const Padding(
