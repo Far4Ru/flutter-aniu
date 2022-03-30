@@ -16,7 +16,6 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _key = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +58,8 @@ class _UserPageState extends State<UserPage> {
                                         fit: BoxFit.cover,
                                         width: 390,
                                         height: 390 * 0.28,
-                                        color: const Color(0xff6c757d), //set the desired color
-                                        colorBlendMode: BlendMode.darken,
+                                        // color: const Color(0xff6c757d), //set the desired color
+                                        // colorBlendMode: BlendMode.darken,
                                       ),
                                     ),
                                     Container(
@@ -105,7 +104,7 @@ class _UserPageState extends State<UserPage> {
                               ]
                           ),
                           Container(
-                            height: 300,
+                            height: 80,
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: user.stats.length,
@@ -120,6 +119,17 @@ class _UserPageState extends State<UserPage> {
                                     ),
                                   );
                                 }
+                            ),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: TextButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(const Color(0xffdc3545)),
+                              ),
+                              onPressed: () {
+                              },
+                              child: const Text('Добавить в друзья', style: titleStyle,),
                             ),
                           )
                         ],
