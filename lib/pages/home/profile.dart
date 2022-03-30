@@ -1,6 +1,7 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/models/display_data/user.dart';
+import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -27,8 +28,8 @@ Widget profilePage(BuildContext context) {
                         fit: BoxFit.cover,
                         width: 390,
                         height: 390 * 0.28,
-                        color: const Color(0xff6c757d), //set the desired color
-                        colorBlendMode: BlendMode.darken,
+                        // color: const Color(0xff6c757d), //set the desired color
+                        // colorBlendMode: BlendMode.darken,
                       ),
                     ),
                     Container(
@@ -78,18 +79,21 @@ Widget profilePage(BuildContext context) {
                 scrollDirection: Axis.horizontal,
                 itemCount: user.stats.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 23.0,top: 20.0),
-                    child: Column(
-                      children: [
-                        Text(user.stats.keys.elementAt(index),style: titleStyle,),
-                        Text(user.stats.values.elementAt(index).toString(), style: titleStyle,)
-                      ],
+                  return GestureDetector(
+                    onTap: () => user.stats.keys.elementAt(index) == 'Аниме' ? toFavouritesPage(context, 'Смотрю') : '',
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 23.0,top: 20.0),
+                      child: Column(
+                        children: [
+                          Text(user.stats.keys.elementAt(index),style: titleStyle,),
+                          Text(user.stats.values.elementAt(index).toString(), style: titleStyle,)
+                        ],
+                      ),
                     ),
                   );
                 }
               ),
-            )
+            ),
           ],
         );
       }
