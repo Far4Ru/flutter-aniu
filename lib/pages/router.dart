@@ -2,6 +2,7 @@ import 'package:aniu/api/fetch.dart';
 import 'package:aniu/pages/player.dart';
 import 'package:aniu/pages/subpages/anime.dart';
 import 'package:aniu/pages/subpages/character.dart';
+import 'package:aniu/pages/subpages/collection.dart';
 import 'package:aniu/pages/subpages/collections.dart';
 import 'package:aniu/pages/subpages/rules.dart';
 import 'package:aniu/pages/subpages/settings.dart';
@@ -72,7 +73,25 @@ void toAnimePage(BuildContext context, String id) async {
   await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AnimePage(id: id)
+          builder: (context) => ReleasePage(id: id)
+      )
+  );
+}
+
+void toDoramaPage(BuildContext context, String id) async {
+  await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ReleasePage(id: id)
+      )
+  );
+}
+
+void toCollectionPage(BuildContext context, String href) async {
+  await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => CollectionPage(href: href)
       )
   );
 }
@@ -128,4 +147,20 @@ toResetPage(context) async {
           builder: (context) => const ResetPage()
       )
   );
+}
+
+toTelegramPage(context) async {
+  if (!await launch('https://t.me/aniuru')) throw 'Не удается запустить страницу с телеграмом';
+}
+
+toVkPage(context) async {
+  if (!await launch('https://vk.com/anixartru')) throw 'Не удается запустить страницу с вконтакте';
+}
+
+toTiktokPage(context) async {
+  if (!await launch('https://www.tiktok.com/@aniu.ru?is_copy_url=1&is_from_webapp=v1&lang=ru-RU')) throw 'Не удается запустить страницу с тик током';
+}
+
+toDiscordPage(context) async {
+  if (!await launch('https://discord.gg/pa3XvuFHMZ')) throw 'Не удается запустить страницу с дискордом';
 }

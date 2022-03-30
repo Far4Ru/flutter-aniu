@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/api/save.dart';
 import 'package:aniu/data/text_styles.dart';
@@ -7,17 +9,18 @@ import 'package:aniu/pages/widgets/swiper.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
-class AnimePage extends StatefulWidget {
-  const AnimePage({Key? key, required this.id}) : super(key: key);
+class ReleasePage extends StatefulWidget {
+  const ReleasePage({Key? key, required this.id}) : super(key: key);
 
   final String id;
 
   @override
-  State<AnimePage> createState() => _AnimePageState();
+  State<ReleasePage> createState() => _ReleasePageState();
 }
 
-class _AnimePageState extends State<AnimePage> {
+class _ReleasePageState extends State<ReleasePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   String? _selectedAction;
   final List<String> _actions = [
@@ -29,6 +32,45 @@ class _AnimePageState extends State<AnimePage> {
     "Бросил",
     "Убрать из списка"
   ];
+  final _swiperController = SwiperController();
+  StreamController streamController = StreamController();
+  String releaseId = '0';
+  String newReleaseId = '0';
+  int swiperIndex = 0;
+
+  @override
+  void initState() {
+    releaseId = widget.id;
+    newReleaseId = releaseId;
+    load();
+    super.initState();
+  }
+
+  load() async {
+    streamController.add(await fetchRelease(newReleaseId));
+  }
+
+  @override
+  void didUpdateWidget(ReleasePage oldWidget) {
+    if (releaseId != newReleaseId) {
+      load();
+    }
+    releaseId = newReleaseId;
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    streamController.close();
+    super.dispose();
+  }
+  
+  _changeRelease(id) {
+    setState(() {
+      newReleaseId = id;
+    });
+    didUpdateWidget(widget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,36 +92,67 @@ class _AnimePageState extends State<AnimePage> {
               color: Color(0xff0c101b),
             ),
           ),
-          FutureBuilder(
-            future: fetchRelease(widget.id),
+          StreamBuilder(
+            stream: streamController.stream,
             builder: (BuildContext context, AsyncSnapshot snap) {
-              if (snap.data == null) {
-                return LoadingScreen(context);
-              } else {
+              if(snap.hasData) {
                 var list = snap.data['list'];
                 if (list.toString() != 'false') {
                   if(_actions[int.parse(list['id'])] == list['name']) _selectedAction = _actions[int.parse(list['id'])];
                 }
+                var links = snap.data['links'];
+                var swipeList = [];
                 var data = snap.data['release'];
+                swipeList.addAll(links['links']);
+                swiperIndex = swipeList.indexWhere((element) => element.id == data.id);
                 return ListView(
                   // shrinkWrap: true,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 110.0),
+                    if (data.poster != null) if (swipeList.length <= 1) Padding(
+                      padding: const EdgeInsets.only(left: 110.0, right:  110, top: 40, bottom:40),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
                         child: SizedBox.fromSize(
                           size: const Size(9, 300),
                           child: Image.network(
-                              "https://aniu.ru/posters/" + data.poster + ".jpg",
+                              "https://aniu.ru/posters/" + (data.poster ?? '') + ".jpg",
                               fit: BoxFit.fitHeight),
+                        ),
+                      ),
+                    ),
+                    if (swipeList.length > 1) SizedBox(
+                      height: 400,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(30.0),
+                              child: Image.network(
+                                "https://aniu.ru/posters/" + swipeList[index].poster + ".jpg",
+                                fit: BoxFit.fitHeight,
+                              ),
+                            );
+                          },
+                          itemHeight: 300,
+                          loop: true,
+                          onIndexChanged: (int index) => _changeRelease(swipeList[index].id),
+                          itemCount: swipeList.length,
+                          itemWidth: 200,
+                          autoplay: false,
+                          index: swiperIndex,
+                          layout: SwiperLayout.STACK,
+                          pagination: const SwiperPagination(
+                            margin: EdgeInsets.only(top: 30)
+                          ),
+                          controller: _swiperController,
                         ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 28.0, top: 15.0, bottom: 5.0),
-                      child: Text(data.titleRu, style: cardTitleStyle),
+                      child: Text(data.titleRu ?? '', style: cardTitleStyle),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 28.0),
@@ -87,24 +160,26 @@ class _AnimePageState extends State<AnimePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                              data.status.toUpperCase() +
+                              (data.status ?? '').toUpperCase() +
                                   " • " +
-                                  (data.releaseDate ??
-                                      data.airedDate.substring(0, 4)) +
+                                  (data.releaseDate
+                                      ?? (data.airedDate ?? '    ').substring(0, 4)) +
                                   " • " +
-                                  data.rating.toUpperCase(),
+                                  (data.rating ?? '').toUpperCase(),
                               style: cardSubTitleStyle),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 28.0),
                             child: Row(children: [
                               Text("⭐ "+
-                                  (double.parse(data.kinopoiskRating ??
-                                    data.imdbRating ??
-                                    data.shikimoriRating ?? "11")
+                                  (double.parse(
+                                      data.kinopoiskRating
+                                      ?? data.imdbRating
+                                      ?? data.shikimoriRating
+                                      ?? "11")
                                     <= 10
-                                    ? (data.kinopoiskRating ??
-                                      data.imdbRating ??
-                                      data.shikimoriRating)
+                                    ? (data.kinopoiskRating
+                                      ?? data.imdbRating
+                                      ?? data.shikimoriRating ?? '')
                                     : "-"),
                                   style: cardSubTitleStyle),
                             ]),
@@ -206,7 +281,7 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: ExpandableText(
-                        data.description.replaceAll(RegExp(r'(\[\w+=\d+\]|\[\/\w+\])'), ""),
+                        (data.description ?? '').replaceAll(RegExp(r'(\[\w+=\d+\]|\[\/\w+\])'), ""),
                         expandText: 'читать полностью',
                         collapseText: '',
                         maxLines: 6,
@@ -225,12 +300,12 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 28.0),
                         child: Text(
-                            data.episodesTotal +
+                            (data.episodesTotal ?? '') +
                                 " сер. по " +
-                                data.duration +
+                                (data.duration ?? '') +
                                 " мин.\n" +
-                                (int.parse(data.episodesTotal) *
-                                        int.parse(data.duration))
+                                (int.parse(data.episodesTotal ?? '0') *
+                                        int.parse((data.duration ?? '0')))
                                     .toString() +
                                 " мин. всего",
                             style: cardTextStyle)),
@@ -243,16 +318,18 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: Text(
-                          data.titleOriginal +
-                              (data.titleJap
-                                          .toLowerCase()
-                                          .replaceAll(' ', '') !=
-                                      data.titleOriginal
-                                          .toLowerCase()
-                                          .replaceAll(' ', '')
-                                  ? "\n" + data.titleJap
-                                  : ""),
-                          style: cardTextStyle),
+                        (data.titleOriginal ?? '')
+                        + (
+                          (data.titleJap ?? '')
+                            .toLowerCase()
+                            .replaceAll(' ', '')
+                              != (data.titleOriginal ?? '')
+                                .toLowerCase()
+                                .replaceAll(' ', '')
+                              ? "\n" + (data.titleJap ?? '')
+                              : ""
+                        ),
+                        style: cardTextStyle),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 28.0, top: 15.0),
@@ -310,7 +387,7 @@ class _AnimePageState extends State<AnimePage> {
                                         child: Text("СТРАНА",
                                             style: cardTextTitleStyle),
                                       ),
-                                      Text(data.country, style: cardTextStyle),
+                                      Text((data.country ?? ''), style: cardTextStyle),
                                     ],
                                   ),
                                 )
@@ -327,8 +404,8 @@ class _AnimePageState extends State<AnimePage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28.0),
                       child: Text(
-                          data.genres[0].toUpperCase() +
-                              data.genres.substring(1).toLowerCase(),
+                          (data.genres ?? ' ')[0].toUpperCase() +
+                              (data.genres ?? ' ').substring(1).toLowerCase(),
                           style: cardTextStyle),
                     ),
                     const Padding(
@@ -350,6 +427,9 @@ class _AnimePageState extends State<AnimePage> {
                     ),
                   ],
                 );
+              }
+              else {
+                return LoadingScreen(context);
               }
             },
           ),

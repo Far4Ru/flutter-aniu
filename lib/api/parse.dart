@@ -1,5 +1,8 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/models/display_data/character.dart';
+import 'package:aniu/models/display_data/collection.dart';
+import 'package:aniu/models/display_data/dorama.dart';
+import 'package:aniu/models/display_data/release.dart';
 import 'package:aniu/models/display_data/top_users.dart';
 import 'package:aniu/models/display_data/user.dart';
 import 'package:aniu/models/requests/release.dart';
@@ -97,4 +100,84 @@ List<TopUsersDisplayData> parseTopUsers(body) {
     topUsersList.add(TopUsersDisplayData(id, avatar, name, description));
   }
   return topUsersList;
+}
+
+parseAnimePage(body) {
+  var document = parse(body);
+  var articles = document.body?.getElementsByTagName('article');
+  List<ReleaseDisplayData> releaseList = [];
+  if(articles != null){
+    for (var release in articles) {
+      String id = release.attributes['id'] ?? '';
+      String title = release.attributes['data-title'] ?? '';
+      String originalTitle = release.getElementsByClassName('name-en info-original').first.innerHtml;
+      String type = release.attributes['data-kind'] ?? '';
+      String status = release.attributes['data-status'] ?? '';
+      String year = release.attributes['data-year'] ?? '';
+      String poster = release.getElementsByTagName('img').first.attributes['src'] ?? '';
+      String ageRating = release.attributes['data-rating'] ?? '';
+      releaseList.add(ReleaseDisplayData(title, id, originalTitle, type, status, year, poster, ageRating));
+    }
+  }
+  return releaseList;
+}
+
+List<DoramaDisplayData> parseDoramaPage(body) {
+  var document = parse(body);
+  var articles = document.body?.getElementsByTagName('article');
+  List<DoramaDisplayData> doramaList = [];
+  if(articles != null){
+    for (var release in articles) {
+      String id = release.attributes['id'] ?? '';
+      String title = release.attributes['title'] ?? '';
+      String info =  release.getElementsByClassName('name-en info-original').first.innerHtml;
+      String titleEn = info.split("<br>").first;
+      String type = info.split("<br>").last.split(", ").first;
+      String year = info.split("<br>").last.split(", ").last;
+      String poster = release.getElementsByTagName('img').first.attributes['src'] ?? '';
+      doramaList.add(DoramaDisplayData(title, id, titleEn, type, year, poster));
+    }
+  }
+  return doramaList;
+}
+
+parseCollectionPage(body) {
+  var document = parse(body);
+  var divs = document.body?.getElementsByClassName('col-xxl-2');
+  List<CollectionDisplayData> collectionList = [];
+  if(divs != null){
+    for (var div in divs) {
+      String image = div.getElementsByTagName('img').first.attributes['data-src'] ?? '';
+      String name = div.getElementsByClassName('collection-name').first.innerHtml;
+      String href = div.getElementsByTagName('a').first.attributes['href'] ?? '';
+      String favoritesCount = div.getElementsByClassName('collection-favorites-count').first.innerHtml.trim().split(' ').first;
+      collectionList.add(CollectionDisplayData(image, name, href, favoritesCount));
+    }
+  }
+  return collectionList;
+}
+
+parseCollection(body) {
+  var document = parse(body);
+  var articles = document.body?.getElementsByTagName('article');
+  List<ReleaseDisplayData> releaseList = [];
+  if(articles != null){
+    for (var release in articles) {
+      String id = release.attributes['id'] ?? '';
+      String title = release.getElementsByClassName('name-ru info-title').first.innerHtml;
+      String originalTitle = release.getElementsByClassName('name-en info-original').first.innerHtml;
+      String year = release.getElementsByClassName('name-en info-original').last.innerHtml.trim();
+      String poster = release.getElementsByTagName('img').first.attributes['src'] ?? '';
+      releaseList.add(ReleaseDisplayData(title, id, originalTitle, '', '', year, poster, ''));
+    }
+  }
+  var title = document.body?.getElementsByTagName('h1').first.innerHtml.trim().split('<').first.trim();
+  var description = document.body?.getElementsByClassName('col-12 col-md-12').first.children[0].innerHtml
+      .replaceAll(RegExp(r'\<br>'), "\n")
+      .replaceAll(RegExp(r'\<[\x00-\x7F]+\>'), "");
+  return {
+    'title' : title,
+    'description' : description,
+    'list' : releaseList
+  };
 }

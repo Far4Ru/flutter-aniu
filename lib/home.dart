@@ -13,6 +13,7 @@ import 'package:aniu/pages/webview/login.dart';
 import 'package:aniu/pages/subpages/search.dart';
 import 'package:aniu/pages/subpages/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
@@ -102,6 +103,23 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       setState(() {
                         _selectedIndex = 0;
+                        _widgetOptions.first = homePage;
+                      });
+                      Navigator.pop(context);
+                    },
+                    title: const Text(
+                      "Главная",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 0;
                         _widgetOptions.first = animeListPage;
                       });
                       Navigator.pop(context);
@@ -154,13 +172,25 @@ class _HomePageState extends State<HomePage> {
                       // Navigator.pop(context);
                       toRandomPage(context);
                     },
-                    title: const Text(
-                      "Рандом",
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      ),
+                    title: Row(
+                      children: [
+                        Container(
+                          height: 20,
+                          width: 20,
+                          child: SvgPicture.asset(
+                            'assets/icons/random.svg',
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Text(
+                          " Рандом",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   ListTile(
@@ -168,16 +198,65 @@ class _HomePageState extends State<HomePage> {
                       Navigator.pop(context);
                       toDonatePage(context);
                     },
-                    title: const Text(
-                      "Донат",
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.white,
-                        fontWeight: FontWeight.normal,
-                      ),
+                    title: Row(
+                      children: [
+                        Container(
+                          height: 20,
+                          width: 20,
+                          child: SvgPicture.asset(
+                            'assets/icons/heart.svg',
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Text(
+                          " Кинь донатик",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0, top: 40),
+                child: Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      onPressed: () => toTelegramPage(context),
+                      icon: Image.asset('assets/logo/telegram.png'),
+                      iconSize: 45,
+                    ),
+                    IconButton(
+                      onPressed: () => toVkPage(context),
+                      icon: Image.asset('assets/logo/vk.webp'),
+                      iconSize: 45,
+                    ),
+                    IconButton(
+                      onPressed: () => toTiktokPage(context),
+                      icon: Image.asset('assets/logo/tiktok.png'),
+                      iconSize: 45,
+                    ),
+                    IconButton(
+                      onPressed: () => toDiscordPage(context),
+                      icon: Image.asset('assets/logo/discord.png'),
+                      iconSize: 45,
+                    ),
+                  ],
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 15, top: 15),
+                child: Text("Авторы приложения не несут ответственности за его содержимое. © «Анию», 2022", style: TextStyle(
+                    fontFamily: 'Source Sans Pro',
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0x446c757d)
+                ),),
               )
             ],
           ),

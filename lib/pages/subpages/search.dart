@@ -54,77 +54,79 @@ class _SearchPageState extends State<SearchPage> {
               color: Color(0xff0c101b),
             ),
           ),
-          Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.center,
-                height: 35.0,
-                child: Container(
-                  width: MediaQuery.of(context).size.width / 1.1,
-                  height: 35,
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      fillColor: Colors.white,
-                      hintText: 'Поиск',
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                    onSubmitted: (String input) {
-                      onTextFieldSubmitted(input);
-                    },
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(15)
-                      ),
-                      color: Colors.white
-                  ),
-                ),
-              ),
-              if (animeList.isEmpty) Container(
-                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
-                child: Center(
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Начать поиск',
-                        style: h1Style,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width / 1.2,
-                        child: const Text(
-                          'Поиск по названию фильма, сериала, персонажа, режисера, производственной компании, описанию и тегах.',
-                          style: smallStyle,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-              else Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Container(
-                  height: 558,
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
                   width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: animeList.length ~/3,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Row(
-                        children: [
-                          if (3 * index < animeList.length) searchCard(context, animeList[3 * index]),
-                          if (3 * index + 1 < animeList.length) searchCard(context, animeList[3 * index + 1]),
-                          if (3 * index + 2 < animeList.length) searchCard(context, animeList[3 * index + 2]),
-                        ]
-                      );
-                    }
+                  alignment: Alignment.center,
+                  height: 35.0,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 1.1,
+                    height: 35,
+                    child: TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration(
+                        fillColor: Colors.white,
+                        hintText: 'Поиск',
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                      onSubmitted: (String input) {
+                        onTextFieldSubmitted(input);
+                      },
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(15)
+                        ),
+                        color: Colors.white
+                    ),
                   ),
                 ),
-              )
-            ],
+                if (animeList.isEmpty) Container(
+                  margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Начать поиск',
+                          style: h1Style,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.2,
+                          child: const Text(
+                            'Поиск по названию фильма, сериала, персонажа, режисера, производственной компании, описанию и тегах.',
+                            style: smallStyle,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                else Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Container(
+                    height: 558,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: animeList.length ~/3,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Row(
+                          children: [
+                            if (3 * index < animeList.length) searchCard(context, animeList[3 * index]),
+                            if (3 * index + 1 < animeList.length) searchCard(context, animeList[3 * index + 1]),
+                            if (3 * index + 2 < animeList.length) searchCard(context, animeList[3 * index + 2]),
+                          ]
+                        );
+                      }
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ]
       )

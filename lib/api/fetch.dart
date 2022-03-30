@@ -49,7 +49,8 @@ Future<Map<String, dynamic>> fetchRelease(String id) async {
     // return Release.fromJson(jsonDecode(response.body));
     return {
       'list': await fetchReleaseUserList(id),
-      'release': Release.fromJson(jsonDecode(response.body))
+      'release': Release.fromJson(jsonDecode(response.body)),
+      'links': await fetchLinks(id)
     };
   } else {
     throw Exception('Не удалось загрузить список Сейчас в тренде');
@@ -144,8 +145,73 @@ Future fetchReleaseUserList(id) async {
   final response = await http.post(Uri.parse('https://aniu.ru/app/release?list='+id), headers: headers);
   if (response.statusCode == 200) {
     // update == 'success'
+    if(response.body == '') return 'false';
     return jsonDecode(response.body)['list'];
   } else {
     throw Exception('Не удалось загрузить список пользователя для релиза');
+  }
+}
+
+Future fetchLinks(id) async {
+  final response = await http.post(Uri.parse('https://aniu.ru/api/v1/release.links?id='+id));
+  Map links = {};
+  if (response.statusCode == 200) {
+    // update == 'success'
+    var linkList = [];
+    if(jsonDecode(response.body)['links'] != null) {
+      links['links'] = jsonDecode(response.body)['links'];
+      for (var link in links['links']) {
+        linkList.add(Release.fromJson(link));
+      }
+    }
+    links['links'] = linkList;
+    var relatedList = [];
+    if(jsonDecode(response.body)['related'] != null && jsonDecode(response.body)['related'] != false) {
+      links['related'] = jsonDecode(response.body)['related'];
+      for (var related in links['related']) {
+        relatedList.add(Release.fromJson(related));
+      }
+    }
+    links['related'] = relatedList;
+    return links;
+  } else {
+    throw Exception('Не удалось загрузить список пользователя для релиза');
+  }
+}
+
+Future fetchAnimePage(int pageNumber) async {
+  final response = await http.get(Uri.parse("https://aniu.ru/anime?page=" + pageNumber.toString() + "&"));
+  if(response.statusCode == 200) {
+    return parseAnimePage(response.body);
+  } else {
+    throw Exception('Не удалось загрузить страницу аниме');
+  }
+}
+
+Future fetchDoramaPage(int pageNumber) async {
+  final response = await http.get(Uri.parse("https://aniu.ru/anime/dorama?page=" + pageNumber.toString() + "&"));
+  if(response.statusCode == 200) {
+    return parseDoramaPage(response.body);
+  } else {
+    throw Exception('Не удалось загрузить страницу дорам');
+  }
+}
+
+Future fetchCollectionPage(int pageNumber) async {
+  final response = await http.get(Uri.parse("https://aniu.ru/collection?page=" + pageNumber.toString()));
+  if(response.statusCode == 200) {
+    return parseCollectionPage(response.body);
+  } else {
+    throw Exception('Не удалось загрузить страницу коллекций');
+  }
+}
+
+Future fetchCollection(String href) async {
+
+  final response = await http.get(Uri.parse("https://aniu.ru/" + href));
+  if(response.statusCode == 200) {
+    return parseCollection(response.body);
+  } else {
+    throw Exception('Не удалось загрузить страницу коллекций');
   }
 }

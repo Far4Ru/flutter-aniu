@@ -113,11 +113,19 @@ Widget overviewPage(BuildContext context) {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 15.0),
-                                    child: Text(comments[index].message ?? '', style: smallStyle,),
+                                    child: Text(
+                                      comments[index]
+                                        .message
+                                        .replaceAll(RegExp(r'\<br>'), "\n")
+                                        .replaceAll(RegExp(r'\<[\x00-\x7F]+\>'), "")
+                                        .replaceAll(RegExp(r'\&quot\;'), '"')
+                                        ?? '',
+                                      style: smallStyle,
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 15.0),
-                                    child: Text(comments[index].title, style: titleStyle,),
+                                    child: Text(comments[index].title ?? '', style: titleStyle,),
                                   )
                                 ]
                               ),
