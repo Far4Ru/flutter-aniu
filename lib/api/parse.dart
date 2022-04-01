@@ -49,7 +49,7 @@ parseSearch(body) async {
 }
 
 Future<String?> parseRelease(body) async {
-  var document = await parse(body);
+  var document = parse(body);
   String? searchContent =
       document.getElementById("content")!.attributes['data-id'];
   if (searchContent != null) {
@@ -110,6 +110,7 @@ parseAnimePage(body) {
     for (var release in articles) {
       String id = release.attributes['id'] ?? '';
       String title = release.attributes['data-title'] ?? '';
+      print(title);
       String originalTitle = release.getElementsByClassName('name-en info-original').first.innerHtml;
       String type = release.attributes['data-kind'] ?? '';
       String status = release.attributes['data-status'] ?? '';

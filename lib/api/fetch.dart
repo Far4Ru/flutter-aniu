@@ -7,7 +7,6 @@ import 'package:aniu/models/display_data/character.dart';
 import 'package:aniu/models/display_data/top_users.dart';
 import 'package:aniu/models/objectbox/cookies.dart';
 import 'package:aniu/models/objectbox/user.dart';
-import 'package:aniu/models/requests/character.dart';
 import 'package:aniu/models/requests/comment.dart';
 import 'package:aniu/models/requests/release.dart';
 import 'package:aniu/models/requests/role.dart';

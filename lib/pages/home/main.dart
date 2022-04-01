@@ -1,4 +1,5 @@
 import 'package:aniu/api/fetch.dart';
+import 'package:aniu/data/sizes.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/swiper.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/material.dart';
 
 Widget homePage(BuildContext context) {
   Map<String, List> data;
+  double width = MediaQuery.of(context).size.width;
+  double height = MediaQuery.of(context).size.height;
 
   return FutureBuilder(
     future: fetchHome(),
@@ -19,55 +22,55 @@ Widget homePage(BuildContext context) {
           // shrinkWrap: true,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 19.0, right: 19.0),
+              padding: EdgeInsets.only(left: width * 19.0 / templateWidth, right: width * 19.0 / templateWidth),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 14.0, ),
-                    child: Text(
+                  Padding(
+                    padding: EdgeInsets.only(top: height * 14.0 / templateHeight),
+                    child: const Text(
                         'Аниме',
                         style: h1Style
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 5.0,),
-                    child: Text('Сейчас в тренде',
+                  Padding(
+                    padding: EdgeInsets.only(top: height * 5.0 / templateHeight),
+                    child: const Text('Сейчас в тренде',
                         style: h3Style
                     ),
                   ),
                   swiper(context, data['popular'] ?? []),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 19.0,),
-                    child: Text('Онгоинги',
+                  Padding(
+                    padding: EdgeInsets.only(top: height * 19.0 / templateHeight),
+                    child: const Text('Онгоинги',
                         style: h3Style
                     ),
                   ),
                   swiper(context, data['ongoings'] ?? []),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 19.0,),
-                    child: Text('Сериалы',
+                  Padding(
+                    padding: EdgeInsets.only(top: height * 19.0 / templateHeight),
+                    child: const Text('Сериалы',
                         style: h3Style
                     ),
                   ),
                   swiper(context, data['released'] ?? []),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 19.0,),
-                    child: Text('Фильмы',
+                  Padding(
+                    padding: EdgeInsets.only(top: height * 19.0 / templateHeight),
+                    child: const Text('Фильмы',
                         style: h3Style
                     ),
                   ),
                   swiper(context, data['movies'] ?? []),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 19.0,),
-                    child: Text('Последние обновленные',
+                  Padding(
+                    padding: EdgeInsets.only(top: height * 19.0 / templateHeight),
+                    child: const Text('Последние обновленные',
                         style: h3Style
                     ),
                   ),
                   swiper(context, data['new'] ?? []),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 19.0,),
-                    child: Text('Сейчас смотрят',
+                  Padding(
+                    padding: EdgeInsets.only(top: height * 19.0 / templateHeight),
+                    child: const Text('Сейчас смотрят',
                         style: h3Style
                     ),
                   ),

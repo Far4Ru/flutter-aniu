@@ -1,7 +1,6 @@
 import 'package:aniu/home.dart';
 import 'package:flutter/material.dart';
 import 'helpers/store.dart';
-import 'pages/subpages/anime.dart';
 
 late ObjectBox objectbox;
 

@@ -2,13 +2,15 @@ import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/helpers/column_builder.dart';
 import 'package:aniu/models/display_data/dorama.dart';
-import 'package:aniu/pages/router.dart';
+import 'package:aniu/pages/widgets/doramaCard.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 Widget dramaListPage(BuildContext context) {
   final _key = GlobalKey<ScaffoldState>();
   List<DoramaDisplayData> data;
+  double width = MediaQuery.of(context).size.width;
+  double height = MediaQuery.of(context).size.height;
 
   return FutureBuilder(
       future: fetchDoramaPage(1),
@@ -54,38 +56,5 @@ Widget dramaListPage(BuildContext context) {
           );
         }
       }
-  );
-}
-Widget doramaCard(BuildContext context, DoramaDisplayData release) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 13.0, top: 8.0),
-    child: GestureDetector(
-      onTap: (){
-        toDoramaPage(context, release.id);
-      },
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              release.poster,
-              fit: BoxFit.cover,
-              width: 120,
-              height: 120 * 1.456,
-            ),
-          ),
-          Container(
-            width: 120,
-            height: 40,
-            child: Text(
-                release.title,
-                style: smallStyle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis
-            ),
-          )
-        ],
-      ),
-    ),
   );
 }

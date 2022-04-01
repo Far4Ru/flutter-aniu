@@ -24,9 +24,14 @@ class _ResetPageState extends State<ResetPage> {
     ),
   );
 
+  double width = 0;
+  double height = 0;
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
     return MaterialApp(
       home: Scaffold(
           body: Stack(

@@ -2,13 +2,15 @@ import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/helpers/column_builder.dart';
 import 'package:aniu/models/display_data/collection.dart';
-import 'package:aniu/pages/router.dart';
+import 'package:aniu/pages/widgets/collectionCard.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 Widget collectionListPage(BuildContext context) {
   final _key = GlobalKey<ScaffoldState>();
   List<CollectionDisplayData> data;
+  double width = MediaQuery.of(context).size.width;
+  double height = MediaQuery.of(context).size.height;
 
   return FutureBuilder(
       future: fetchCollectionPage(1),
@@ -56,36 +58,3 @@ Widget collectionListPage(BuildContext context) {
   );
 }
 
-Widget collectionCard(BuildContext context, CollectionDisplayData release) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 13.0, top: 8.0),
-    child: GestureDetector(
-      onTap: (){
-        toCollectionPage(context, release.href);
-      },
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              release.image,
-              fit: BoxFit.cover,
-              width: 190,
-              height: 190 / 1.77,
-            ),
-          ),
-          Container(
-            width: 190,
-            height: 40,
-            child: Text(
-                release.name,
-                style: smallStyle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis
-            ),
-          )
-        ],
-      ),
-    ),
-  );
-}

@@ -1,4 +1,5 @@
 import 'package:aniu/api/fetch.dart';
+import 'package:aniu/data/sizes.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/helpers/column_builder.dart';
 import 'package:aniu/models/display_data/top_users.dart';
@@ -18,8 +19,14 @@ class _TopUsersPageState extends State<TopUsersPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _key = GlobalKey<ScaffoldState>();
 
+  double width = 0;
+  double height = 0;
+
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -32,8 +39,8 @@ class _TopUsersPageState extends State<TopUsersPage> {
         body: Stack(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+                height: height,
+                width: width,
                 decoration: const BoxDecoration(
                   color: Color(0xff0c101b),
                 ),
@@ -47,20 +54,20 @@ class _TopUsersPageState extends State<TopUsersPage> {
                     List<TopUsersDisplayData> data = snap.data;
                     return ListView(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(top: 14.0, left: 19.0, right: 19.0),
-                          child: Text('Топ 100', style: h1Style),
+                        Padding(
+                          padding: EdgeInsets.only(top: height * 14.0 / templateHeight, left: width * 19.0 / templateWidth, right: width * 19.0 / templateWidth),
+                          child: const Text('Топ 100', style: h1Style),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 14.0, left: 19.0, right: 19.0),
+                          padding: EdgeInsets.only(top: height * 14.0 / templateHeight, left: width * 19.0 / templateWidth, right: width * 19.0 / templateWidth),
                           child: ColumnBuilder(
                               key: _key,
                               itemCount: data.length,
                               itemBuilder: (BuildContext context, int index){
                                 return Container(
                                   color: const Color(0xff090c15),
-                                  padding: const EdgeInsets.all(20),
-                                  margin: const EdgeInsets.all(1),
+                                  padding: EdgeInsets.all(height * 20 / templateHeight),
+                                  margin: EdgeInsets.all(height * 1 / templateHeight),
                                   child: GestureDetector(
                                     onTap: (){
                                       toUserPage(context, data[index].id);
@@ -77,15 +84,21 @@ class _TopUsersPageState extends State<TopUsersPage> {
                                               radius: 23,
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 10.0),
+                                              padding: EdgeInsets.only(left: width * 10.0 / templateWidth),
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.only(bottom: 5.0),
+                                                    padding: EdgeInsets.only(bottom: height * 5.0 / templateHeight),
                                                     child: Text(data[index].name, style: titleStyle,),
                                                   ),
-                                                  Text(data[index].description, style: smallStyle,)
+                                                  SizedBox(
+                                                    height: height * 40 / templateHeight,
+                                                    width: width * 220 /  templateWidth,
+                                                    child: Text(data[index].description, style: smallStyle,
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis),
+                                                  )
                                                 ],
                                               ),
                                             ),
