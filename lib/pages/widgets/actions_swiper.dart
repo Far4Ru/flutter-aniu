@@ -1,3 +1,4 @@
+import 'package:aniu/data/sizes.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/models/display_data/quick_actions.dart';
 import 'package:flutter/material.dart';
@@ -5,15 +6,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 
 Widget actionsSwiper(BuildContext context, List<QuickActionsDisplayData> items) {
+  double width = MediaQuery.of(context).size.width;
+  double height = MediaQuery.of(context).size.height;
+
   return Container(
-    height: 280,
-    width: MediaQuery.of(context).size.width,
+    height: height * 280 / templateHeight,
+    width: width,
     child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: items.length ~/ 2,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
-            padding: index == 0 ? const EdgeInsets.only() : const EdgeInsets.only(left: 10.0),
+            padding: index == 0 ? const EdgeInsets.only() : EdgeInsets.only(left: width * 10.0 / templateWidth),
             child: Column(
               children: [
                 _quickActionCard(context, items[2 * index]),
@@ -27,6 +31,9 @@ Widget actionsSwiper(BuildContext context, List<QuickActionsDisplayData> items) 
 }
 
 Widget _quickActionCard(BuildContext context, QuickActionsDisplayData quickActionsItem) {
+  double width = MediaQuery.of(context).size.width;
+  double height = MediaQuery.of(context).size.height;
+
   return GestureDetector(
     onTap: (){
       quickActionsItem.type != null
@@ -34,19 +41,19 @@ Widget _quickActionCard(BuildContext context, QuickActionsDisplayData quickActio
           : quickActionsItem.toPage(context);
     },
     child: Padding(
-      padding: const EdgeInsets.only(top: 10.0),
+      padding: EdgeInsets.only(top: height * 10.0 / templateHeight),
       child: Container(
-        height: 180 * 0.7,
-        width: 180,
+        height: height * 180 * 0.7 / templateHeight,
+        width: width * 180 / templateWidth,
         child: Stack(
           children: [
             Container(
               alignment: Alignment.bottomRight,
               child: Padding(
-                padding: const EdgeInsets.only(right: 5.0),
+                padding: EdgeInsets.only(right: width * 5.0 / templateWidth),
                 child: Container(
-                  width: 90,
-                  height: 90,
+                  width: width * 90 / templateWidth,
+                  height: height * 90 / templateHeight,
                   alignment: Alignment.bottomRight,
                   child: quickActionsItem.asset.length == 1
                       ? Text(quickActionsItem.asset, style: backgroundCardStyle,)
@@ -58,15 +65,15 @@ Widget _quickActionCard(BuildContext context, QuickActionsDisplayData quickActio
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 12.0, top: 12.0),
+              padding: EdgeInsets.only(left: width * 12.0 / templateWidth, top: height * 12.0 / templateHeight),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(quickActionsItem.title, style: titleStyle,),
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: EdgeInsets.only(top: height * 5.0 / templateHeight),
                     child: Container(
-                      width: 120,
+                      width: width * 120 / templateWidth,
                       child: Text(
                         quickActionsItem.description,
                         style: smallStyle,

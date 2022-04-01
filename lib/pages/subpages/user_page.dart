@@ -1,7 +1,5 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
-import 'package:aniu/helpers/column_builder.dart';
-import 'package:aniu/models/display_data/top_users.dart';
 import 'package:aniu/models/display_data/user.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +15,14 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  double width = 0;
+  double height = 0;
+
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(

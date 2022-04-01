@@ -15,9 +15,13 @@ class CharacterPage extends StatefulWidget {
 
 class _CharacterPageState extends State<CharacterPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  double width = 0;
+  double height = 0;
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -46,11 +50,11 @@ class _CharacterPageState extends State<CharacterPage> {
                 return ListView(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 110.0),
+                      padding: const EdgeInsets.only(left: 110.0, right: 110.0, top: 28.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
                         child: SizedBox.fromSize(
-                          size: Size(9, 300),
+                          size: const Size(9, 300),
                           child: Image.network(
                               data.image,
                               fit: BoxFit.fitHeight
@@ -73,7 +77,7 @@ class _CharacterPageState extends State<CharacterPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                      padding: const EdgeInsets.only(left: 28.0, right: 28.0, bottom: 28),
                       child: ExpandableText(
                         data.description.replaceAll(RegExp(r'\<[\x00-\x7F]+\>'), ""),
                         expandText: 'читать полностью',

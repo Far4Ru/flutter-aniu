@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/api/save.dart';
+import 'package:aniu/data/sizes.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
@@ -37,6 +38,8 @@ class _ReleasePageState extends State<ReleasePage> {
   String releaseId = '0';
   String newReleaseId = '0';
   int swiperIndex = 0;
+  double width = 0;
+  double height = 0;
 
   @override
   void initState() {
@@ -74,6 +77,9 @@ class _ReleasePageState extends State<ReleasePage> {
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -109,7 +115,7 @@ class _ReleasePageState extends State<ReleasePage> {
                   // shrinkWrap: true,
                   children: [
                     if (data.poster != null) if (swipeList.length <= 1) Padding(
-                      padding: const EdgeInsets.only(left: 110.0, right:  110, top: 40, bottom:40),
+                      padding: EdgeInsets.only(left: width * 110.0 / templateWidth, right:  width * 110 / templateWidth, top: 40, bottom:40),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
                         child: SizedBox.fromSize(
@@ -420,7 +426,7 @@ class _ReleasePageState extends State<ReleasePage> {
                         var data = snap.data;
                         return Padding(
                           padding: const EdgeInsets.only(
-                              left: 28.0, top: 15.0, bottom: 20.0),
+                              left: 28.0, top: 15.0, bottom: 20.0, right: 28.0),
                           child: characterSwiper(context, data ?? []),
                         );
                       },

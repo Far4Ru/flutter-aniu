@@ -11,8 +11,14 @@ class RulesPage extends StatefulWidget {
 class _RulesPageState extends State<RulesPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  double width = 0;
+  double height = 0;
+
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(

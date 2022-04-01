@@ -32,6 +32,9 @@ class _PlayerPageState extends State<PlayerPage> {
   double progress = 0;
   final urlController = TextEditingController();
 
+  double width = 0;
+  double height = 0;
+
   @override
   void initState() {
     super.initState();
@@ -53,6 +56,9 @@ class _PlayerPageState extends State<PlayerPage> {
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
     return MaterialApp(
       home: Scaffold(
           key: _key,

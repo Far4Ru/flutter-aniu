@@ -5,6 +5,7 @@ import 'package:aniu/pages/subpages/character.dart';
 import 'package:aniu/pages/subpages/collection.dart';
 import 'package:aniu/pages/subpages/collections.dart';
 import 'package:aniu/pages/subpages/rules.dart';
+import 'package:aniu/pages/subpages/search.dart';
 import 'package:aniu/pages/subpages/settings.dart';
 import 'package:aniu/pages/subpages/top_users.dart';
 import 'package:aniu/pages/subpages/user_lists.dart';
@@ -163,4 +164,13 @@ toTiktokPage(context) async {
 
 toDiscordPage(context) async {
   if (!await launch('https://discord.gg/pa3XvuFHMZ')) throw 'Не удается запустить страницу с дискордом';
+}
+
+void toSearchPage(BuildContext context) async {
+  await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const SearchPage()
+      )
+  );
 }

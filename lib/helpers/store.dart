@@ -1,4 +1,4 @@
-import '../objectbox.g.dart';
+import 'package:aniu/objectbox.g.dart';
 
 class ObjectBox {
   late final Store store;

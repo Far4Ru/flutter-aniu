@@ -1,4 +1,5 @@
 import 'package:aniu/api/check.dart';
+import 'package:aniu/data/sizes.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/pages/home/main.dart';
 import 'package:aniu/pages/home/notifications.dart';
@@ -8,12 +9,9 @@ import 'package:aniu/pages/lists/anime.dart';
 import 'package:aniu/pages/lists/collections.dart';
 import 'package:aniu/pages/lists/dramas.dart';
 import 'package:aniu/pages/router.dart';
-import 'package:aniu/pages/subpages/rules.dart';
 import 'package:aniu/pages/webview/login.dart';
-import 'package:aniu/pages/subpages/search.dart';
 import 'package:aniu/pages/subpages/settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
@@ -48,8 +46,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  double width = 0;
+  double height = 0;
+
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
@@ -59,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                padding: const EdgeInsets.only(top: 50.0, left: 20),
+                padding: EdgeInsets.only(top: height * 50.0 / templateHeight, left: width * 20 / templateWidth),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -72,23 +76,23 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.only(top: height * 15 / templateHeight),
                       child: GestureDetector(
                         onTap: () => setState(() {
                           Navigator.pop(context);
                           _onItemTapped(3);
                         }),
                         child: Row(
-                          children: const [
-                            CircleAvatar(
+                          children: [
+                            const CircleAvatar(
                               backgroundImage: NetworkImage(
                                   'https://aniu.ru/avatars/xno_avatar.png.pagespeed.ic.c6U61IAjHI.webp'
                               ),
                               radius: 18,
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 15.0),
-                              child: Text('Гость', style: titleStyle),
+                              padding: EdgeInsets.only(left: width * 15.0 / templateWidth),
+                              child: const Text('Гость', style: titleStyle),
                             ),
                           ],
                         ),
@@ -174,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                     },
                     title: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           height: 20,
                           width: 20,
                           child: SvgPicture.asset(
@@ -200,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                     },
                     title: Row(
                       children: [
-                        Container(
+                        SizedBox(
                           height: 20,
                           width: 20,
                           child: SvgPicture.asset(
@@ -222,7 +226,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 10.0, top: 40),
+                padding: EdgeInsets.only(left: width * 10.0 / templateWidth, top: height * 40 / templateHeight),
                 child: Row(
                   //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -249,9 +253,9 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10.0, right: 15, top: 15),
-                child: Text("Авторы приложения не несут ответственности за его содержимое. © «Анию», 2022", style: TextStyle(
+              Padding(
+                padding: EdgeInsets.only(left: width * 10.0 / templateWidth, right: width * 15 / templateWidth, top: height * 15 / templateHeight),
+                child: const Text("Авторы приложения не несут ответственности за его содержимое. © «Анию», 2022", style: TextStyle(
                     fontFamily: 'Source Sans Pro',
                     fontSize: 12,
                     fontWeight: FontWeight.normal,
@@ -273,7 +277,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           if (_selectedIndex != 3)
             IconButton(
-              onPressed: () { _toSearchPage(context); },
+              onPressed: () { toSearchPage(context); },
               icon: SvgPicture.asset(
                 'assets/icons/search.svg' ,
                 color: const Color(0xff6c757d),
@@ -293,8 +297,8 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           Container(
-          height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
+          height: height,
+            width: width,
             decoration: const BoxDecoration(
               color: Color(0xff0c101b),
             ),
@@ -377,14 +381,5 @@ class _HomePageState extends State<HomePage> {
         }
     );
   }
-}
-
-void _toSearchPage(BuildContext context) async {
-  await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const SearchPage()
-    )
-  );
 }
 

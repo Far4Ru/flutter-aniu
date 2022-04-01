@@ -1,7 +1,9 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
+import 'package:aniu/helpers/column_builder.dart';
 import 'package:aniu/models/requests/release.dart';
 import 'package:aniu/pages/router.dart';
+import 'package:aniu/pages/widgets/searchCard.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -14,6 +16,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _key = GlobalKey<ScaffoldState>();
   final _controller = TextEditingController();
   List animeList = [];
 
@@ -34,8 +37,14 @@ class _SearchPageState extends State<SearchPage> {
     getSearchResults(input);
   }
 
+  double width = 0;
+  double height = 0;
+
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -57,30 +66,33 @@ class _SearchPageState extends State<SearchPage> {
           SingleChildScrollView(
             child: Column(
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.center,
-                  height: 35.0,
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width / 1.1,
-                    height: 35,
-                    child: TextField(
-                      controller: _controller,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
-                        hintText: 'Поиск',
-                        prefixIcon: Icon(Icons.search),
-                      ),
-                      onSubmitted: (String input) {
-                        onTextFieldSubmitted(input);
-                      },
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(15)
+                    width: MediaQuery.of(context).size.width,
+                    alignment: Alignment.center,
+                    height: 35.0,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 1.1,
+                      height: 35,
+                      child: TextField(
+                        controller: _controller,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          hintText: 'Поиск',
+                          prefixIcon: Icon(Icons.search),
                         ),
-                        color: Colors.white
+                        onSubmitted: (String input) {
+                          onTextFieldSubmitted(input);
+                        },
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(15)
+                          ),
+                          color: Colors.white
+                      ),
                     ),
                   ),
                 ),
@@ -108,10 +120,9 @@ class _SearchPageState extends State<SearchPage> {
                 else Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Container(
-                    height: 558,
                     width: MediaQuery.of(context).size.width,
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
+                    child: ColumnBuilder(
+                      key: _key,
                       itemCount: animeList.length ~/3,
                       itemBuilder: (BuildContext context, int index) {
                         return Row(
@@ -132,40 +143,6 @@ class _SearchPageState extends State<SearchPage> {
       )
     );
   }
-}
-
-Widget searchCard(BuildContext context, Release release) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 13.0, top: 8.0),
-    child: GestureDetector(
-      onTap: (){
-        toAnimePage(context, release.id ?? '');
-      },
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              "https://aniu.ru/posters/"+(release.poster ?? '') +".jpg",
-              fit: BoxFit.cover,
-              width: 120,
-              height: 120 * 1.456,
-            ),
-          ),
-          Container(
-            width: 120,
-            height: 40,
-            child: Text(
-                release.titleRu ?? '',
-                style: smallStyle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis
-            ),
-          )
-        ],
-      ),
-    ),
-  );
 }
 
 Widget searchPage(BuildContext context) {
