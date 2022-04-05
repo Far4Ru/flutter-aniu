@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aniu/api/check.dart';
 import 'package:aniu/data/sizes.dart';
 import 'package:aniu/data/text_styles.dart';
@@ -24,7 +26,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 0;
-  final List<Widget Function(BuildContext context)> _widgetOptions = [
+  final List<Widget Function(BuildContext context, StreamController streamController)> _widgetOptions = [
     homePage,
     overviewPage,
     notificationsPage,
@@ -54,6 +56,7 @@ class _HomePageState extends State<HomePage> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
 
+    StreamController streamController = StreamController();
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
@@ -304,7 +307,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Center(
-            child: _widgetOptions.elementAt(_selectedIndex)(context),
+            child: _widgetOptions.elementAt(_selectedIndex)(context, streamController),
           ),
         ],
       ),

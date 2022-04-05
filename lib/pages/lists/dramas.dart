@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/helpers/column_builder.dart';
@@ -6,7 +8,7 @@ import 'package:aniu/pages/widgets/doramaCard.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
 
-Widget dramaListPage(BuildContext context) {
+Widget dramaListPage(BuildContext context, StreamController streamController) {
   final _key = GlobalKey<ScaffoldState>();
   List<DoramaDisplayData> data;
   double width = MediaQuery.of(context).size.width;

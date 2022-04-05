@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/display_items.dart';
 import 'package:aniu/data/sizes.dart';
@@ -9,7 +11,7 @@ import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/swiper.dart';
 import 'package:flutter/material.dart';
 
-Widget overviewPage(BuildContext context) {
+Widget overviewPage(BuildContext context, StreamController streamController) {
   Map<String, List> data;
   List comments;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
