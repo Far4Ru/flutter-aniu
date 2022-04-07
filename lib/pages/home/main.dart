@@ -15,6 +15,7 @@ Widget homePage(BuildContext context, StreamController streamController) {
     streamController.add(await fetchHome());
   }
   load();
+
   return StreamBuilder(
     stream: streamController.stream,
     builder: (BuildContext context, AsyncSnapshot snap){

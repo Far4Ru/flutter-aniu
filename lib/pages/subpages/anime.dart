@@ -14,7 +14,6 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 class ReleasePage extends StatefulWidget {
   const ReleasePage({Key? key, required this.id}) : super(key: key);
-
   final String id;
 
   @override
@@ -102,6 +101,7 @@ class _ReleasePageState extends State<ReleasePage> {
             stream: streamController.stream,
             builder: (BuildContext context, AsyncSnapshot snap) {
               if(snap.hasData) {
+
                 var list = snap.data['list'];
                 if (list.toString() != 'false') {
                   if(_actions[int.parse(list['id'])] == list['name']) _selectedAction = _actions[int.parse(list['id'])];
@@ -111,7 +111,9 @@ class _ReleasePageState extends State<ReleasePage> {
                 var data = snap.data['release'];
                 swipeList.addAll(links['links']);
                 swiperIndex = swipeList.indexWhere((element) => element.id == data.id);
-                return ListView(
+                return RefreshIndicator(
+                  onRefresh: () => load(),
+                  child: ListView(
                   // shrinkWrap: true,
                   children: [
                     if (data.poster != null) if (swipeList.length <= 1) Padding(
@@ -432,13 +434,13 @@ class _ReleasePageState extends State<ReleasePage> {
                       },
                     ),
                   ],
-                );
+                ));
               }
               else {
                 return LoadingScreen(context);
               }
             },
-          ),
+            ),
         ],
       ),
     );
