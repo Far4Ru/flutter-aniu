@@ -1,8 +1,6 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/helpers/column_builder.dart';
-import 'package:aniu/models/requests/release.dart';
-import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/searchCard.dart';
 import 'package:flutter/material.dart';
 

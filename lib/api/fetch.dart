@@ -59,7 +59,7 @@ Future<Map<String, dynamic>> fetchRelease(String id) async {
 Future<String?> fetchRandomRelease() async {
   final response = await http.get(Uri.parse('https://anixart.ru/anime/random'));
   if(response.statusCode == 200) {
-    return parseRelease(response.body);
+    return parseRandomRelease(response.body);
   } else {
     throw Exception('Не удалось загрузить cлучайное аниме');
   }
@@ -148,6 +148,18 @@ Future fetchReleaseUserList(id) async {
     return jsonDecode(response.body)['list'];
   } else {
     throw Exception('Не удалось загрузить список пользователя для релиза');
+  }
+}
+
+Future fetchUserList(String type) async {
+  Map<String, String> headers = {};
+  headers['cookie'] = StoredCookies().toString();
+  headers['User-Agent'] = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Mobile Safari/537.36';
+  final response = await http.get(Uri.parse("https://aniu.ru/user/?list=" + type), headers: headers);
+  if(response.statusCode == 200) {
+    return parseReleaseList(response.body);
+  } else {
+    throw Exception('Не удалось загрузить данные пользователя');
   }
 }
 

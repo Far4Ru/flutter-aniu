@@ -40,10 +40,11 @@ toCollectionsPage(context) async{
 }
 
 toFavouritesPage(context, String type) async {
+  print(type);
   await Navigator.push(
     context,
     MaterialPageRoute(
-        builder: (context) => UserListsPage(id: type)
+        builder: (context) => UserListsPage(type: type)
     )
   );
 }
