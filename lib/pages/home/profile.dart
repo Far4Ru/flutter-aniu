@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/sizes.dart';
 import 'package:aniu/data/text_styles.dart';
@@ -7,7 +9,7 @@ import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-Widget profilePage(BuildContext context) {
+Widget profilePage(BuildContext context, StreamController streamController) {
   final _key = GlobalKey<ScaffoldState>();
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;

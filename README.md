@@ -44,6 +44,13 @@
 </details>
 
 <details>
+<summary>Получение последних изменений в ветке</summary>
+
+    git pull
+
+</details>
+
+<details>
 <summary>Добавление изменений</summary>
 
     git add .
