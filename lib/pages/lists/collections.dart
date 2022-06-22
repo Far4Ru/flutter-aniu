@@ -15,7 +15,7 @@ Widget collectionListPage(BuildContext context, StreamController streamControlle
   double height = MediaQuery.of(context).size.height;
 
   return FutureBuilder(
-      future: fetchCollectionPage(1),
+      future: fetchCollectionPage(0),
       builder: (BuildContext context, AsyncSnapshot snap){
         if(snap.data == null) {
           return LoadingScreen(context);
@@ -40,7 +40,7 @@ Widget collectionListPage(BuildContext context, StreamController streamControlle
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ColumnBuilder(
                       // scrollDirection: Axis.vertical,
-                      itemCount: data.length ~/2,
+                      itemCount: data.length < 2 ? data.length : data.length ~/ 2 + 1,
                       itemBuilder: (BuildContext context, int index) {
                         return Row(
                             children: [

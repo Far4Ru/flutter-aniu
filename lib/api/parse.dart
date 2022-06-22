@@ -127,7 +127,7 @@ parseAnimePage(body) {
   if (articles != null) {
     for (var release in articles) {
       String id = release.attributes['id'] ?? '';
-      String title = release.attributes['data-title'] ?? '';
+      String title = release.getElementsByTagName('div').first.attributes['data-title'] ?? '';
       // print(title);
       String originalTitle = release
           .getElementsByClassName('name-en info-original')

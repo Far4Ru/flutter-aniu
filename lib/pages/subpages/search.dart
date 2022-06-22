@@ -1,6 +1,7 @@
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/text_styles.dart';
 import 'package:aniu/helpers/column_builder.dart';
+import 'package:aniu/pages/widgets/loading_screen.dart';
 import 'package:aniu/pages/widgets/searchCard.dart';
 import 'package:flutter/material.dart';
 
@@ -17,17 +18,21 @@ class _SearchPageState extends State<SearchPage> {
   final _key = GlobalKey<ScaffoldState>();
   final _controller = TextEditingController();
   List animeList = [];
+  bool isLoading = false;
 
   void getSearchResults(String input) async {
+    isLoading = true;
     if (input.isEmpty) {
       setState(() {
         animeList = [];
+        isLoading = false;
       });
       return;
     }
     var result = await fetchSearch(input);
     setState(() {
       animeList = result;
+      isLoading = false;
     });
   }
 
@@ -61,6 +66,7 @@ class _SearchPageState extends State<SearchPage> {
               color: Color(0xff0c101b),
             ),
           ),
+          if (isLoading) LoadingScreen(context),
           SingleChildScrollView(
             child: Column(
               children: [
@@ -94,7 +100,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 ),
-                if (animeList.isEmpty) Container(
+                if (!isLoading) if (animeList.isEmpty) Container(
                   margin: EdgeInsets.only(top: MediaQuery.of(context).size.height / 3),
                   child: Center(
                     child: Column(
@@ -115,13 +121,13 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                 )
-                else Padding(
+                else if (!isLoading) Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     child: ColumnBuilder(
                       key: _key,
-                      itemCount: animeList.length ~/3,
+                      itemCount: animeList.length < 3 ? animeList.length : animeList.length ~/ 3 + 1,
                       itemBuilder: (BuildContext context, int index) {
                         return Row(
                           children: [

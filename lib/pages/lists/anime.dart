@@ -15,7 +15,7 @@ Widget animeListPage(BuildContext context, StreamController streamController) {
   double height = MediaQuery.of(context).size.height;
 
   return FutureBuilder(
-      future: fetchAnimePage(1),
+      future: fetchAnimePage(0),
       builder: (BuildContext context, AsyncSnapshot snap){
         if(snap.data == null) {
           return LoadingScreen(context);
@@ -45,7 +45,7 @@ Widget animeListPage(BuildContext context, StreamController streamController) {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: ColumnBuilder(
                   // scrollDirection: Axis.vertical,
-                  itemCount: data.length ~/3,
+                  itemCount: data.length < 3 ? data.length : data.length ~/3 + 1,
                   itemBuilder: (BuildContext context, int index) {
                     return Row(
                       children: [

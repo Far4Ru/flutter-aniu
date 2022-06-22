@@ -1,5 +1,6 @@
 import 'package:aniu/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'helpers/store.dart';
 
 late ObjectBox objectbox;
@@ -7,6 +8,10 @@ late ObjectBox objectbox;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   objectbox = await ObjectBox.create();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Color(0xff0c101b),
+      statusBarColor: Color(0xff0c101b)
+  ));
   runApp(const AniuApp());
 }
 
@@ -18,6 +23,7 @@ class AniuApp extends StatelessWidget {
     return MaterialApp(
       title: 'Aniu App',
       theme: ThemeData(
+        colorScheme: const ColorScheme.dark(),
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),

@@ -15,7 +15,7 @@ Widget dramaListPage(BuildContext context, StreamController streamController) {
   double height = MediaQuery.of(context).size.height;
 
   return FutureBuilder(
-      future: fetchDoramaPage(1),
+      future: fetchDoramaPage(0),
       builder: (BuildContext context, AsyncSnapshot snap){
         if(snap.data == null) {
           return LoadingScreen(context);
@@ -40,7 +40,7 @@ Widget dramaListPage(BuildContext context, StreamController streamController) {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: ColumnBuilder(
                       // scrollDirection: Axis.vertical,
-                      itemCount: data.length ~/3,
+                      itemCount: data.length < 3 ? data.length : data.length ~/ 3 + 1,
                       itemBuilder: (BuildContext context, int index) {
                         return Row(
                             children: [
