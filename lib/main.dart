@@ -23,7 +23,6 @@ class AniuApp extends StatelessWidget {
     return MaterialApp(
       title: 'Aniu App',
       theme: ThemeData(
-        colorScheme: const ColorScheme.dark(),
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),

@@ -1,5 +1,14 @@
 # Aniu App
 
+<details>
+ <summary>Скриншоты</summary>
+
+![Скриншоты](https://github.com/Far4Ru/flutter-aniu/blob/main/images/screens.png)
+
+</details>
+
+[Скачать на Android](https://github.com/Far4Ru/flutter-aniu/blob/main/aniu-release.apk)
+
 ## Текущая ветка разработки
 
     dev_v1
@@ -9,7 +18,6 @@
 1. Создать новую ветку.
 2. Сделать коммит.
 3. Отправить запрос на слияние.
-
 
 ## Средства разработки
 
