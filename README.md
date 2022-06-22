@@ -3,11 +3,11 @@
 <details>
  <summary>Скриншоты</summary>
 
-![Скриншоты](https://github.com/Far4Ru/flutter-aniu/blob/main/images/screens.png)
+![Скриншоты](https://github.com/Far4Ru/flutter-aniu/blob/master/images/screens.png)
 
 </details>
 
-[Скачать на Android](https://github.com/Far4Ru/flutter-aniu/blob/main/aniu-release.apk)
+[Скачать на Android](https://raw.githubusercontent.com/Far4Ru/flutter-aniu/master/aniu-release.apk)
 
 ## Текущая ветка разработки
 
