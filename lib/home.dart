@@ -86,6 +86,7 @@ class _HomePageState extends State<HomePage> {
                           _onItemTapped(3);
                         }),
                         child: Row(
+                          // TODO: Изменять при входе/регистрации
                           children: [
                             const CircleAvatar(
                               backgroundImage: NetworkImage(

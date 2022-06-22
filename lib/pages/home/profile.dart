@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:aniu/api/fetch.dart';
 import 'package:aniu/data/sizes.dart';
 import 'package:aniu/data/text_styles.dart';
-import 'package:aniu/helpers/column_builder.dart';
 import 'package:aniu/models/display_data/user.dart';
 import 'package:aniu/pages/router.dart';
 import 'package:aniu/pages/widgets/loading_screen.dart';
@@ -96,7 +95,7 @@ Widget profilePage(BuildContext context, StreamController streamController) {
                   itemCount: user.stats.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: () => user.stats.keys.elementAt(index) == 'Аниме' ? toFavouritesPage(context, 'Смотрю') : '',
+                      onTap: () => user.stats.keys.elementAt(index) == 'Аниме' ? toFavouritesPage(context, 'watching') : '',
                       child: Padding(
                         padding: index < 1 ? EdgeInsets.only(top: height * 20.0 / templateHeight) : EdgeInsets.only(left: width * 23.0 / templateWidth,top: height * 20.0 / templateHeight),
                         child: Column(

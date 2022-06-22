@@ -117,7 +117,7 @@ class _ReleasePageState extends State<ReleasePage> {
                   // shrinkWrap: true,
                   children: [
                     if (data.poster != null) if (swipeList.length <= 1) Padding(
-                      padding: EdgeInsets.only(left: width * 110.0 / templateWidth, right:  width * 110 / templateWidth, top: 40, bottom:40),
+                      padding: EdgeInsets.only(left: width * 110.0 / templateWidth, right:  width * 110 / templateWidth, top: 10, bottom: 10),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(30.0),
                         child: SizedBox.fromSize(

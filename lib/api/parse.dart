@@ -25,7 +25,7 @@ parseProfile(body) {
   Map<String, String> stats = {
     for (var e in list ?? [])
       e.getElementsByTagName('small').first.innerHtml:
-      e.getElementsByTagName('div').first.innerHtml
+          e.getElementsByTagName('div').first.innerHtml
   };
   var data = UserDisplayData(
       name ?? '', stats, poster ?? '', avatar ?? '', tag ?? '', id ?? '');
@@ -48,7 +48,25 @@ parseSearch(body) async {
   return animeList;
 }
 
-Future<String?> parseRelease(body) async {
+List<ReleaseDisplayData> parseReleaseList(body) {
+  var document = parse(body);
+  List<ReleaseDisplayData> releaseList = [];
+  var searchContent = document.getElementsByClassName("row").first.children;
+
+  for (var e in searchContent) {
+      String? id = e.getElementsByTagName("a").first.attributes['data-release'];
+      String? title = e.getElementsByTagName("a").first.attributes['title'];
+      String? originalTitle = e.getElementsByTagName("a").first.attributes['data-title'];
+      String? type = e.getElementsByTagName("a").first.attributes['itemtype'];
+      String? year = e.getElementsByTagName("a").first.attributes['data-year'];
+      String? poster = e.getElementsByTagName("img").first.attributes['src'];
+
+      releaseList.add(ReleaseDisplayData(title!, id!, originalTitle!, type!, "ongoing", year!, poster!, ""));
+  }
+  return releaseList;
+}
+
+Future<String?> parseRandomRelease(body) async {
   var document = parse(body);
   String? searchContent =
       document.getElementById("content")!.attributes['data-id'];
@@ -106,18 +124,23 @@ parseAnimePage(body) {
   var document = parse(body);
   var articles = document.body?.getElementsByTagName('article');
   List<ReleaseDisplayData> releaseList = [];
-  if(articles != null){
+  if (articles != null) {
     for (var release in articles) {
       String id = release.attributes['id'] ?? '';
       String title = release.attributes['data-title'] ?? '';
-      print(title);
-      String originalTitle = release.getElementsByClassName('name-en info-original').first.innerHtml;
+      // print(title);
+      String originalTitle = release
+          .getElementsByClassName('name-en info-original')
+          .first
+          .innerHtml;
       String type = release.attributes['data-kind'] ?? '';
       String status = release.attributes['data-status'] ?? '';
       String year = release.attributes['data-year'] ?? '';
-      String poster = release.getElementsByTagName('img').first.attributes['src'] ?? '';
+      String poster =
+          release.getElementsByTagName('img').first.attributes['src'] ?? '';
       String ageRating = release.attributes['data-rating'] ?? '';
-      releaseList.add(ReleaseDisplayData(title, id, originalTitle, type, status, year, poster, ageRating));
+      releaseList.add(ReleaseDisplayData(
+          title, id, originalTitle, type, status, year, poster, ageRating));
     }
   }
   return releaseList;
@@ -127,15 +150,19 @@ List<DoramaDisplayData> parseDoramaPage(body) {
   var document = parse(body);
   var articles = document.body?.getElementsByTagName('article');
   List<DoramaDisplayData> doramaList = [];
-  if(articles != null){
+  if (articles != null) {
     for (var release in articles) {
       String id = release.attributes['id'] ?? '';
       String title = release.attributes['title'] ?? '';
-      String info =  release.getElementsByClassName('name-en info-original').first.innerHtml;
+      String info = release
+          .getElementsByClassName('name-en info-original')
+          .first
+          .innerHtml;
       String titleEn = info.split("<br>").first;
       String type = info.split("<br>").last.split(", ").first;
       String year = info.split("<br>").last.split(", ").last;
-      String poster = release.getElementsByTagName('img').first.attributes['src'] ?? '';
+      String poster =
+          release.getElementsByTagName('img').first.attributes['src'] ?? '';
       doramaList.add(DoramaDisplayData(title, id, titleEn, type, year, poster));
     }
   }
@@ -146,13 +173,23 @@ parseCollectionPage(body) {
   var document = parse(body);
   var divs = document.body?.getElementsByClassName('col-xxl-2');
   List<CollectionDisplayData> collectionList = [];
-  if(divs != null){
+  if (divs != null) {
     for (var div in divs) {
-      String image = div.getElementsByTagName('img').first.attributes['data-src'] ?? '';
-      String name = div.getElementsByClassName('collection-name').first.innerHtml;
-      String href = div.getElementsByTagName('a').first.attributes['href'] ?? '';
-      String favoritesCount = div.getElementsByClassName('collection-favorites-count').first.innerHtml.trim().split(' ').first;
-      collectionList.add(CollectionDisplayData(image, name, href, favoritesCount));
+      String image =
+          div.getElementsByTagName('img').first.attributes['data-src'] ?? '';
+      String name =
+          div.getElementsByClassName('collection-name').first.innerHtml;
+      String href =
+          div.getElementsByTagName('a').first.attributes['href'] ?? '';
+      String favoritesCount = div
+          .getElementsByClassName('collection-favorites-count')
+          .first
+          .innerHtml
+          .trim()
+          .split(' ')
+          .first;
+      collectionList
+          .add(CollectionDisplayData(image, name, href, favoritesCount));
     }
   }
   return collectionList;
@@ -162,23 +199,40 @@ parseCollection(body) {
   var document = parse(body);
   var articles = document.body?.getElementsByTagName('article');
   List<ReleaseDisplayData> releaseList = [];
-  if(articles != null){
+  if (articles != null) {
     for (var release in articles) {
       String id = release.attributes['id'] ?? '';
-      String title = release.getElementsByClassName('name-ru info-title').first.innerHtml;
-      String originalTitle = release.getElementsByClassName('name-en info-original').first.innerHtml;
-      String year = release.getElementsByClassName('name-en info-original').last.innerHtml.trim();
-      String poster = release.getElementsByTagName('img').first.attributes['src'] ?? '';
-      releaseList.add(ReleaseDisplayData(title, id, originalTitle, '', '', year, poster, ''));
+      String title =
+          release.getElementsByClassName('name-ru info-title').first.innerHtml;
+      String originalTitle = release
+          .getElementsByClassName('name-en info-original')
+          .first
+          .innerHtml;
+      String year = release
+          .getElementsByClassName('name-en info-original')
+          .last
+          .innerHtml
+          .trim();
+      String poster =
+          release.getElementsByTagName('img').first.attributes['src'] ?? '';
+      releaseList.add(ReleaseDisplayData(
+          title, id, originalTitle, '', '', year, poster, ''));
     }
   }
-  var title = document.body?.getElementsByTagName('h1').first.innerHtml.trim().split('<').first.trim();
-  var description = document.body?.getElementsByClassName('col-12 col-md-12').first.children[0].innerHtml
+  var title = document.body
+      ?.getElementsByTagName('h1')
+      .first
+      .innerHtml
+      .trim()
+      .split('<')
+      .first
+      .trim();
+  var description = document.body
+      ?.getElementsByClassName('col-12 col-md-12')
+      .first
+      .children[0]
+      .innerHtml
       .replaceAll(RegExp(r'\<br>'), "\n")
       .replaceAll(RegExp(r'\<[\x00-\x7F]+\>'), "");
-  return {
-    'title' : title,
-    'description' : description,
-    'list' : releaseList
-  };
+  return {'title': title, 'description': description, 'list': releaseList};
 }

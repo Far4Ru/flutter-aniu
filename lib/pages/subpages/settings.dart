@@ -66,7 +66,8 @@ class _SettingsPageState extends State<SettingsPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
-                                  children: [
+                                  // TODO: Изменять при входе/регистрации
+                                children: [
                                     const CircleAvatar(
                                       backgroundImage: NetworkImage(
                                         'https://aniu.ru/avatars/xno_avatar.png.pagespeed.ic.c6U61IAjHI.webp'
