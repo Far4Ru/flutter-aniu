@@ -336,7 +336,7 @@ class _UserListsPageState extends State<UserListsPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 4.0),
                               child: ColumnBuilder(
-                                itemCount: snap.data.length ~/ 3,
+                                itemCount: snap.data.length < 3 ? snap.data.length : snap.data.length ~/ 3 + 1,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Row(
                                     children: [

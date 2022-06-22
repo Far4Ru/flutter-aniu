@@ -86,7 +86,7 @@ class _CollectionPageState extends State<CollectionPage> {
                         padding: const EdgeInsets.only(top: 8.0),
                         child: ColumnBuilder(
                           // scrollDirection: Axis.vertical,
-                          itemCount: data.length ~/ 3,
+                          itemCount: data.length < 3 ? data.length : data.length ~/ 3 + 1,
                           itemBuilder: (BuildContext context, int index) {
                             return Row(children: [
                               if (3 * index < data.length)
