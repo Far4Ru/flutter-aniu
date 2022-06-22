@@ -9,6 +9,8 @@
 
 [Скачать на Android](https://raw.githubusercontent.com/Far4Ru/flutter-aniu/master/aniu-release.apk)
 
+![QR-код](https://github.com/Far4Ru/flutter-aniu/blob/master/images/qrcode.png)
+
 ## Текущая ветка разработки
 
     dev_v1
