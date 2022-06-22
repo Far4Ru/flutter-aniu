@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:aniu/models/objectbox/cookies.dart';
@@ -16,7 +15,7 @@ Future changeStatus(id, type) async {
   final response = await http.post(Uri.parse('https://aniu.ru/app/release?send&list='+id), body: formData, headers: headers);
   if (response.statusCode == 200) {
     // update == 'success'
-    return jsonDecode(response.body).update;
+    return jsonDecode(response.body)['update'];
   } else {
     throw Exception('Не удалось изменить избранное');
   }
@@ -30,7 +29,7 @@ Future<bool> favourite(id) async {
   final response = await http.post(Uri.parse('https://aniu.ru/app/release?send&list='+id), body: formData, headers: headers);
   if (response.statusCode == 200) {
     // update == 'success'
-    return jsonDecode(response.body).isFavorite;
+    return jsonDecode(response.body)['isFavorite'];
   } else {
     throw Exception('Не удалось изменить избранное');
   }

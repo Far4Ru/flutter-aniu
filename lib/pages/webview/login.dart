@@ -1,4 +1,5 @@
 import 'package:aniu/api/store.dart';
+import 'package:aniu/pages/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -25,8 +26,13 @@ class _LoginPageState extends State<LoginPage> {
   );
 
 
+  double width = 0;
+  double height = 0;
+
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
     return MaterialApp(
       home: Scaffold(
           body: Stack(
@@ -69,6 +75,14 @@ class _LoginPageState extends State<LoginPage> {
                     }
                     if(RegExp(r'^https\:\/\/aniu\.ru\/$').hasMatch(url)){
                       Navigator.pop(context);
+                    }
+                    if(RegExp(r'^https\:\/\/aniu\.ru\/user\/registration$').hasMatch(url)) {
+                      Navigator.pop(context);
+                      toRegistrationPage(context);
+                    }
+                    if(RegExp(r'^https\:\/\/aniu\.ru\/user\/reset$').hasMatch(url)) {
+                      Navigator.pop(context);
+                      toResetPage(context);
                     }
                     controller.stopLoading();
                     // return null;

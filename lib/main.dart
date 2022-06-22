@@ -1,13 +1,17 @@
 import 'package:aniu/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'helpers/store.dart';
-import 'pages/subpages/anime.dart';
 
 late ObjectBox objectbox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   objectbox = await ObjectBox.create();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      systemNavigationBarColor: Color(0xff0c101b),
+      statusBarColor: Color(0xff0c101b)
+  ));
   runApp(const AniuApp());
 }
 
@@ -22,14 +26,6 @@ class AniuApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),
-      routes: {
-        '/anime': (context) => const AnimePage(id: "1"),
-        '/dorams': (context) => const AnimePage(id: "1"),
-        '/collections': (context) => const AnimePage(id: "1"),
-        '/random': (context) => const AnimePage(id: "1"),
-        '/donat': (context) => const AnimePage(id: "1"),
-      },
     );
   }
 }
-
